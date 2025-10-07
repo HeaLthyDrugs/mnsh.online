@@ -4,7 +4,7 @@ import { NavItem } from "@/types/nav";
 
 export const SITE_INFO = {
   name: USER.displayName,
-  url: process.env.APP_URL || "https://chanhdai.com",
+  url: process.env.APP_URL || "https://mnsh.online",
   ogImage: USER.ogImage,
   description: USER.bio,
   keywords: USER.keywords,
@@ -17,12 +17,12 @@ export const META_THEME_COLORS = {
 
 export const MAIN_NAV: NavItem[] = [
   {
-    title: "Daifolio",
+    title: "Mnshfolio",
     href: "/",
   },
   {
-    title: "Blog",
-    href: "/blog",
+    title: "Works",
+    href: "/works",
   },
   {
     title: "Components",
@@ -30,8 +30,9 @@ export const MAIN_NAV: NavItem[] = [
   },
 ];
 
-export const SOURCE_CODE_GITHUB_REPO = "ncdai/chanhdai.com";
-export const SOURCE_CODE_GITHUB_URL = "https://github.com/ncdai/chanhdai.com";
+export const GITHUB_USERNAME = "HeaLthyDrugs";
+export const SOURCE_CODE_GITHUB_REPO = "HeaLthyDrugs/mnsh.online";
+export const SOURCE_CODE_GITHUB_URL = "https://github.com/HeaLthyDrugs/mnsh.online";
 
 export const UTM_PARAMS = {
   utm_source: "mnsh.online",
