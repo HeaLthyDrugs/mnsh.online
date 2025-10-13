@@ -30,15 +30,17 @@ import {
   CommandList,
   CommandSeparator,
 } from "@/components/ui/command";
-
 import { SOCIAL_LINKS } from "@/features/profile/data/social-links";
+
 import { cn } from "@/lib/utils";
+import { copyText } from "@/utils/copy";
 
-
-
+import { MnshMark, getMarkSVG } from "./mnsh-mark";
+import { getWordmarkSVG } from "./mnsh-wordmark";
 import { Icons } from "./icons";
 import { Button } from "./ui/button";
 import { Separator } from "./ui/seperator";
+import { useSound } from "@/hooks/use-sound";
 
 
 type CommandLinkItem = {
@@ -55,7 +57,7 @@ const MENU_LINKS: CommandLinkItem[] = [
   {
     title: "Daifolio",
     href: "/",
-    icon: Icons.github,
+    icon: MnshMark,
   },
   {
     title: "Blog",
@@ -121,6 +123,8 @@ export function CommandMenu() {
 
   const [open, setOpen] = useState(false);
 
+  const playClick = useSound("/audio/ui-sounds/click.wav");
+
   useEffect(() => {
     const abortController = new AbortController();
     const { signal } = abortController;
@@ -161,22 +165,34 @@ export function CommandMenu() {
     [router]
   );
 
-  const handleThemeChange = useCallback(
-    (theme: "light" | "dark" | "system") => {
+  const handleCopyText = useCallback((text: string, message: string) => {
+    setOpen(false);
+    copyText(text);
+    toast.success(message);
+  }, []);
+
+  const createThemeHandler = useCallback(
+    (theme: "light" | "dark" | "system") => () => {
       setOpen(false);
+      playClick();
       setTheme(theme);
+
+      // if (!document.startViewTransition) {
+      //   setTheme(theme);
+      //   return;
+      // }
+
+      // document.startViewTransition(() => setTheme(theme));
     },
-    [setTheme]
+    [playClick, setTheme]
   );
+
 
   return (
     <>
       <Button
         variant="secondary"
-        className={cn(
-          "h-8 gap-1.5 rounded-full bg-zinc-50 px-2.5 text-muted-foreground select-none hover:bg-zinc-50 dark:bg-zinc-900 dark:hover:bg-zinc-900",
-          "not-dark:border dark:inset-shadow-[1px_1px_1px,0px_0px_2px] dark:inset-shadow-white/15"
-        )}
+        className="h-8 gap-1.5 rounded-full border bg-zinc-50 px-2.5 text-muted-foreground select-none hover:bg-zinc-50 dark:bg-zinc-900 dark:hover:bg-zinc-900"
         onClick={() => setOpen(true)}
       >
         <svg
@@ -236,6 +252,29 @@ export function CommandMenu() {
           <CommandSeparator />
 
           <CommandGroup heading="Brand Assets">
+            <CommandItem
+              onSelect={() => {
+                handleCopyText(
+                  getMarkSVG(resolvedTheme === "light" ? "#000" : "#fff"),
+                  "Copied Mark as SVG"
+                );
+              }}
+            >
+              <MnshMark />
+              Copy Mark as SVG
+            </CommandItem>
+
+            <CommandItem
+              onSelect={() => {
+                handleCopyText(
+                  getWordmarkSVG(resolvedTheme === "light" ? "#000" : "#fff"),
+                  "Copied Logotype as SVG"
+                );
+              }}
+            >
+              <TypeIcon />
+              Copy Logotype as SVG
+            </CommandItem>
 
             <CommandItem
               onSelect={() => handleOpenLink("/blog/chanhdai-brand")}
@@ -257,21 +296,21 @@ export function CommandMenu() {
           <CommandGroup heading="Theme">
             <CommandItem
               keywords={["theme"]}
-              onSelect={() => handleThemeChange("light")}
+              onSelect={createThemeHandler("light")}
             >
               <SunIcon />
               Light
             </CommandItem>
             <CommandItem
               keywords={["theme"]}
-              onSelect={() => handleThemeChange("dark")}
+              onSelect={createThemeHandler("dark")}
             >
               <MoonStarIcon />
               Dark
             </CommandItem>
             <CommandItem
               keywords={["theme"]}
-              onSelect={() => handleThemeChange("system")}
+              onSelect={createThemeHandler("system")}
             >
               <Icons.contrast />
               Auto
@@ -382,7 +421,7 @@ function CommandMenuFooter() {
       <div className="flex h-10" />
 
       <div className="absolute inset-x-0 bottom-0 flex h-10 items-center justify-between gap-2 border-t bg-zinc-100/30 px-4 text-xs font-medium dark:bg-zinc-800/30">
-        
+        <MnshMark className="size-6 text-muted-foreground" aria-hidden />
 
         <div className="flex shrink-0 items-center gap-2">
           <span>{ENTER_ACTION_LABELS[selectedCommandKind]}</span>
