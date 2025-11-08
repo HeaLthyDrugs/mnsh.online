@@ -120,6 +120,7 @@ export default function RootLayout({
           Thanks @tailwindcss. We inject the script via the `<Script/>` tag again,
           since we found the regular `<script>` tag to not execute when rendering a not-found page.
          */}
+         
         <Script src={`data:text/javascript;base64,${btoa(darkModeScript)}`} />
         <script
           type="application/ld+json"

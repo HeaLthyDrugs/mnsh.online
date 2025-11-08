@@ -1,9 +1,14 @@
-import { ToggleTheme } from "@/components/toggle-theme";
-import Link from "next/link";
 import dayjs from "dayjs";
 import type { ProfilePage as PageSchema, WithContext } from "schema-dts";
 import { USER } from "@/features/profile/data/user";
 import { cn } from "@/lib/utils";
+
+
+
+import AnimatedScene from "@/features/Scene/page";
+import ProfileHeader from "@/features/profile/components/profile-header";
+import HighlightedWorks from "@/features/profile/components/highlighted-works";
+
 
 
 
@@ -17,7 +22,15 @@ export default function Page() {
         }}
       />
        <div className="mx-auto md:max-w-3xl">
-         <ToggleTheme />
+        {/* Animated Scene  */}
+         <AnimatedScene />
+
+         {/* Profile regarding  */}
+         <ProfileHeader />
+         <Separator />
+
+         <HighlightedWorks />
+         <Separator />
        </div>
        </>
   );

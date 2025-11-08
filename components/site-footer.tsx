@@ -9,42 +9,52 @@ import { Icons } from "./icons";
 export function SiteFooter() {
   return (
     <footer className="max-w-screen overflow-x-hidden px-2">
-      <div className="screen-line-before mx-auto border-x border-edge pt-4 md:max-w-3xl">
-        <p className="mb-1 px-4 text-center font-mono text-sm text-balance text-muted-foreground">
-          Inspired by tailwindcss.com & ui.shadcn.com
-        </p>
-
-        <p className="mb-4 px-4 text-center font-mono text-sm text-balance text-muted-foreground">
-          Built by{" "}
-          <a
-            className="link"
-            href="https://x.com/iamncdai"
-            target="_blank"
-            rel="noopener"
-          >
-            ncdai
-          </a>
-          . The source code is available on{" "}
-          <a
-            className="link"
-            href={SOURCE_CODE_GITHUB_URL}
-            target="_blank"
-            rel="noopener"
-          >
-            GitHub
-          </a>
-          .
-        </p>
+      <div className="screen-line-before mx-auto border-x border-edge md:max-w-3xl">
+        <div className="flex flex-col items-start px-4 py-8">
+          <div className="flex flex-col gap-1">
+            <p className="font-mono text-sm text-muted-foreground">
+              Website by {" "}           
+              <a
+                className="link"
+                href="https://x.com/HeLLLthyDrug"
+                target="_blank"
+                rel="noopener"
+              >
+                {SITE_INFO.name}
+              </a>
+            </p>
+            <p className="font-mono text-sm text-muted-foreground">
+              Inspired by {" "}
+              <a
+                className="link"
+                href="https://tailwindcss.com"
+                target="_blank"
+                rel="noopener"
+              >
+                tailwindcss
+              </a>{" "}
+              &{" "}
+              <a
+                className="link"
+                href="https://chanhdai.com/"
+                target="_blank"
+                rel="noopener"
+              >
+                chanhdai
+              </a>
+            </p>
+          </div>
+        </div>
 
         <div
           className={cn(
-            "screen-line-before screen-line-after flex w-full before:z-1 after:z-1",
+            "screen-line-before screen-line-after flex w-full items-center justify-between before:z-1 after:z-1",
             "bg-[repeating-linear-gradient(315deg,var(--pattern-foreground)_0,var(--pattern-foreground)_1px,transparent_0,transparent_50%)] bg-size-[10px_10px] [--pattern-foreground:var(--color-edge)]/56"
           )}
         >
-          <div className="mx-auto flex items-center justify-center gap-3 border-x border-edge bg-background px-4">
+          <div className="flex items-center gap-3 border-l border-edge bg-background pl-4">
             <a
-              className="flex font-mono text-xs font-medium text-muted-foreground"
+              className="flex font-mono text-xs font-medium text-muted-foreground transition-colors hover:text-foreground"
               href={`${SITE_INFO.url}/llms.txt`}
               target="_blank"
               rel="noopener noreferrer"
@@ -77,6 +87,22 @@ export function SiteFooter() {
             >
               <Icons.dmca className="h-5 w-auto" />
               <span className="sr-only">DMCA.com Protection Status</span>
+            </a>
+
+            <Separator />
+          </div>
+
+          <div className="flex items-center gap-3 border-r border-edge bg-background pr-4">
+            <Separator />
+
+            <a
+              className="flex items-center text-muted-foreground transition-colors hover:text-foreground"
+              href={SOURCE_CODE_GITHUB_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <Icons.github className="size-5" />
+              <span className="sr-only">GitHub</span>
             </a>
           </div>
         </div>
