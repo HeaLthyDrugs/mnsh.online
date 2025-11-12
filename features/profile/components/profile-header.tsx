@@ -27,33 +27,14 @@ export default function ProfileHeader() {
                 />
 
                 <div className="border-t border-edge">
-                    <h1 className="flex items-center pl-4 text-3xl font-semibold">
+                    <h1 className="flex items-center pl-4 text-3xl">
                         {USER.displayName}
-
                     </h1>
 
                     <div className="border-y border-edge py-1 pl-4">
                         <h1>Profession</h1>
                     </div>
-
-                    <div className="flex border-y border-edge pl-4">
-                        <div className="w-px bg-edge" />
-                        <button className="flex cursor-pointer size-8 items-center justify-center hover:bg-accent ">
-                            <Icons.github className="size-4" />
-                        </button>
-                        <div className="w-px bg-edge" />
-                        <button className="flex cursor-pointer px-2 items-center justify-center hover:bg-accent transition-colors">
-                            Hire Me
-                        </button>
-                        <div className="w-px bg-edge" />
-                    </div>
                 </div>
-                <div
-                    className={cn(
-                        "flex grow items-end pb-1 pl-4",
-                        "bg-[repeating-linear-gradient(315deg,var(--pattern-foreground)_0,var(--pattern-foreground)_1px,transparent_0,transparent_50%)] bg-size-[10px_10px] [--pattern-foreground:var(--color-edge)]/56"
-                    )}
-                />
             </div>
         </div>
     );
