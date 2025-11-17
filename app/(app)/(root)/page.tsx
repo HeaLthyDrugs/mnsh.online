@@ -7,7 +7,8 @@ import { cn } from "@/lib/utils";
 
 import AnimatedScene from "@/features/Scene/page";
 import ProfileHeader from "@/features/profile/components/profile-header";
-import HighlightedWorks from "@/features/profile/components/highlighted-works";
+import HighlightedWorks from "@/features/profile/components/work";
+import Work from "@/features/profile/components/work";
 
 
 
@@ -29,7 +30,7 @@ export default function Page() {
          <ProfileHeader />
          <Separator />
 
-         <HighlightedWorks />
+         <Work />
          <Separator />
        </div>
        </>

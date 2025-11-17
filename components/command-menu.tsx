@@ -30,18 +30,19 @@ import {
   CommandList,
   CommandSeparator,
 } from "@/components/ui/command";
-import { SOCIAL_LINKS } from "@/features/profile/data/social-links";
 
+import { SOCIAL_LINKS } from "@/features/profile/data/social-links";
 import { cn } from "@/lib/utils";
 import { copyText } from "@/utils/copy";
 
-import { MnshMark, getMarkSVG } from "./mnsh-mark";
-import { getWordmarkSVG } from "./mnsh-wordmark";
+
 import { Icons } from "./icons";
 import { Button } from "./ui/button";
-import { Separator } from "./ui/seperator";
-import { useSound } from "@/hooks/use-sound";
 
+import { Post } from "@/features/work/types/work-post";
+import { getMarkSVG, MnshMark } from "./mnsh-mark";
+import { getWordmarkSVG } from "./mnsh-wordmark";
+import { Separator } from "./ui/seperator";
 
 type CommandLinkItem = {
   title: string;
@@ -116,14 +117,12 @@ const SOCIAL_LINK_ITEMS: CommandLinkItem[] = SOCIAL_LINKS.map((item) => ({
   openInNewTab: true,
 }));
 
-export function CommandMenu() {
+export function CommandMenu({ posts = [] }: { posts?: Post[] }) {
   const router = useRouter();
 
   const { setTheme, resolvedTheme } = useTheme();
 
   const [open, setOpen] = useState(false);
-
-  const playClick = useSound("/audio/ui-sounds/click.wav");
 
   useEffect(() => {
     const abortController = new AbortController();
@@ -171,28 +170,34 @@ export function CommandMenu() {
     toast.success(message);
   }, []);
 
-  const createThemeHandler = useCallback(
-    (theme: "light" | "dark" | "system") => () => {
+  const handleThemeChange = useCallback(
+    (theme: "light" | "dark" | "system") => {
       setOpen(false);
-      playClick();
       setTheme(theme);
-
-      // if (!document.startViewTransition) {
-      //   setTheme(theme);
-      //   return;
-      // }
-
-      // document.startViewTransition(() => setTheme(theme));
     },
-    [playClick, setTheme]
+    [setTheme]
   );
 
+  const { blogLinks, componentLinks } = useMemo(
+    () => ({
+      blogLinks: posts
+        .filter((post) => post.metadata?.category !== "components")
+        .map(postToCommandLinkItem),
+      componentLinks: posts
+        .filter((post) => post.metadata?.category === "components")
+        .map(postToCommandLinkItem),
+    }),
+    [posts]
+  );
 
   return (
     <>
       <Button
         variant="secondary"
-        className="h-8 gap-1.5 rounded-full border bg-zinc-50 px-2.5 text-muted-foreground select-none hover:bg-zinc-50 dark:bg-zinc-900 dark:hover:bg-zinc-900"
+        className={cn(
+          "h-8 gap-1.5 rounded-full bg-zinc-50 px-2.5 text-muted-foreground select-none hover:bg-zinc-50 dark:bg-zinc-900 dark:hover:bg-zinc-900",
+          "not-dark:border dark:inset-shadow-[1px_1px_1px,0px_0px_2px] dark:inset-shadow-white/15"
+        )}
         onClick={() => setOpen(true)}
       >
         <svg
@@ -238,6 +243,24 @@ export function CommandMenu() {
           <CommandLinkGroup
             heading="Daifolio"
             links={DAIFOLIO_LINKS}
+            onLinkSelect={handleOpenLink}
+          />
+
+          <CommandSeparator />
+
+          <CommandLinkGroup
+            heading="Blog"
+            links={blogLinks}
+            fallbackIcon={TextIcon}
+            onLinkSelect={handleOpenLink}
+          />
+
+          <CommandSeparator />
+
+          <CommandLinkGroup
+            heading="Components"
+            links={componentLinks}
+            fallbackIcon={Icons.react}
             onLinkSelect={handleOpenLink}
           />
 
@@ -296,21 +319,21 @@ export function CommandMenu() {
           <CommandGroup heading="Theme">
             <CommandItem
               keywords={["theme"]}
-              onSelect={createThemeHandler("light")}
+              onSelect={() => handleThemeChange("light")}
             >
               <SunIcon />
               Light
             </CommandItem>
             <CommandItem
               keywords={["theme"]}
-              onSelect={createThemeHandler("dark")}
+              onSelect={() => handleThemeChange("dark")}
             >
               <MoonStarIcon />
               Dark
             </CommandItem>
             <CommandItem
               keywords={["theme"]}
-              onSelect={createThemeHandler("system")}
+              onSelect={() => handleThemeChange("system")}
             >
               <Icons.contrast />
               Auto
@@ -450,4 +473,14 @@ function CommandMenuKbd({ className, ...props }: React.ComponentProps<"kbd">) {
       {...props}
     />
   );
+}
+
+function postToCommandLinkItem(post: Post): CommandLinkItem {
+  const isComponent = post.metadata?.category === "components";
+
+  return {
+    title: post.metadata.title,
+    href: isComponent ? `/components/${post.slug}` : `/blog/${post.slug}`,
+    keywords: isComponent ? ["component"] : undefined,
+  };
 }
