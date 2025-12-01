@@ -9,7 +9,7 @@ import { META_THEME_COLORS, SITE_INFO } from "@/config/site";
 import { USER } from "@/features/profile/data/user";
 import { fontMono, fontSans } from "@/lib/fonts";
 import { Providers } from "@/components/providers";
-
+import { ConsentManager } from "../lib/consent/consent-manager";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_INFO.url),
@@ -69,6 +69,8 @@ export const metadata: Metadata = {
     },
   },
 };
+
+
 
 export const viewport: Viewport = {
   width: "device-width",
@@ -132,7 +134,9 @@ export default function RootLayout({
       <body
       >
         <Providers>
-        {children}
+          <ConsentManager>
+            {children}
+          </ConsentManager>
         </Providers>
       </body>
     </html>
