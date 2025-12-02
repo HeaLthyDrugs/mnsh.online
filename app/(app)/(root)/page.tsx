@@ -10,34 +10,41 @@ import ProfileHeader from "@/features/profile/components/profile-header";
 import HighlightedWorks from "@/features/profile/components/work";
 import Work from "@/features/profile/components/work";
 import { Overview } from "@/features/profile/overview";
+import Service from "@/features/profile/service";
 
 
 
 
 export default function Page() {
   return (
-        <>
+    <>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
           __html: JSON.stringify(getPageJsonLd()).replace(/</g, "\\u003c"),
         }}
       />
-       <div className="mx-auto md:max-w-3xl">
+      <div className="mx-auto md:max-w-3xl">
         {/* Animated Scene  */}
-         <AnimatedScene />
+        <AnimatedScene />
 
-         {/* Profile regarding  */}
-         <ProfileHeader />
-         <Separator />
+        {/* Profile Header  */}
+        <ProfileHeader />
+        <Separator />
 
+        {/* Overview  */}
         <Overview />
         <Separator />
 
-         <Work />
-         <Separator />
-       </div>
-       </>
+        {/* Work I have done  */}
+        <Work />
+        <Separator />
+
+        {/* Services I provide  */}
+        <Service />
+        <Separator />
+      </div>
+    </>
   );
 }
 

@@ -8,7 +8,7 @@ export default function Work() {
   return (
     <Panel>
       <PanelHeader>
-        <PanelTitle>Work</PanelTitle>
+        <PanelTitle>Works</PanelTitle>
       </PanelHeader>
 
       <div className="relative py-4">
@@ -18,7 +18,7 @@ export default function Work() {
         </div>
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
           {allWorks.slice(0, 4).map((work) => (
-            <WorkItem key={work.slug} work={work}  />
+            <WorkItem key={work.slug} work={work} />
           ))}
         </div>
       </div>
