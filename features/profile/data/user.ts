@@ -4,6 +4,7 @@ import { User } from "../types/user";
 export const USER: User = {
     firstName: "Manish",
     lastName: "Vishwakarma",
+    fullName: "Manish Vinod Vishwakarma",
     displayName: "Manish",
     username: "mnsh",
     gender: "male",

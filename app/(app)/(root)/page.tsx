@@ -5,10 +5,11 @@ import { cn } from "@/lib/utils";
 
 
 
-import AnimatedScene from "@/features/Scene/page";
+import AnimatedScene from "@/features/scene/page";
 import ProfileHeader from "@/features/profile/components/profile-header";
 import HighlightedWorks from "@/features/profile/components/work";
 import Work from "@/features/profile/components/work";
+import { Overview } from "@/features/profile/overview";
 
 
 
@@ -29,6 +30,9 @@ export default function Page() {
          {/* Profile regarding  */}
          <ProfileHeader />
          <Separator />
+
+        <Overview />
+        <Separator />
 
          <Work />
          <Separator />
