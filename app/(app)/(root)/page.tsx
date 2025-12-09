@@ -7,10 +7,10 @@ import { cn } from "@/lib/utils";
 
 import AnimatedScene from "@/features/scene/page";
 import ProfileHeader from "@/features/profile/components/profile-header";
-import HighlightedWorks from "@/features/profile/components/work";
 import Work from "@/features/profile/components/work";
 import { Overview } from "@/features/profile/overview";
 import Service from "@/features/profile/service";
+import Events from "@/features/profile/events";
 
 
 
@@ -42,6 +42,10 @@ export default function Page() {
 
         {/* Services I provide  */}
         <Service />
+        <Separator />
+
+        {/* Events  */}
+        <Events />
         <Separator />
       </div>
     </>

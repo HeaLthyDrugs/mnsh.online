@@ -369,3 +369,50 @@
   }
 }
 
+
+/* Movable Bento Grid Layout CSS  */
+.react-grid-item.react-grid-placeholder {
+  background: var(--color-primary) none repeat scroll 0% 0%;
+  opacity: 0.2;
+  transition-duration: 100ms;
+  z-index: 2;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -o-user-select: none;
+  user-select: none;
+  border-radius: 16px;
+  transition: all 300ms ease 0s !important;
+  will-change: transform;
+  border: 2px dashed var(--color-primary);
+}
+
+.react-grid-item {
+  transition: all 300ms ease 0s;
+  touch-action: none;
+  position: absolute !important;
+}
+
+.react-grid-item.react-draggable-dragging {
+  transition: none;
+  z-index: 100;
+  opacity: 0.9;
+  transform: scale(1.02);
+}
+
+.react-grid-item > .react-resizable-handle {
+  display: none;
+}
+
+/* Ensure smooth dragging */
+.react-grid-layout {
+  position: relative;
+  transition: height 300ms ease;
+  min-height: 400px;
+  will-change: height;
+}
+
+/* Prevent layout shift on initial render */
+.layout {
+  min-height: 600px;
+}
