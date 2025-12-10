@@ -1,79 +1,84 @@
 "use client";
 
-import { Panel, PanelHeader, PanelTitle } from "../components/panel";
+import { Panel, PanelHeader } from "../components/panel";
 import { EVENTS } from "../data/events";
 import { EventItem } from "./event-item";
 import { cn } from "@/lib/utils";
-import { useState, useEffect } from "react";
-import { Responsive, WidthProvider } from "react-grid-layout";
-import { keys, EventsLayouts } from "@/utils/layout.helper";
 
-// Import react-grid-layout styles
-import "react-grid-layout/css/styles.css";
-import "react-resizable/css/styles.css";
-
-const ResponsiveGridLayout = WidthProvider(Responsive);
+// Map sizes to CSS grid classes for responsive bento layout
+// Mobile: 2 cols, Tablet: 4 cols, Desktop: 6 cols
+const sizeToGridClasses: Record<string, string> = {
+    // xs: 1 col on all screens
+    xs: "col-span-1 row-span-1",
+    // small: 1 col mobile, 1 col tablet, 2 cols desktop
+    small: "col-span-1 row-span-1 lg:col-span-2",
+    // medium: 1 col mobile, 2 cols tablet, 2 cols desktop
+    medium: "col-span-1 md:col-span-2 row-span-1",
+    // large: 2 cols mobile, 2 cols tablet, 3 cols desktop
+    large: "col-span-2 lg:col-span-3 row-span-1",
+    // wide: full width on all screens
+    wide: "col-span-2 md:col-span-4 lg:col-span-6 row-span-1",
+    // tall: 1 col, 2 rows
+    tall: "col-span-1 md:col-span-2 row-span-2",
+    // xl: 2 cols, 2 rows (hero card)
+    xl: "col-span-2 md:col-span-2 lg:col-span-3 row-span-2",
+};
 
 export default function Events() {
-    const [mounted, setMounted] = useState(false);
-
-    useEffect(() => {
-        console.log("Events component mounted");
-        console.log("EventsLayouts:", EventsLayouts);
-        console.log("Keys:", keys);
-        setMounted(true);
-    }, []);
-
-    if (!mounted) {
-        return (
-            <Panel id="events">
-                <PanelHeader></PanelHeader>
-                <div className="w-full p-4 min-h-[600px] flex items-center justify-center">
-                    <div className="text-muted-foreground">Loading...</div>
-                </div>
-            </Panel>
-        );
-    }
-
     return (
         <Panel id="events">
             <PanelHeader>
                 {/* <PanelTitle>Events</PanelTitle> */}
             </PanelHeader>
 
-            <div className="w-full p-4" style={{ minHeight: '800px' }}>
-                <ResponsiveGridLayout
-                    className="layout"
-                    layouts={EventsLayouts}
-                    breakpoints={{ lg: 1024, md: 768, sm: 640 }}
-                    cols={{ lg: 3, md: 2, sm: 1 }}
-                    rowHeight={200}
-                    width={1200}
-                    isDraggable={true}
-                    isResizable={false}
-                    compactType="vertical"
-                    preventCollision={false}
-                    margin={[4, 4]}
-                    containerPadding={[0, 0]}
-                    onLayoutChange={(layout, layouts) => {
-                        console.log("Layout changed:", layout);
-                    }}
-                >
-                    {keys.map((key, index) => {
-                        const event = EVENTS[index % EVENTS.length];
+            <div className="w-full p-1">
+                {/* 
+                    Responsive Bento Grid:
+                    - Mobile: 2 columns
+                    - Tablet (md): 4 columns
+                    - Desktop (lg): 6 columns
+                */}
+                <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-1 auto-rows-[200px]">
+                    {EVENTS.map((event, index) => {
+                        const size = event.size || "medium";
+                        const gridClasses = sizeToGridClasses[size] || sizeToGridClasses.medium;
+
+                        // Staggered animation delay (max 600ms to keep it snappy)
+                        const delay = Math.min(index * 50, 600);
 
                         return (
                             <div
-                                key={key}
-                                className="cursor-grab active:cursor-grabbing"
-                                style={{ border: '2px solid red' }}
+                                key={event.id}
+                                className={cn(
+                                    "bg-card overflow-hidden",
+                                    "animate-[fadeSlideUp_0.5s_ease-out_forwards]",
+                                    "opacity-0",
+                                    gridClasses
+                                )}
+                                style={{
+                                    animationDelay: `${delay}ms`,
+                                }}
                             >
-                                <EventItem event={event} />
+                                <EventItem event={event} className="h-full" />
                             </div>
                         );
                     })}
-                </ResponsiveGridLayout>
+                </div>
             </div>
+
+            {/* Entry Animation Keyframes */}
+            <style jsx>{`
+                @keyframes fadeSlideUp {
+                    from {
+                        opacity: 0;
+                        transform: translateY(20px);
+                    }
+                    to {
+                        opacity: 1;
+                        transform: translateY(0);
+                    }
+                }
+            `}</style>
         </Panel>
     );
 }
