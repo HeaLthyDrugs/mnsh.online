@@ -16,6 +16,7 @@ import { cn } from "@/lib/utils";
 import { Post } from "@/features/work/types/work-post";
 import { SITE_INFO } from "@/config/site";
 import { USER } from "@/features/profile/data/user";
+import { KeyboardNavigation } from "@/components/keyboard-navigation";
 
 
 export async function generateStaticParams() {
@@ -109,7 +110,11 @@ export default async function Page({
 
   return (
     <>
-       <script
+      <KeyboardNavigation
+        previousUrl={previous ? `/work/${previous.slug}` : null}
+        nextUrl={next ? `/work/${next.slug}` : null}
+      />
+      <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
           __html: JSON.stringify(getPageJsonLd(work)).replace(/</g, "\\u003c"),
@@ -149,7 +154,7 @@ export default async function Page({
         </div>
       </div>
 
-     <div className="screen-line-before screen-line-after">
+      <div className="screen-line-before screen-line-after">
         <div
           className={cn(
             "h-8",

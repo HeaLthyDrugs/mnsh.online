@@ -9,6 +9,7 @@ import { cn } from "@/lib/utils";
 
 import { SiteHeaderWrapper } from "./site-header-wrapper";
 import { ToggleTheme } from "./toggle-theme";
+import { MoreOptions } from "./site-header-actions";
 
 const CommandMenu = dynamic(() =>
   import("@/components/command-menu").then((mod) => mod.CommandMenu)
@@ -19,7 +20,7 @@ const MobileNav = dynamic(() =>
 );
 
 export function SiteHeader() {
-  
+
 
   return (
     <SiteHeaderWrapper
@@ -38,6 +39,8 @@ export function SiteHeader() {
         <div className="flex-1" />
 
         <DesktopNav items={MAIN_NAV} />
+
+        <MoreOptions />
 
         <div className="flex items-center gap-2">
           <CommandMenu />

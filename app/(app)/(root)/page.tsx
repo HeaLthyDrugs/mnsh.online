@@ -5,12 +5,13 @@ import { cn } from "@/lib/utils";
 
 
 
-import AnimatedScene from "@/features/scene/page";
+// import AnimatedScene from "@/features/scene/page";
 import ProfileHeader from "@/features/profile/components/profile-header";
 import Work from "@/features/profile/components/work";
 import { Overview } from "@/features/profile/overview";
 import Service from "@/features/profile/service";
 import Events from "@/features/profile/events";
+import Blog from "@/features/profile/blog";
 
 
 
@@ -26,7 +27,7 @@ export default function Page() {
       />
       <div className="mx-auto md:max-w-3xl">
         {/* Animated Scene  */}
-        <AnimatedScene />
+        {/* <AnimatedScene /> */}
 
         {/* Profile Header  */}
         <ProfileHeader />
@@ -46,6 +47,10 @@ export default function Page() {
 
         {/* Events  */}
         <Events />
+        <Separator />
+
+        {/* Blog  */}
+        <Blog />
         <Separator />
       </div>
     </>

@@ -38,7 +38,7 @@ export default function Events() {
                     - Tablet (md): 4 columns
                     - Desktop (lg): 6 columns
                 */}
-                <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-1 auto-rows-[200px]">
+                <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-0 auto-rows-[200px]">
                     {EVENTS.map((event, index) => {
                         const size = event.size || "medium";
                         const gridClasses = sizeToGridClasses[size] || sizeToGridClasses.medium;
