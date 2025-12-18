@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Panel, PanelContent } from "../components/panel";
 import { USER } from "../data/user";
 import { ClockIcon, CheckIcon, CopyIcon } from "lucide-react";
@@ -12,6 +12,8 @@ import { EarthIcon } from "@/components/animated-icons/earth";
 import { cn } from "@/lib/utils";
 import { decodeEmail } from "@/utils/string";
 import { LayersIcon } from "@/components/animated-icons/layers";
+import { AnimatePresence, motion } from "framer-motion";
+import { useLoop } from "@/lib/animation/useLoop";
 
 // Local time component
 function LocalTime({ timezone, label }: { timezone: string; label: string }) {
@@ -146,6 +148,12 @@ function InfoRow({
 }
 
 export function Overview() {
+  const { key } = useLoop(2000); // Change every 2 seconds for role animation
+
+  const currentItem = useMemo(() => {
+    return USER.flipSentences[key % USER.flipSentences.length];
+  }, [key]);
+
   return (
     <Panel>
       <h2 className="sr-only">About Me</h2>
@@ -162,7 +170,7 @@ export function Overview() {
 
           {/* Role */}
           <InfoRow icon={<LayersIcon />}>
-            <p className="text-balance" aria-label={`Role: ${USER.jobTitle}`}>
+            {/* <p className="text-balance" aria-label={`Role: ${USER.jobTitle}`}>
               {USER.jobs[0]?.title} at{" "}
               <a
                 href={USER.jobs[0]?.website}
@@ -172,7 +180,19 @@ export function Overview() {
               >
                 {USER.jobs[0]?.company}
               </a>
-            </p>
+            </p> */}
+            <AnimatePresence mode="popLayout">
+              <motion.h1
+                key={key}
+                initial={{ opacity: 0, y: "100%" }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: "-100%" }}
+                transition={{ duration: 0.3 }}
+                className="whitespace-nowrap text-center"
+              >
+                {currentItem}
+              </motion.h1>
+            </AnimatePresence>
           </InfoRow>
 
           {/* Location + Time */}
