@@ -126,7 +126,7 @@ function InfoRow({
       className={cn(
         "flex items-stretch font-mono text-sm",
         "transition-colors hover:bg-muted/20",
-        !isLast && "border-b border-edge/60"
+        !isLast && "border-b border-edge"
       )}
     >
       {/* Icon column */}
