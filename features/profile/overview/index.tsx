@@ -62,7 +62,9 @@ function IconBox({ children }: { children: React.ReactNode }) {
         "hover:border-muted-foreground/50 hover:border-solid",
         "[&_svg]:pointer-events-none [&_svg]:text-muted-foreground [&_svg:not([class*='size-'])]:size-4",
         "[&_svg]:relative [&_svg]:z-10 [&_svg]:transition-transform [&_svg]:duration-300",
-        "hover:[&_svg]:scale-110"
+        "hover:[&_svg]:scale-110",
+        // Outer thin ring
+        "ring-1 ring-muted-foreground/15 ring-offset-2 ring-offset-background"
       )}
       aria-hidden="true"
     >
@@ -170,17 +172,6 @@ export function Overview() {
 
           {/* Role */}
           <InfoRow icon={<LayersIcon />}>
-            {/* <p className="text-balance" aria-label={`Role: ${USER.jobTitle}`}>
-              {USER.jobs[0]?.title} at{" "}
-              <a
-                href={USER.jobs[0]?.website}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="underline-offset-4 hover:underline"
-              >
-                {USER.jobs[0]?.company}
-              </a>
-            </p> */}
             <AnimatePresence mode="popLayout">
               <motion.h1
                 key={key}

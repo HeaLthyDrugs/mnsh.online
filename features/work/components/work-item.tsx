@@ -93,7 +93,7 @@ export function WorkItem({
         {/* Client info for freelance/client work */}
         {metadata.client && (
           <p className="text-sm text-foreground/80">
-            <span className="text-muted-foreground">for </span>
+            <span className="text-muted-foreground/80">for </span>
             <span className="font-medium">{metadata.client}</span>
           </p>
         )}
@@ -102,7 +102,7 @@ export function WorkItem({
         {duration && (
           <dl>
             <dt className="sr-only">Duration</dt>
-            <dd className="text-sm text-muted-foreground">{duration}</dd>
+            <dd className="text-xs text-muted-foreground/40">{duration}</dd>
           </dl>
         )}
       </div>

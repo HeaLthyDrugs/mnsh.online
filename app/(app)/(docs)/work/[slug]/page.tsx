@@ -7,6 +7,8 @@ import { getTableOfContents } from "fumadocs-core/content/toc";
 import type { BlogPosting as PageSchema, WithContext } from "schema-dts";
 
 import { Button } from "@/components/ui/button";
+import { Kbd } from "@/components/ui/kbd";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { getAllWorks, getWorkBySlug } from "@/features/work/lib/works";
 import { findNeighbour, getPostBySlug } from "@/features/work/data/posts";
 import { Prose } from "@/components/ui/typography";
@@ -132,24 +134,39 @@ export default async function Page({
           </Link>
         </Button>
 
-        <div className="flex items-center gap-2">
-
+        <div className="flex items-center gap-1">
           {previous && (
-            <Button variant="secondary" size="icon:sm" asChild>
-              <Link href={`/work/${previous.slug}`}>
-                <ArrowLeftIcon />
-                <span className="sr-only">Previous</span>
-              </Link>
-            </Button>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button variant="secondary" size="icon:sm" className="rounded-none" asChild>
+                  <Link href={`/work/${previous.slug}`}>
+                    <ArrowLeftIcon />
+                    <span className="sr-only">Previous: {previous.metadata.title}</span>
+                  </Link>
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent className="flex items-center gap-2">
+                <Kbd>←</Kbd>
+                <span>{previous.metadata.title}</span>
+              </TooltipContent>
+            </Tooltip>
           )}
 
           {next && (
-            <Button variant="secondary" size="icon:sm" asChild>
-              <Link href={`/work/${next.slug}`}>
-                <span className="sr-only">Next</span>
-                <ArrowRightIcon />
-              </Link>
-            </Button>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button variant="secondary" size="icon:sm" className="rounded-none" asChild>
+                  <Link href={`/work/${next.slug}`}>
+                    <ArrowRightIcon />
+                    <span className="sr-only">Next: {next.metadata.title}</span>
+                  </Link>
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent className="flex items-center gap-2">
+                <span>{next.metadata.title}</span>
+                <Kbd>→</Kbd>
+              </TooltipContent>
+            </Tooltip>
           )}
         </div>
       </div>
