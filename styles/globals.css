@@ -38,8 +38,8 @@
   --color-selection: var(--selection);
   --color-selection-foreground: var(--selection-foreground);
 
-  --font-sans: var(--font-sans);
-  --font-mono: var(--font-mono);
+  --font-sans: var(--font-sf-pro);
+  --font-heading: var(--font-domaine);
 
   --shadow-popover: var(--shadow-popover);
 
@@ -58,6 +58,7 @@
     from {
       opacity: 0;
     }
+
     to {
       opacity: 1;
     }
@@ -67,6 +68,7 @@
     from {
       opacity: 1;
     }
+
     to {
       opacity: 0;
     }
@@ -86,6 +88,10 @@
   @apply font-medium underline underline-offset-4;
 }
 
+@utility font-heading {
+  font-family: var(--font-heading);
+}
+
 @utility screen-line-before {
   @apply relative before:absolute before:top-0 before:-left-[100vw] before:-z-1 before:h-px before:w-[200vw] before:bg-edge;
 }
@@ -96,6 +102,7 @@
 
 @utility step {
   counter-increment: step;
+
   &::before {
     @apply mr-2 inline-flex size-7 items-center justify-center rounded-full border border-muted-foreground/15 bg-muted text-center -indent-px text-sm font-medium text-muted-foreground ring-1 ring-edge ring-offset-1 ring-offset-background md:absolute md:-mt-0.5 md:-ml-11.5 md:size-8;
     content: counter(step);
@@ -283,6 +290,7 @@
 }
 
 @layer base {
+
   *,
   ::after,
   ::before,
@@ -308,13 +316,16 @@
   ::-webkit-scrollbar {
     width: 5px;
   }
+
   ::-webkit-scrollbar-track {
     background: transparent;
   }
+
   ::-webkit-scrollbar-thumb {
     background: var(--border);
     border-radius: 5px;
   }
+
   * {
     scrollbar-width: thin;
     scrollbar-color: var(--border) transparent;
@@ -354,7 +365,7 @@
     counter-reset: line;
   }
 
-  [data-line-numbers] > [data-line]::before {
+  [data-line-numbers]>[data-line]::before {
     counter-increment: line;
     content: counter(line);
     @apply sticky left-0 inline-block w-16 bg-code pr-6 text-right text-sm text-code-number;
@@ -400,7 +411,7 @@
   transform: scale(1.02);
 }
 
-.react-grid-item > .react-resizable-handle {
+.react-grid-item>.react-resizable-handle {
   display: none;
 }
 

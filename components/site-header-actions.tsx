@@ -24,7 +24,7 @@ export function MoreOptions() {
     return (
         <DropdownMenu open={open} onOpenChange={setOpen}>
             <DropdownMenuTrigger asChild>
-                <button className="font-mono items-center justify-center text-sm font-medium text-muted-foreground transition-all duration-300 hover:text-foreground flex items-center gap-1 cursor-pointer">
+                <button className="font-sans items-center justify-center text-sm font-medium text-muted-foreground transition-all duration-300 hover:text-foreground flex items-center gap-1 cursor-pointer">
                     <span>More</span>
                     <ChevronDownIcon
                         className={`size-3.5 transition-transform duration-500 ${open ? "rotate-180" : ""}`}

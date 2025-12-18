@@ -28,7 +28,7 @@ export function NotFound({ className }: { className?: string }) {
 
       <h1 className="mt-8 mb-6 font-mono text-8xl font-medium">404</h1>
 
-      <Button variant="default" asChild>
+      <Button variant="default" className="rounded-none" asChild>
         <Link href="/">
           Go to Home
           <ArrowRightIcon />

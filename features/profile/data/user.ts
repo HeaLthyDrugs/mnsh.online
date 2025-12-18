@@ -53,4 +53,10 @@ export const USER: User = {
         "Manish Vishwakarma",
     ],
     dateCreated: "2025-10-20", // YYYY-MM-DD
+    skills: ["React", "Next.js", "TypeScript", "Node.js"],
+    experienceYears: 3,
+    availabilityStatus: "available",
+    availabilityText: "Open for freelance",
+    timezone: "Asia/Kolkata",
+    localTimeLabel: "IST",
 };

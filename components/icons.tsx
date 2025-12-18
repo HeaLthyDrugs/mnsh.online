@@ -344,3 +344,4 @@ export function getIcon(name: string | undefined) {
   const Icon = Icons[name as keyof typeof Icons];
   return <Icon />;
 }
+

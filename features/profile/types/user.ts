@@ -41,4 +41,16 @@ export type User = {
   keywords: string[];
   /** Profile/site start date in YYYY-MM-DD */
   dateCreated: string;
+  /** Key skills/technologies to highlight */
+  skills: string[];
+  /** Years of professional experience */
+  experienceYears: number;
+  /** Current availability status */
+  availabilityStatus: "available" | "busy" | "open-to-opportunities";
+  /** Human-readable availability text */
+  availabilityText: string;
+  /** IANA timezone identifier */
+  timezone: string;
+  /** Short timezone label for display */
+  localTimeLabel: string;
 };

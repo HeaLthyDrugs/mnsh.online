@@ -7,7 +7,7 @@ import Script from "next/script";
 
 import { META_THEME_COLORS, SITE_INFO } from "@/config/site";
 import { USER } from "@/features/profile/data/user";
-import { fontMono, fontSans } from "@/lib/fonts";
+import { fontDomaine, fontSFPro } from "@/lib/fonts";
 import { Providers } from "@/components/providers";
 import { ConsentManager } from "../lib/consent/consent-manager";
 
@@ -111,7 +111,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${fontSans.variable} ${fontMono.variable}`}
+    <html lang="en" className={`${fontSFPro.variable} ${fontDomaine.variable}`}
       suppressHydrationWarning>
       <head>
         <script
@@ -122,7 +122,7 @@ export default function RootLayout({
           Thanks @tailwindcss. We inject the script via the `<Script/>` tag again,
           since we found the regular `<script>` tag to not execute when rendering a not-found page.
          */}
-         
+
         <Script src={`data:text/javascript;base64,${btoa(darkModeScript)}`} />
         <script
           type="application/ld+json"
