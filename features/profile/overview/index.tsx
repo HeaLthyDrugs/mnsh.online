@@ -1,9 +1,16 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Panel, PanelContent } from "../components/panel";
 import { USER } from "../data/user";
-import { ClockIcon, CheckIcon, CopyIcon } from "lucide-react";
+import {
+  CopyIcon,
+  CopyIconHandle,
+} from "@/components/animated-icons/copy";
+import {
+  CheckIcon,
+  CheckIconHandle,
+} from "@/components/animated-icons/check";
 import { UserIcon } from "@/components/animated-icons/user";
 import { MapPinIcon } from "@/components/animated-icons/map-pin";
 import { BriefcaseIcon } from "@/components/animated-icons/briefcase";
@@ -14,6 +21,7 @@ import { decodeEmail } from "@/utils/string";
 import { LayersIcon } from "@/components/animated-icons/layers";
 import { AnimatePresence, motion } from "framer-motion";
 import { useLoop } from "@/lib/animation/useLoop";
+import { ClockIcon } from "@/components/animated-icons/clock";
 
 // Local time component
 function LocalTime({ timezone, label }: { timezone: string; label: string }) {
@@ -40,8 +48,8 @@ function LocalTime({ timezone, label }: { timezone: string; label: string }) {
 
   return (
     <span className="inline-flex items-center gap-1.5 text-muted-foreground">
-      <ClockIcon className="size-3.5" />
-      <span className="text-sm">
+      <ClockIcon size={12} />
+      <span className="text-xs">
         {time} {label}
       </span>
     </span>
@@ -73,16 +81,22 @@ function IconBox({ children }: { children: React.ReactNode }) {
   );
 }
 
-// Copyable email component
+// Copyable email component with animated icons
 function CopyableEmail({ email }: { email: string }) {
   const [copied, setCopied] = useState(false);
   const emailDecoded = decodeEmail(email);
+  const checkIconRef = useRef<CheckIconHandle>(null);
+  const copyIconRef = useRef<CopyIconHandle>(null);
 
   const handleCopy = async () => {
     try {
       await navigator.clipboard.writeText(emailDecoded);
       setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
+      checkIconRef.current?.startAnimation();
+      setTimeout(() => {
+        setCopied(false);
+        checkIconRef.current?.stopAnimation();
+      }, 2000);
     } catch {
       const textArea = document.createElement("textarea");
       textArea.value = emailDecoded;
@@ -91,7 +105,11 @@ function CopyableEmail({ email }: { email: string }) {
       document.execCommand("copy");
       document.body.removeChild(textArea);
       setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
+      checkIconRef.current?.startAnimation();
+      setTimeout(() => {
+        setCopied(false);
+        checkIconRef.current?.stopAnimation();
+      }, 2000);
     }
   };
 
@@ -105,11 +123,30 @@ function CopyableEmail({ email }: { email: string }) {
         {emailDecoded}
       </span>
       <span className="flex size-4 items-center justify-center text-muted-foreground transition-colors group-hover:text-foreground">
-        {copied ? (
-          <CheckIcon className="size-3.5 text-emerald-500" />
-        ) : (
-          <CopyIcon className="size-3.5" />
-        )}
+        <AnimatePresence mode="wait" initial={false}>
+          {copied ? (
+            <motion.div
+              key="check"
+              initial={{ opacity: 0, scale: 0.5 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.5 }}
+              transition={{ duration: 0.15 }}
+              className="text-emerald-500"
+            >
+              <CheckIcon ref={checkIconRef} size={14} />
+            </motion.div>
+          ) : (
+            <motion.div
+              key="copy"
+              initial={{ opacity: 0, scale: 0.5 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.5 }}
+              transition={{ duration: 0.15 }}
+            >
+              <CopyIcon ref={copyIconRef} size={14} />
+            </motion.div>
+          )}
+        </AnimatePresence>
       </span>
     </button>
   );

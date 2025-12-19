@@ -6,40 +6,6 @@ import { cn } from "@/lib/utils";
 import { BriefcaseIcon, CalendarIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
-// Availability status with pulsing indicator
-function AvailabilityBadge({
-    status,
-    text,
-}: {
-    status: "available" | "busy" | "open-to-opportunities";
-    text: string;
-}) {
-    const statusColors = {
-        available: "bg-emerald-500",
-        busy: "bg-red-500",
-        "open-to-opportunities": "bg-amber-500",
-    };
-
-    return (
-        <div className="inline-flex items-center gap-2 text-sm">
-            <span className="relative flex h-2 w-2">
-                <span
-                    className={cn(
-                        "absolute inline-flex h-full w-full animate-ping rounded-full opacity-75",
-                        statusColors[status]
-                    )}
-                />
-                <span
-                    className={cn(
-                        "relative inline-flex h-2 w-2 rounded-full",
-                        statusColors[status]
-                    )}
-                />
-            </span>
-            <span className="font-medium text-foreground">{text}</span>
-        </div>
-    );
-}
 
 export default function ProfileHeader() {
     return (
@@ -69,23 +35,16 @@ export default function ProfileHeader() {
                         </p>
                     </div>
 
-                    {/* Availability section */}
-                    <div className="border-b border-dashed border-edge px-4 py-2.5">
-                        <AvailabilityBadge
-                            status={USER.availabilityStatus}
-                            text={USER.availabilityText}
-                        />
-                    </div>
 
                     {/* CTA Buttons section */}
-                    <div className="flex items-center gap-2 px-4 py-3">
-                        <Button asChild size="sm">
+                    <div className="flex items-center px-2 py-2">
+                        <Button asChild size="sm" className="rounded-none">
                             <Link href="/work">
                                 <BriefcaseIcon />
                                 My Works
                             </Link>
                         </Button>
-                        <Button asChild variant="secondary" size="sm">
+                        <Button asChild variant="secondary" size="sm" className="rounded-none">
                             <a
                                 href="https://cal.com/mnsh"
                                 target="_blank"
