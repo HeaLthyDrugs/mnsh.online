@@ -1,3 +1,5 @@
+"use client";
+
 import Link from "next/link";
 import dayjs from "dayjs";
 import type { Post } from "../types/work-post";
@@ -5,6 +7,9 @@ import { cn } from "@/lib/utils";
 import Image from "next/image";
 import { Tag } from "@/components/ui/tag";
 import { Icons } from "@/components/icons";
+import { ArrowUpRight } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { SimpleTooltip } from "@/components/ui/tooltip";
 
 /**
  * Formats the duration string from start and end dates.
@@ -49,7 +54,7 @@ export function WorkItem({
     <Link
       href={`/work/${work.slug}`}
       className={cn(
-        "group/post flex flex-col gap-2 p-2",
+        "group/post relative flex flex-col gap-3 p-2",
         "max-sm:screen-line-before max-sm:screen-line-after",
         "sm:nth-[2n+1]:screen-line-before sm:nth-[2n+1]:screen-line-after"
       )}
@@ -75,9 +80,7 @@ export function WorkItem({
           )}
 
           {metadata.projectType && (
-            <Tag
-              className="absolute bottom-1.5 left-1.5 flex items-center gap-1 rounded-md bg-background/80 px-1.5 py-0.5 text-xs font-medium text-foreground backdrop-blur-sm"
-            >
+            <Tag className="absolute bottom-1.5 left-1.5 flex items-center gap-1 rounded-md bg-background/80 px-1.5 py-0.5 text-xs font-medium text-foreground backdrop-blur-sm">
               {getProjectTypeIcon(metadata.projectType)}
               <span>{metadata.projectType}</span>
             </Tag>
@@ -85,27 +88,53 @@ export function WorkItem({
         </div>
       )}
 
-      <div className="flex flex-col gap-1 p-2">
-        <h3 className="text-lg leading-snug font-medium text-balance underline-offset-4 group-hover/post:underline">
-          {metadata.title}
-        </h3>
+      <div className="flex flex-1 flex-col justify-between gap-3">
+        <div className="flex flex-col gap-1.5">
+          <div className="flex flex-col gap-0.5">
+            <h3 className="text-xl font-semibold leading-tight tracking-tight text-foreground underline-offset-4 group-hover/post:underline">
+              {metadata.title}
+            </h3>
 
-        {/* Client info for freelance/client work */}
-        {metadata.client && (
-          <p className="text-sm text-foreground/80">
-            <span className="text-muted-foreground/80">for </span>
-            <span className="font-medium">{metadata.client}</span>
-          </p>
-        )}
+            {/* Client info for freelance/client work */}
+            {metadata.client && (
+              <p className="text-sm text-muted-foreground">
+                for <span className="font-medium text-foreground">{metadata.client}</span>
+              </p>
+            )}
+          </div>
 
-        {/* Duration */}
-        {duration && (
-          <dl>
-            <dt className="sr-only">Duration</dt>
-            <dd className="text-xs text-muted-foreground/40">{duration}</dd>
-          </dl>
-        )}
+          {metadata.description && (
+            <p className="line-clamp-2 text-sm text-muted-foreground/80">
+              {metadata.description}
+            </p>
+          )}
+        </div>
+
+        <div className="flex items-center justify-between gap-2 mt-auto">
+          {/* Duration */}
+          <div className="text-xs font-medium text-muted-foreground/60">
+            {duration}
+          </div>
+        </div>
       </div>
+
+      {metadata.liveUrl && (
+        <SimpleTooltip content="Preview Live Site">
+          <Button
+            variant="outline"
+            size="icon"
+            className="absolute bottom-0 right-0 z-10 size-6 rounded-none cursor-pointer m-1"
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              window.open(metadata.liveUrl, "_blank");
+            }}
+          >
+            <ArrowUpRight className="size-4" />
+            <span className="sr-only">Preview {metadata.title}</span>
+          </Button>
+        </SimpleTooltip>
+      )}
     </Link>
   );
 }
