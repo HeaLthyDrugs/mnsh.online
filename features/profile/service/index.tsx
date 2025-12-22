@@ -11,11 +11,11 @@ export default function Service() {
                 {/* <PanelTitleSup>({SERVICES.length})</PanelTitleSup> */}
             </PanelHeader>
             {/* <PanelContent> */}
-            <CollapsibleList
-                items={SERVICES}
-                max={4}
-                renderItem={(item) => <ServiceItem service={item} />}
-            />
+            <CollapsibleList max={4}>
+                {SERVICES.map((item) => (
+                    <ServiceItem key={item.title} service={item} />
+                ))}
+            </CollapsibleList>
             {/* </PanelContent> */}
         </Panel>
     );

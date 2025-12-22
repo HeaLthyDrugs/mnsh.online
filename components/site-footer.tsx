@@ -3,6 +3,7 @@ import { RssIcon } from "lucide-react";
 import { SITE_INFO, SOURCE_CODE_GITHUB_URL } from "@/config/site";
 import { cn } from "@/lib/utils";
 import { Icons } from "./icons";
+import { SimpleTooltip } from "./ui/tooltip";
 
 
 
@@ -12,8 +13,8 @@ export function SiteFooter() {
       <div className="screen-line-before mx-auto border-x border-edge md:max-w-3xl">
         <div className="flex flex-col items-start px-4 py-8">
           <div className="flex flex-col gap-1">
-            <p className="font-mono text-sm text-muted-foreground">
-              Website by {" "}           
+            <p className="text-sm text-muted-foreground">
+              Website by {" "}
               <a
                 className="link"
                 href="https://x.com/HeLLLthyDrug"
@@ -23,7 +24,7 @@ export function SiteFooter() {
                 {SITE_INFO.name}
               </a>
             </p>
-            <p className="font-mono text-sm text-muted-foreground">
+            <p className="text-sm text-muted-foreground">
               Inspired by {" "}
               <a
                 className="link"
@@ -52,9 +53,9 @@ export function SiteFooter() {
             "bg-[repeating-linear-gradient(315deg,var(--pattern-foreground)_0,var(--pattern-foreground)_1px,transparent_0,transparent_50%)] bg-size-[10px_10px] [--pattern-foreground:var(--color-edge)]/56"
           )}
         >
-          <div className="flex items-center gap-3 border-l border-edge bg-background pl-4">
+          <div className="flex items-center gap-3 border-edge bg-background pl-4">
             <a
-              className="flex font-mono text-xs font-medium text-muted-foreground transition-colors hover:text-foreground"
+              className="flex  text-xs font-medium text-muted-foreground transition-colors hover:text-foreground"
               href={`${SITE_INFO.url}/llms.txt`}
               target="_blank"
               rel="noopener noreferrer"
@@ -92,18 +93,48 @@ export function SiteFooter() {
             <Separator />
           </div>
 
-          <div className="flex items-center gap-3 border-r border-edge bg-background pr-4">
+          <div className="flex items-center gap-3 border-edge bg-background pr-4">
             <Separator />
 
-            <a
-              className="flex items-center text-muted-foreground transition-colors hover:text-foreground"
-              href={SOURCE_CODE_GITHUB_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <Icons.github className="size-5" />
-              <span className="sr-only">GitHub</span>
-            </a>
+            <SimpleTooltip content="GitHub">
+              <a
+                className="flex items-center text-muted-foreground transition-colors hover:text-foreground"
+                href={SOURCE_CODE_GITHUB_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <Icons.github className="size-5" />
+                <span className="sr-only">GitHub</span>
+              </a>
+            </SimpleTooltip>
+
+            <Separator />
+
+            <SimpleTooltip content="X (Twitter)">
+              <a
+                className="flex items-center text-muted-foreground transition-colors hover:text-foreground"
+                href="https://x.com/HeLLLthyDrug"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <Icons.x className="size-4" />
+                <span className="sr-only">X (Twitter)</span>
+              </a>
+            </SimpleTooltip>
+
+            <Separator />
+
+            <SimpleTooltip content="Instagram">
+              <a
+                className="flex items-center text-muted-foreground transition-colors hover:text-foreground"
+                href="https://instagram.com/manish18_here"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <Icons.instagram className="size-5" />
+                <span className="sr-only">Instagram</span>
+              </a>
+            </SimpleTooltip>
           </div>
         </div>
       </div>

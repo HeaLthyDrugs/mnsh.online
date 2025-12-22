@@ -50,8 +50,7 @@ export default function Page() {
         <Separator />
 
         {/* Blog  */}
-        <Blog />
-        <Separator />
+        {/* <Blog /> */}
       </div>
     </>
   );

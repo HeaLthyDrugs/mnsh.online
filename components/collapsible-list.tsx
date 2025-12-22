@@ -1,57 +1,57 @@
+"use client";
+
 import { ChevronDownIcon } from "lucide-react";
+import { AnimatePresence, motion } from "motion/react";
 import { Slot as SlotPrimitive } from "radix-ui";
-import React from "react";
+import React, { useState } from "react";
 
 import { Button } from "@/components/ui/button";
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "./ui/collapsible";
+import { Collapsible, CollapsibleTrigger } from "./ui/collapsible";
 
 
 const Slot = SlotPrimitive.Slot;
 
-export function CollapsibleList<T>({
-  items,
+export function CollapsibleList({
+  children,
   max = 3,
-
-  keyExtractor,
-  renderItem,
 }: {
-  items: T[];
+  children: React.ReactNode;
   max?: number;
-
-  keyExtractor?: (item: T) => string;
-  renderItem: (item: T) => React.ReactNode;
 }) {
+  const [isOpen, setIsOpen] = useState(false);
+  const items = React.Children.toArray(children);
+
   return (
-    <Collapsible>
-      {items.slice(0, max).map((award, index) => (
-        <Slot
-          key={typeof keyExtractor === "function" ? keyExtractor(award) : index}
-          className="border-b border-edge"
-        >
-          {renderItem(award)}
+    <Collapsible open={isOpen} onOpenChange={setIsOpen}>
+      {items.slice(0, max).map((item, index) => (
+        <Slot key={index} className="border-b border-edge">
+          {item}
         </Slot>
       ))}
 
-      <CollapsibleContent>
-        {items.slice(max).map((award, index) => (
-          <Slot
-            key={
-              typeof keyExtractor === "function"
-                ? keyExtractor(award)
-                : max + index
-            }
-            className="border-b border-edge"
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.3, ease: "easeInOut" }}
+            className="overflow-hidden"
           >
-            {renderItem(award)}
-          </Slot>
-        ))}
-      </CollapsibleContent>
+            {items.slice(max).map((item, index) => (
+              <Slot key={max + index} className="border-b border-edge">
+                {item}
+              </Slot>
+            ))}
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {items.length > max && (
         <div className="flex h-12 items-center justify-center pb-px">
           <CollapsibleTrigger asChild>
             <Button
-              className="group/collapsible-trigger cursor-pointer flex"
+              className="group/collapsible-trigger cursor-pointer flex rounded-none"
               variant="default"
             >
               <span className="hidden group-data-[state=closed]/collapsible-trigger:block">
@@ -73,3 +73,4 @@ export function CollapsibleList<T>({
     </Collapsible>
   );
 }
+
