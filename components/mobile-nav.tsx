@@ -31,7 +31,7 @@ export function MobileNav({
 
       <DropdownMenuContent className="w-64 rounded-none" align="end" sideOffset={8}>
         {items.map((link) => (
-          <DropdownMenuItem key={link.href} asChild>
+          <DropdownMenuItem key={link.href} asChild className="cursor-pointer rounded-none">
             <Link href={link.href}>{link.title}</Link>
           </DropdownMenuItem>
         ))}
