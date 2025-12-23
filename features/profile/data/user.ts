@@ -11,9 +11,9 @@ export const USER: User = {
     pronouns: "he/him",
     bio: "Creating with code. Small details matter.",
     flipSentences: [
-        "Creating with code. Small details matter.",
-        "Software Developer",
-        "Freelance Developer",
+        "across web and mobile",
+        "that doesn’t fight the user",
+        "designed for daily use",
     ],
     address: "Lonavala City, Maharashtra, India",
     phoneNumber: "KzkxODQzMjU2MzIyNw==", // E.164 format, base64 encoded (+918432563227)

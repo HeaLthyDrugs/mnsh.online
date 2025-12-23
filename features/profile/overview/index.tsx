@@ -207,22 +207,6 @@ export function Overview() {
             </p>
           </InfoRow>
 
-          {/* Role */}
-          <InfoRow icon={<LayersIcon />}>
-            <AnimatePresence mode="popLayout">
-              <motion.h1
-                key={key}
-                initial={{ opacity: 0, y: "100%" }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: "-100%" }}
-                transition={{ duration: 0.3 }}
-                className="whitespace-nowrap text-center"
-              >
-                {currentItem}
-              </motion.h1>
-            </AnimatePresence>
-          </InfoRow>
-
           {/* Location + Time */}
           <InfoRow icon={<MapPinIcon />}>
             <div className="flex flex-wrap items-center gap-x-3 gap-y-1">

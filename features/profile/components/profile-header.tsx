@@ -5,9 +5,26 @@ import { USER } from "../data/user";
 import { cn } from "@/lib/utils";
 import { BriefcaseIcon, CalendarIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuLabel,
+    DropdownMenuSeparator,
+    DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Icons } from "@/components/icons";
+import { AnimatePresence, motion } from "framer-motion";
+import { useLoop } from "@/lib/animation/useLoop";
+import { MessageCircleMoreIcon } from "@/components/animated-icons/message-circle-more";
+import { MailCheckIcon } from "@/components/ui/mail-check";
 
+const ROTATING_TEXTS = USER.flipSentences;
 
 export default function ProfileHeader() {
+    const { key } = useLoop(3000);
+    const currentText = ROTATING_TEXTS[key % ROTATING_TEXTS.length];
+
     return (
         <div className="screen-line-after border-x border-edge">
             {/* Main header - responsive layout */}
@@ -26,34 +43,71 @@ export default function ProfileHeader() {
                 {/* Content section - stacked vertically */}
                 <div className="flex flex-1 flex-col">
                     {/* Name section */}
-                    <div className="border-b border-dashed border-edge px-4 py-3">
+                    <div className="border-b border-dashed border-edge px-3 py-2">
                         <h1 className="text-2xl font-heading sm:text-3xl">
                             {USER.displayName}
                         </h1>
-                        <p className="mt-1 text-sm text-muted-foreground">
-                            {USER.bio}
-                        </p>
                     </div>
 
+                    {/* Bio section with rotating text */}
+                    <div className="flex flex-col items-start gap-1 border-b border-dashed border-edge px-3 py-2 text-sm sm:flex-row sm:items-center">
+                        <span className="text-muted-foreground">
+                            I design and build digital products
+                        </span>
+                        <div className="relative inline-flex h-5 overflow-hidden">
+                            <AnimatePresence mode="popLayout">
+                                <motion.span
+                                    key={key}
+                                    initial={{ opacity: 0, y: "100%" }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    exit={{ opacity: 0, y: "-100%" }}
+                                    transition={{ duration: 0.5, ease: "easeInOut" }}
+                                    className="whitespace-nowrap font-heading text-foreground"
+                                >
+                                    {currentText}
+                                </motion.span>
+                            </AnimatePresence>
+                        </div>
+                    </div>
 
                     {/* CTA Buttons section */}
                     <div className="flex items-center px-2 py-2">
-                        <Button asChild size="sm" className="rounded-none">
-                            <Link href="/work">
-                                <BriefcaseIcon />
-                                My Works
-                            </Link>
-                        </Button>
-                        <Button asChild variant="secondary" size="sm" className="rounded-none">
-                            <a
-                                href="https://cal.com/mnsh"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                            >
-                                <CalendarIcon />
-                                Book a call
-                            </a>
-                        </Button>
+                        <DropdownMenu>
+                            <DropdownMenuTrigger asChild>
+                                <Button variant="outline" size="default" className="rounded-none cursor-pointer">
+                                    <MessageCircleMoreIcon className="size-4" />
+                                    Start a conversation
+                                </Button>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent align="start" className="w-42 rounded-none">
+                                <DropdownMenuItem asChild className="rounded-none cursor-pointer">
+                                    <a
+                                        href="https://wa.me/918432563227"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                    >
+                                        <Icons.whatsapp className="mr-2 size-4" />
+                                        WhatsApp
+                                    </a>
+                                </DropdownMenuItem>
+                                <DropdownMenuItem asChild className="rounded-none cursor-pointer">
+                                    <a href={`mailto:${USER.email}`}>
+                                        <Icons.mail className="mr-2 size-4" />
+                                        Email
+                                    </a>
+                                </DropdownMenuItem>
+                                <DropdownMenuItem asChild className="rounded-none cursor-pointer">
+                                    <a
+                                        href="https://cal.com/mnsh"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                    >
+                                        <Icons.phone className="mr-2 size-4" />
+                                        Schedule a call
+                                    </a>
+                                </DropdownMenuItem>
+                            </DropdownMenuContent>
+                        </DropdownMenu>
                     </div>
                 </div>
             </div>
