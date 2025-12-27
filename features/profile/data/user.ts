@@ -59,4 +59,9 @@ export const USER: User = {
     availabilityText: "Open for freelance",
     timezone: "Asia/Kolkata",
     localTimeLabel: "IST",
+    currentlyBuilding: {
+        name: "HealthyDrugs",
+        link: "https://healthydrugs.com",
+        label: "to democratize drug information access",
+    },
 };

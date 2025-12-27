@@ -53,4 +53,10 @@ export type User = {
   timezone: string;
   /** Short timezone label for display */
   localTimeLabel: string;
+  /** Current active project or status */
+  currentlyBuilding?: {
+    name: string;
+    link?: string;
+    label?: string;
+  };
 };
