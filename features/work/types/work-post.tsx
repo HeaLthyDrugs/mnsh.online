@@ -27,6 +27,10 @@ export type PostMetadata = {
    */
   projectType?: "Freelance" | "Personal" | "Open Source" | "Client Work";
   /**
+   * Role in the project (e.g. "Frontend Developer", "Designer", "Full Stack").
+   */
+  role?: string;
+  /**
    * Client name for freelance/client projects. Leave empty for personal projects.
    */
   client?: string;

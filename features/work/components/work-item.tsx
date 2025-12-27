@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import dayjs from "dayjs";
 import type { Post } from "../types/work-post";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
@@ -10,19 +9,6 @@ import { Icons } from "@/components/icons";
 import { ArrowUpRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { SimpleTooltip } from "@/components/ui/tooltip";
-
-/**
- * Formats the duration string from start and end dates.
- * Shows "Ongoing" for active projects (no end date).
- */
-function formatDuration(startDate?: string, endDate?: string): string {
-  if (!startDate) return "";
-
-  const start = dayjs(startDate).format("MMM YYYY");
-  const end = endDate ? dayjs(endDate).format("MMM YYYY") : "Ongoing";
-
-  return `${start} — ${end}`;
-}
 
 /**
  * Returns the appropriate icon component based on project type.
@@ -48,19 +34,18 @@ export function WorkItem({
   shouldPreloadImage?: boolean;
 }) {
   const { metadata } = work;
-  const duration = formatDuration(metadata.startDate, metadata.endDate);
 
   return (
     <Link
       href={`/work/${work.slug}`}
       className={cn(
-        "group/post relative flex flex-col gap-3 p-2",
+        "group/post relative flex flex-col gap-4 p-2",
         "max-sm:screen-line-before max-sm:screen-line-after",
         "sm:nth-[2n+1]:screen-line-before sm:nth-[2n+1]:screen-line-after"
       )}
     >
       {metadata.image && (
-        <div className="relative select-none [&_img]:aspect-1200/630 [&_img]:rounded-none">
+        <div className="relative select-none">
           <Image
             src={metadata.image}
             alt={metadata.title}
@@ -68,19 +53,20 @@ export function WorkItem({
             height={630}
             quality={100}
             priority={shouldPreloadImage}
+            className="rounded-none aspect-1200/630 object-cover"
             unoptimized
           />
 
           <div className="pointer-events-none absolute inset-0 rounded-none ring-1 ring-black/10 ring-inset dark:ring-white/10" />
 
           {metadata.new && (
-            <span className="absolute top-1.5 right-1.5 rounded-md bg-info px-1.5 font-mono text-sm font-medium text-white text-shadow-xs">
+            <span className="absolute top-2 right-2 rounded-md bg-info px-1.5 font-mono text-sm font-medium text-white text-shadow-xs">
               New
             </span>
           )}
 
           {metadata.projectType && (
-            <Tag className="absolute bottom-1.5 left-1.5 flex items-center gap-1 rounded-md bg-background/80 px-1.5 py-0.5 text-xs font-medium text-foreground backdrop-blur-sm">
+            <Tag className="absolute bottom-0 left-0 flex items-center gap-1.5 rounded-none bg-background/90 px-2 py-0.5 text-xs font-medium text-foreground backdrop-blur-sm">
               {getProjectTypeIcon(metadata.projectType)}
               <span>{metadata.projectType}</span>
             </Tag>
@@ -88,42 +74,36 @@ export function WorkItem({
         </div>
       )}
 
-      <div className="flex flex-1 flex-col justify-between gap-3">
-        <div className="flex flex-col gap-1.5">
-          <div className="flex flex-col gap-0.5">
-            <h3 className="text-xl font-semibold leading-tight tracking-tight text-foreground underline-offset-4 group-hover/post:underline">
+      <div className="flex flex-1 flex-col justify-between gap-3 px-1">
+        <div className="flex flex-col gap-2">
+          <div className="flex flex-col gap-1">
+            <h3 className="text-lg font-medium leading-tight tracking-tight text-foreground underline-offset-4 group-hover/post:underline">
               {metadata.title}
             </h3>
 
-            {/* Client info for freelance/client work */}
-            {metadata.client && (
-              <p className="text-sm text-muted-foreground">
-                for <span className="font-medium text-foreground">{metadata.client}</span>
-              </p>
-            )}
+            <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-sm text-muted-foreground">
+              {metadata.client && (
+                <span>
+                  for <span className="text-foreground/90">{metadata.client}</span>
+                </span>
+              )}
+            </div>
           </div>
 
           {metadata.description && (
-            <p className="line-clamp-2 text-sm text-muted-foreground/80">
+            <p className="line-clamp-2 text-sm text-muted-foreground/80 leading-relaxed">
               {metadata.description}
             </p>
           )}
-        </div>
-
-        <div className="flex items-center justify-between gap-2 mt-auto">
-          {/* Duration */}
-          <div className="text-xs font-medium text-muted-foreground/60">
-            {duration}
-          </div>
         </div>
       </div>
 
       {metadata.liveUrl && (
         <SimpleTooltip content="Preview Live Site">
           <Button
-            variant="outline"
+            variant="ghost"
             size="icon"
-            className="absolute bottom-0 right-0 z-10 size-6 rounded-none cursor-pointer m-1"
+            className="absolute bottom-0 right-0 z-10 size-8 rounded-none cursor-pointer opacity-0 transition-opacity group-hover/post:opacity-100 hover:bg-muted text-muted-foreground hover:text-foreground"
             onClick={(e) => {
               e.preventDefault();
               e.stopPropagation();
@@ -138,3 +118,4 @@ export function WorkItem({
     </Link>
   );
 }
+
