@@ -75,7 +75,7 @@ export default function ProfileHeader() {
                     <div className="flex flex-col sm:flex-row">
                         {USER.currentlyBuilding && (
                             <div className="flex flex-1 items-center gap-2 overflow-hidden border-b border-dashed border-edge px-3 py-2 text-xs text-muted-foreground transition-colors sm:border-b-0 sm:border-r sm:text-sm">
-                                <Status status="online">
+                                <Status className="rounded-none" status="online">
                                     <StatusIndicator />
                                     <StatusLabel className="truncate">
                                         currently working on{" "}
