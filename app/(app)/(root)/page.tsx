@@ -11,6 +11,7 @@ import Work from "@/features/profile/components/work";
 import { Overview } from "@/features/profile/overview";
 import Service from "@/features/profile/service";
 import Events from "@/features/profile/events";
+import Faq from "@/features/profile/faq";
 import Blog from "@/features/profile/blog";
 
 
@@ -47,6 +48,10 @@ export default function Page() {
 
         {/* Events  */}
         <Events />
+        <Separator />
+
+        {/* FAQ  */}
+        <Faq />
         <Separator />
 
         {/* Blog  */}
