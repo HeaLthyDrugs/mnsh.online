@@ -18,6 +18,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useLoop } from "@/lib/animation/useLoop";
 import { MessageCircleMoreIcon } from "@/components/animated-icons/message-circle-more";
 import { MailCheckIcon } from "@/components/ui/mail-check";
+import { Status, StatusIndicator, StatusLabel } from "@/components/ui/shadcn-io/status";
 
 const ROTATING_TEXTS = USER.flipSentences;
 
@@ -33,7 +34,7 @@ export default function ProfileHeader() {
                 <div className="flex justify-start border-b border-dashed border-edge p-2 sm:justify-start sm:border-b-0 sm:border-r">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
-                        className="size-24 border border-edge ring-2 ring-edge/50 ring-offset-2 ring-offset-background select-none sm:size-28"
+                        className="size-24 border border-edge ring-2 ring-edge/50 ring-offset-2 ring-offset-background select-none sm:size-29"
                         alt={`${USER.displayName}'s avatar`}
                         src={USER.avatar}
                         fetchPriority="high"
@@ -74,18 +75,21 @@ export default function ProfileHeader() {
                     <div className="flex flex-col sm:flex-row">
                         {USER.currentlyBuilding && (
                             <div className="flex flex-1 items-center gap-2 overflow-hidden border-b border-dashed border-edge px-3 py-2 text-xs text-muted-foreground transition-colors sm:border-b-0 sm:border-r sm:text-sm">
-                                <span className="truncate">
-                                    currently working on{" "}
-                                    <a
-                                        href={USER.currentlyBuilding.link}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className="font-medium text-foreground hover:underline"
-                                    >
-                                        {USER.currentlyBuilding.name}
-                                    </a>{" "}
-                                    {/* {USER.currentlyBuilding.label} */}
-                                </span>
+                                <Status status="online">
+                                    <StatusIndicator />
+                                    <StatusLabel className="truncate">
+                                        currently working on{" "}
+                                        <a
+                                            href={USER.currentlyBuilding.link}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="font-medium text-foreground hover:underline"
+                                        >
+                                            {USER.currentlyBuilding.name}
+                                        </a>{" "}
+                                        {/* {USER.currentlyBuilding.label} */}
+                                    </StatusLabel>
+                                </Status>
                             </div>
                         )}
 
