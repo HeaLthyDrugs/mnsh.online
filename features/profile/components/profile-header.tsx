@@ -18,7 +18,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useLoop } from "@/lib/animation/useLoop";
 import { MessageCircleMoreIcon } from "@/components/animated-icons/message-circle-more";
 import { MailCheckIcon } from "@/components/ui/mail-check";
-import { Status, StatusIndicator, StatusLabel } from "@/components/ui/shadcn-io/status";
+import { Status, StatusIndicator, StatusLabel } from "@/components/ui/status";
 
 const ROTATING_TEXTS = USER.flipSentences;
 
