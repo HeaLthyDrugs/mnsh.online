@@ -10,6 +10,7 @@ import { USER } from "@/features/profile/data/user";
 import { fontDomaine, fontSFPro } from "@/lib/fonts";
 import { Providers } from "@/components/providers";
 import { ConsentManager } from "../lib/consent/consent-manager";
+import { FloatingControls } from "@/components/floating-controls";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_INFO.url),
@@ -137,6 +138,7 @@ export default function RootLayout({
           <ConsentManager>
             {children}
           </ConsentManager>
+          <FloatingControls />
         </Providers>
       </body>
     </html>

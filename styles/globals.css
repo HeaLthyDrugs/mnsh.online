@@ -327,21 +327,12 @@
   }
 
   ::-webkit-scrollbar {
-    width: 5px;
-  }
-
-  ::-webkit-scrollbar-track {
-    background: transparent;
-  }
-
-  ::-webkit-scrollbar-thumb {
-    background: var(--border);
-    border-radius: 5px;
+    display: none;
   }
 
   * {
-    scrollbar-width: thin;
-    scrollbar-color: var(--border) transparent;
+      -ms-overflow-style: none; /* IE and Edge */
+      scrollbar-width: none; /* Firefox */
   }
 
   [id] {
