@@ -23,6 +23,10 @@ class SoundManager {
       "https://assets.chanhdai.com/audio/ui-sounds/click.wav" // Source: iOS UI Sounds
     );
   }
+
+  playWoosh() {
+    this.playAudio("/sounds/woosh.wav");
+  }
 }
 
 const soundManager = new SoundManager();

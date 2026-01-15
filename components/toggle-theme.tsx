@@ -20,7 +20,7 @@ export function ToggleTheme() {
   const isDark = resolvedTheme === "dark";
 
   const handleToggle = useCallback(() => {
-    soundManager.playClick();
+    soundManager.playWoosh();
     setTheme(resolvedTheme === "dark" ? "light" : "dark");
     setMetaColor(
       resolvedTheme === "dark"

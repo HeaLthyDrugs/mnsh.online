@@ -34,7 +34,7 @@ export function FloatingControls() {
             <button
                 onClick={toggleMute}
                 className={cn(
-                    "flex h-full items-center justify-center px-3 text-muted-foreground transition-colors hover:bg-muted hover:text-foreground focus-visible:outline-none focus-visible:ring-0",
+                    "flex h-full cursor-pointer items-center justify-center px-3 text-muted-foreground transition-colors hover:bg-muted hover:text-foreground focus-visible:outline-none focus-visible:ring-0",
                     isMuted && "text-destructive hover:text-destructive"
                 )}
                 aria-label={isMuted ? "Unmute" : "Mute"}
@@ -47,7 +47,7 @@ export function FloatingControls() {
             <FamilyDrawerRoot>
                 <FamilyDrawerTrigger asChild>
                     <button
-                        className="flex h-full items-center justify-center px-3 text-muted-foreground transition-colors hover:bg-muted hover:text-foreground focus-visible:outline-none focus-visible:ring-0"
+                        className="flex h-full cursor-pointer items-center justify-center px-3 text-muted-foreground transition-colors hover:bg-muted hover:text-foreground focus-visible:outline-none focus-visible:ring-0"
                         aria-label="Open Settings"
                     >
                         <Settings className="size-4" />
