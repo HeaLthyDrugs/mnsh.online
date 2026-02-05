@@ -9,10 +9,10 @@ import {
   type ReactNode,
 } from "react"
 import { Slot } from "@radix-ui/react-slot"
-import clsx from "clsx"
 import { AnimatePresence, motion } from "motion/react"
 import useMeasure from "react-use-measure"
 import { Drawer } from "vaul"
+import { cn } from "@/lib/utils"
 
 // ============================================================================
 // Types
@@ -160,7 +160,7 @@ function FamilyDrawerTrigger({
   return (
     <Drawer.Trigger asChild>
       <button
-        className={clsx(
+        className={cn(
           "fixed top-1/2 left-1/2 antialiased -translate-y-1/2 -translate-x-1/2 h-[44px] rounded-full border bg-background px-4 py-2 font-medium text-foreground transition-colors hover:bg-accent focus-visible:shadow-focus-ring-button md:font-medium cursor-pointer",
           className
         )}
@@ -194,7 +194,7 @@ function FamilyDrawerOverlay({ className, onClick }: FamilyDrawerOverlayProps) {
 
   return (
     <Drawer.Overlay
-      className={clsx("fixed inset-0 z-[60] bg-black/40 backdrop-blur-sm", className)}
+      className={cn("fixed inset-0 z-[60] bg-black/40 backdrop-blur-sm", className)}
       onClick={onClick || (() => setView("default"))}
     />
   )
@@ -235,7 +235,7 @@ function FamilyDrawerContent({
     return (
       <Drawer.Content
         asChild
-        className={clsx(
+        className={cn(
           "fixed inset-x-4 bottom-4 z-[70] mx-auto max-w-[361px] overflow-hidden bg-background outline-none md:mx-auto md:w-full",
           className
         )}
@@ -248,7 +248,7 @@ function FamilyDrawerContent({
   return (
     <Drawer.Content
       asChild
-      className={clsx(
+      className={cn(
         "fixed inset-x-4 bottom-4 z-[70] mx-auto max-w-[361px] overflow-hidden bg-background outline-none md:mx-auto md:w-full",
         className
       )}
@@ -276,7 +276,7 @@ function FamilyDrawerAnimatedWrapper({
   return (
     <div
       ref={elementRef}
-      className={clsx("px-6 pb-6 pt-2.5 antialiased", className)}
+      className={cn("px-6 pb-6 pt-2.5 antialiased", className)}
     >
       {children}
     </div>
@@ -332,7 +332,7 @@ function FamilyDrawerClose({
   const defaultClose = (
     <button
       data-vaul-no-drag=""
-      className={clsx(
+      className={cn(
         "absolute right-8 top-7 z-10 flex h-8 w-8 items-center justify-center rounded-full bg-muted text-muted-foreground transition-transform focus:scale-95 focus-visible:shadow-focus-ring-button active:scale-75 cursor-pointer",
         className
       )}
@@ -371,7 +371,7 @@ function FamilyDrawerHeader({
   className,
 }: FamilyDrawerHeaderProps) {
   return (
-    <header className={clsx("mt-[21px]", className)}>
+    <header className={cn("mt-[21px]", className)}>
       {icon}
       <h2 className="mt-2.5 text-[22px] font-semibold text-foreground md:font-medium">
         {title}
@@ -399,7 +399,7 @@ function FamilyDrawerButton({
   const button = (
     <button
       data-vaul-no-drag=""
-      className={clsx(
+      className={cn(
         "flex h-12 w-full items-center gap-[15px] rounded-[16px] bg-muted px-4 text-[17px] font-semibold text-foreground transition-transform focus:scale-95 focus-visible:shadow-focus-ring-button active:scale-95 md:font-medium cursor-pointer",
         className
       )}
@@ -434,7 +434,7 @@ function FamilyDrawerSecondaryButton({
     <button
       data-vaul-no-drag=""
       type="button"
-      className={clsx(
+      className={cn(
         "flex h-12 w-full items-center justify-center gap-[15px] rounded-full text-center text-[19px] font-semibold transition-transform focus:scale-95 focus-visible:shadow-focus-ring-button active:scale-95 md:font-medium cursor-pointer",
         className
       )}

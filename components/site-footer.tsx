@@ -8,6 +8,7 @@ import { cn } from "@/lib/utils";
 import { CopyIcon, type CopyIconHandle } from "./animated-icons/copy";
 import { Icons } from "./icons";
 import { SimpleTooltip } from "./ui/tooltip";
+import { ToggleTheme } from "./toggle-theme";
 
 
 
@@ -105,49 +106,6 @@ export function SiteFooter() {
             <Separator />
           </div>
 
-          <div className="flex items-center gap-3 border-edge bg-background pr-4">
-            <Separator />
-
-            <SimpleTooltip content="GitHub">
-              <a
-                className="flex items-center text-muted-foreground transition-colors hover:text-foreground"
-                href={SOURCE_CODE_GITHUB_URL}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <Icons.github className="size-5" />
-                <span className="sr-only">GitHub</span>
-              </a>
-            </SimpleTooltip>
-
-            <Separator />
-
-            <SimpleTooltip content="X (Twitter)">
-              <a
-                className="flex items-center text-muted-foreground transition-colors hover:text-foreground"
-                href="https://x.com/HeLLLthyDrug"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <Icons.x className="size-4" />
-                <span className="sr-only">X (Twitter)</span>
-              </a>
-            </SimpleTooltip>
-
-            <Separator />
-
-            <SimpleTooltip content="Instagram">
-              <a
-                className="flex items-center text-muted-foreground transition-colors hover:text-foreground"
-                href="https://instagram.com/manish18_here"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <Icons.instagram className="size-5" />
-                <span className="sr-only">Instagram</span>
-              </a>
-            </SimpleTooltip>
-          </div>
         </div>
       </div>
       <div className="pb-[env(safe-area-inset-bottom,0px)]">

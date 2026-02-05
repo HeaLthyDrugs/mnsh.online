@@ -44,7 +44,7 @@ export function SiteHeader() {
 
         <div className="flex items-center gap-2">
           <CommandMenu />
-          <ToggleTheme />
+          {/* <ToggleTheme /> */}
           <MobileNav className="sm:hidden" items={MAIN_NAV} />
         </div>
       </div>

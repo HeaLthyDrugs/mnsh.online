@@ -34,6 +34,7 @@ import {
 import { SOCIAL_LINKS } from "@/features/profile/data/social-links";
 import { cn } from "@/lib/utils";
 import { copyText } from "@/utils/copy";
+import { useSound } from "@/hooks/use-sound";
 
 
 import { Icons } from "./icons";
@@ -41,7 +42,7 @@ import { Button } from "./ui/button";
 
 import { Post } from "@/features/work/types/work-post";
 import { getMarkSVG, MnshMark } from "./mnsh-mark";
-import { getWordmarkSVG } from "./mnsh-wordmark";
+import { getWordmarkSVG, MnshWordmark } from "./mnsh-wordmark";
 import { Separator } from "./ui/seperator";
 
 type CommandLinkItem = {
@@ -119,10 +120,21 @@ const SOCIAL_LINK_ITEMS: CommandLinkItem[] = SOCIAL_LINKS.map((item) => ({
 
 export function CommandMenu({ posts = [] }: { posts?: Post[] }) {
   const router = useRouter();
+  const playHover = useSound("/sounds/hover.wav");
+  const playTap = useSound("/sounds/tap.wav");
 
   const { setTheme, resolvedTheme } = useTheme();
 
   const [open, setOpen] = useState(false);
+
+  /* eslint-disable-next-line react-hooks/exhaustive-deps */
+  const playOpen = useSound("/sounds/menu-open.wav");
+
+  useEffect(() => {
+    if (open) {
+      playOpen();
+    }
+  }, [open]);
 
   useEffect(() => {
     const abortController = new AbortController();
@@ -198,7 +210,10 @@ export function CommandMenu({ posts = [] }: { posts?: Post[] }) {
           "h-8 gap-1.5 rounded-none bg-zinc-50 px-2.5 text-muted-foreground select-none hover:bg-zinc-50 dark:bg-zinc-900 dark:hover:bg-zinc-900",
           "not-dark:border dark:inset-shadow-[1px_1px_1px,0px_0px_2px] dark:inset-shadow-white/15"
         )}
-        onClick={() => setOpen(true)}
+        onClick={() => {
+          playTap();
+          setOpen(true);
+        }}
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -236,6 +251,8 @@ export function CommandMenu({ posts = [] }: { posts?: Post[] }) {
             heading="Menu"
             links={MENU_LINKS}
             onLinkSelect={handleOpenLink}
+            playHover={playHover}
+            playTap={playTap}
           />
 
           <CommandSeparator />
@@ -244,6 +261,8 @@ export function CommandMenu({ posts = [] }: { posts?: Post[] }) {
             heading="Daifolio"
             links={DAIFOLIO_LINKS}
             onLinkSelect={handleOpenLink}
+            playHover={playHover}
+            playTap={playTap}
           />
 
           <CommandSeparator />
@@ -253,6 +272,8 @@ export function CommandMenu({ posts = [] }: { posts?: Post[] }) {
             links={blogLinks}
             fallbackIcon={TextIcon}
             onLinkSelect={handleOpenLink}
+            playHover={playHover}
+            playTap={playTap}
           />
 
           <CommandSeparator />
@@ -262,6 +283,8 @@ export function CommandMenu({ posts = [] }: { posts?: Post[] }) {
             links={componentLinks}
             fallbackIcon={Icons.react}
             onLinkSelect={handleOpenLink}
+            playHover={playHover}
+            playTap={playTap}
           />
 
           <CommandSeparator />
@@ -270,13 +293,17 @@ export function CommandMenu({ posts = [] }: { posts?: Post[] }) {
             heading="Social Links"
             links={SOCIAL_LINK_ITEMS}
             onLinkSelect={handleOpenLink}
+            playHover={playHover}
+            playTap={playTap}
           />
 
           <CommandSeparator />
 
           <CommandGroup heading="Brand Assets">
             <CommandItem
+              onMouseEnter={playHover}
               onSelect={() => {
+                playTap();
                 handleCopyText(
                   getMarkSVG(resolvedTheme === "light" ? "#000" : "#fff"),
                   "Copied Mark as SVG"
@@ -288,7 +315,9 @@ export function CommandMenu({ posts = [] }: { posts?: Post[] }) {
             </CommandItem>
 
             <CommandItem
+              onMouseEnter={playHover}
               onSelect={() => {
+                playTap();
                 handleCopyText(
                   getWordmarkSVG(resolvedTheme === "light" ? "#000" : "#fff"),
                   "Copied Logotype as SVG"
@@ -300,13 +329,17 @@ export function CommandMenu({ posts = [] }: { posts?: Post[] }) {
             </CommandItem>
 
             <CommandItem
-              onSelect={() => handleOpenLink("/blog/chanhdai-brand")}
+              onMouseEnter={playHover}
+              onSelect={() => {
+                playTap();
+                handleOpenLink("/blog/chanhdai-brand");
+              }}
             >
               <TriangleDashedIcon />
               Brand Guidelines
             </CommandItem>
 
-            <CommandItem asChild>
+            <CommandItem onMouseEnter={playHover} onSelect={() => playTap()} asChild>
               <a href="https://assets.chanhdai.com/chanhdai-brand.zip" download>
                 <DownloadIcon />
                 Download Brand Assets
@@ -318,22 +351,34 @@ export function CommandMenu({ posts = [] }: { posts?: Post[] }) {
 
           <CommandGroup heading="Theme">
             <CommandItem
+              onMouseEnter={playHover}
               keywords={["theme"]}
-              onSelect={() => handleThemeChange("light")}
+              onSelect={() => {
+                playTap();
+                handleThemeChange("light");
+              }}
             >
               <SunIcon />
               Light
             </CommandItem>
             <CommandItem
+              onMouseEnter={playHover}
               keywords={["theme"]}
-              onSelect={() => handleThemeChange("dark")}
+              onSelect={() => {
+                playTap();
+                handleThemeChange("dark");
+              }}
             >
               <MoonStarIcon />
               Dark
             </CommandItem>
             <CommandItem
+              onMouseEnter={playHover}
               keywords={["theme"]}
-              onSelect={() => handleThemeChange("system")}
+              onSelect={() => {
+                playTap();
+                handleThemeChange("system");
+              }}
             >
               <Icons.contrast />
               Auto
@@ -352,11 +397,15 @@ function CommandLinkGroup({
   links,
   fallbackIcon,
   onLinkSelect,
+  playHover,
+  playTap,
 }: {
   heading: string;
   links: CommandLinkItem[];
   fallbackIcon?: React.ComponentType<LucideProps>;
   onLinkSelect: (href: string, openInNewTab?: boolean) => void;
+  playHover: () => void;
+  playTap: () => void;
 }) {
   return (
     <CommandGroup heading={heading}>
@@ -365,9 +414,13 @@ function CommandLinkGroup({
 
         return (
           <CommandItem
+            onMouseEnter={playHover}
             key={link.href}
             keywords={link.keywords}
-            onSelect={() => onLinkSelect(link.href, link.openInNewTab)}
+            onSelect={() => {
+              playTap();
+              onLinkSelect(link.href, link.openInNewTab);
+            }}
           >
             {link?.iconImage ? (
               <Image
@@ -444,7 +497,7 @@ function CommandMenuFooter() {
       <div className="flex h-10" />
 
       <div className="absolute inset-x-0 bottom-0 flex h-10 items-center justify-between gap-2 border-t bg-zinc-100/30 px-4 text-xs font-medium dark:bg-zinc-800/30">
-        <MnshMark className="size-6 text-muted-foreground" aria-hidden />
+        <MnshWordmark className="size-6 text-muted-foreground" aria-hidden />
 
         <div className="flex shrink-0 items-center gap-2">
           <span>{ENTER_ACTION_LABELS[selectedCommandKind]}</span>

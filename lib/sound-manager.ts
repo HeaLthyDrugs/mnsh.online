@@ -24,6 +24,10 @@ class SoundManager {
     );
   }
 
+  playTap() {
+    this.playAudio("/sounds/tap.wav");
+  }
+
   playWoosh() {
     this.playAudio("/sounds/woosh.wav");
   }

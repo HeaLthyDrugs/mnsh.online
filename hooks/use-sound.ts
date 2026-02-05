@@ -1,4 +1,6 @@
 import { useCallback, useEffect, useRef } from "react";
+import { useAtomValue } from "jotai";
+import { isSoundEnabledAtom } from "@/store/sound-store";
 
 /**
  * Custom React hook to load and play a sound from a given URL using the Web Audio API.
@@ -24,6 +26,7 @@ import { useCallback, useEffect, useRef } from "react";
 export function useSound(url: string) {
   const audioCtxRef = useRef<AudioContext | null>(null);
   const bufferRef = useRef<AudioBuffer | null>(null);
+  const isSoundEnabled = useAtomValue(isSoundEnabledAtom);
 
   useEffect(() => {
     const AudioContextClass =
@@ -51,13 +54,21 @@ export function useSound(url: string) {
   }, [url]);
 
   const play = useCallback(() => {
+    // Check if sound is enabled globally
+    if (!isSoundEnabled) return;
+
     if (audioCtxRef.current && bufferRef.current) {
+      // Resume context if suspended (browser autoplay policy)
+      if (audioCtxRef.current.state === 'suspended') {
+        audioCtxRef.current.resume();
+      }
+
       const source = audioCtxRef.current.createBufferSource();
       source.buffer = bufferRef.current;
       source.connect(audioCtxRef.current.destination);
       source.start(0);
     }
-  }, []);
+  }, [isSoundEnabled]);
 
   return play;
 }

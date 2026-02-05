@@ -4,9 +4,10 @@
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Provider as JotaiProvider } from "jotai";
 import dynamic from "next/dynamic";
-import { ThemeProvider } from "next-themes";
+
 import { AppProgressProvider } from "@bprogress/next";
 import { Analytics } from "@vercel/analytics/next";
+import { ThemeProvider } from "@/lib/theme-provider";
 
 const Toaster = dynamic(
   () => import("@/components/ui/sonner").then((mod) => mod.Toaster),

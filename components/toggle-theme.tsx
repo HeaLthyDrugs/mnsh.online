@@ -1,40 +1,26 @@
 "use client";
 
 import { MoonStarIcon, SunIcon } from "lucide-react";
-import { useTheme } from "next-themes";
-import React, { useCallback } from "react";
-
-import { META_THEME_COLORS } from "@/config/site";
-import { useMetaColor } from "@/hooks/use-meta-color";
-
+import React from "react";
 
 import { Button } from "./ui/button";
 import soundManager from "@/lib/sound-manager";
 import { cn } from "@/lib/utils";
+import { useAnimatedThemeToggle } from "@/hooks/use-animated-theme-toggle";
 
 export function ToggleTheme() {
-  const { resolvedTheme, setTheme } = useTheme();
-
-  const { setMetaColor } = useMetaColor();
-
-  const isDark = resolvedTheme === "dark";
-
-  const handleToggle = useCallback(() => {
-    soundManager.playWoosh();
-    setTheme(resolvedTheme === "dark" ? "light" : "dark");
-    setMetaColor(
-      resolvedTheme === "dark"
-        ? META_THEME_COLORS.light
-        : META_THEME_COLORS.dark
-    );
-  }, [resolvedTheme, setTheme, setMetaColor]);
+  const { toggleTheme, isDark } = useAnimatedThemeToggle();
 
   return (
     <Button variant="outline" size="icon"
       className={cn(
         "relative h-8 cursor-pointer rounded-none bg-zinc-50 px-2.5 text-muted-foreground select-none hover:bg-zinc-50 dark:bg-zinc-900 dark:hover:bg-zinc-900",
         "not-dark:border dark:inset-shadow-[1px_1px_1px,0px_0px_2px] dark:inset-shadow-white/15"
-      )} onClick={handleToggle}>
+      )}
+      onClick={() => {
+        soundManager.playTap();
+        toggleTheme();
+      }}>
       <SunIcon
         className={cn(
           "size-4 transition-all duration-500",
