@@ -40,8 +40,8 @@ export function WorkItem({
       href={`/work/${work.slug}`}
       className={cn(
         "group/post relative flex flex-col gap-4 p-2",
-        "max-sm:screen-line-before max-sm:screen-line-after",
-        "sm:nth-[2n+1]:screen-line-before sm:nth-[2n+1]:screen-line-after"
+        "max-sm:border-y max-sm:border-edge",
+        "sm:nth-[2n+1]:border-y sm:nth-[2n+1]:border-edge"
       )}
     >
       {metadata.image && (

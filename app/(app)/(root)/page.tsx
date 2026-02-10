@@ -9,7 +9,8 @@ import { cn } from "@/lib/utils";
 import ProfileHeader from "@/features/profile/components/profile-header";
 import Work from "@/features/profile/components/work";
 import { Overview } from "@/features/profile/overview";
-import Service from "@/features/profile/service";
+import HowIWork from "@/features/profile/how-i-work";
+import WhatIDo from "@/features/profile/what-i-do";
 import Events from "@/features/profile/events";
 import Faq from "@/features/profile/faq";
 import Blog from "@/features/profile/blog";
@@ -43,7 +44,10 @@ export default function Page() {
         <Separator />
 
         {/* Services I provide  */}
-        <Service />
+        <HowIWork />
+        <Separator />
+
+        <WhatIDo />
         <Separator />
 
         {/* Events  */}
@@ -81,7 +85,7 @@ function Separator({ className }: { className?: string }) {
     <div
       className={cn(
         "relative flex h-8 w-full border-x border-edge",
-        "before:absolute before:-left-[100vw] before:-z-1 before:h-8 before:w-[200vw]",
+        "before:absolute before:inset-0 before:-z-1 before:h-full before:w-full",
         "before:bg-[repeating-linear-gradient(315deg,var(--pattern-foreground)_0,var(--pattern-foreground)_1px,transparent_0,transparent_50%)] before:bg-size-[10px_10px] before:[--pattern-foreground:var(--color-edge)]/56",
         className
       )}

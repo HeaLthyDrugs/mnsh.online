@@ -15,7 +15,7 @@ import { ToggleTheme } from "./toggle-theme";
 export function SiteFooter() {
   return (
     <footer className="max-w-screen overflow-x-hidden px-2">
-      <div className="screen-line-before mx-auto border-x border-edge md:max-w-3xl">
+      <div className="border-t border-edge mx-auto border-x md:max-w-3xl">
         <div className="flex flex-col">
           {/* Headline & Timezone */}
           <div className="py-8 px-4 space-y-4">
@@ -33,7 +33,7 @@ export function SiteFooter() {
           </div>
 
           {/* Contact CTAs */}
-          <div className="screen-line-before flex flex-col">
+          <div className="border-t border-edge flex flex-col">
             <ContactRow
               value="hey@mnsh.me"
               platform="mailto"
@@ -56,14 +56,14 @@ export function SiteFooter() {
 
         <div
           className={cn(
-            "screen-line-before screen-line-after flex w-full items-center justify-between before:z-1 after:z-1",
+            "border-y border-edge flex w-full items-start justify-start before:z-1 after:z-1",
             "bg-[repeating-linear-gradient(315deg,var(--pattern-foreground)_0,var(--pattern-foreground)_1px,transparent_0,transparent_50%)] bg-size-[10px_10px] [--pattern-foreground:var(--color-edge)]/56"
           )}
         >
-          <div className="flex items-center gap-3 border-edge bg-background pl-4">
+          <div className="flex items-center h-11 border-r border-edge bg-background">
             <SimpleTooltip content="LLMs Context File">
               <a
-                className="flex text-xs text-muted-foreground transition-colors hover:text-foreground"
+                className="flex h-full items-center px-4 text-xs font-medium text-muted-foreground transition-colors hover:text-foreground hover:bg-muted/50 border-r border-edge"
                 href={`${SITE_INFO.url}/llms.txt`}
                 target="_blank"
                 rel="noopener noreferrer"
@@ -72,11 +72,9 @@ export function SiteFooter() {
               </a>
             </SimpleTooltip>
 
-            <Separator />
-
             <SimpleTooltip content="RSS Feed">
               <a
-                className="flex items-center text-muted-foreground transition-colors hover:text-foreground"
+                className="flex h-full items-center px-4 text-muted-foreground transition-colors hover:text-foreground hover:bg-muted/50 border-r border-edge"
                 href={`${SITE_INFO.url}/rss`}
                 target="_blank"
                 rel="noopener noreferrer"
@@ -86,11 +84,9 @@ export function SiteFooter() {
               </a>
             </SimpleTooltip>
 
-            <Separator />
-
             <SimpleTooltip content="DMCA Protected">
               <a
-                className="flex text-muted-foreground transition-colors hover:text-foreground"
+                className="flex h-full items-center px-4 text-muted-foreground transition-colors hover:text-foreground hover:bg-muted/50"
                 href={
                   process.env.NEXT_PUBLIC_DMCA_URL ||
                   "https://www.dmca.com/ProtectionPro.aspx"
@@ -102,8 +98,6 @@ export function SiteFooter() {
                 <span className="sr-only">DMCA.com Protection Status</span>
               </a>
             </SimpleTooltip>
-
-            <Separator />
           </div>
 
         </div>

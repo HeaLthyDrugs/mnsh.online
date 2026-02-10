@@ -27,7 +27,7 @@ export default function ProfileHeader() {
     const currentText = ROTATING_TEXTS[key % ROTATING_TEXTS.length];
 
     return (
-        <div className="screen-line-after border-x border-edge">
+        <div className="border-b border-x border-edge">
             {/* Main header - responsive layout */}
             <div className="flex flex-col sm:flex-row">
                 {/* Avatar section */}
