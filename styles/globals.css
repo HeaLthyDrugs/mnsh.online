@@ -161,8 +161,8 @@
 
   --popover-border: color-mix(in oklab, var(--color-black) 15%, transparent);
 
-  /* zinc-100 */
-  --accent: oklch(0.967 0.001 286.375);
+  /* zinc-100/200 blend for better contrast */
+  --accent: oklch(0.939 0.002 285.505);
 
   --accent2: color-mix(in oklab, var(--accent) 50%, transparent);
 

@@ -44,11 +44,11 @@ export default function Page() {
         <Separator />
 
         {/* Services I provide  */}
-        <HowIWork />
+        {/* <HowIWork />
         <Separator />
 
         <WhatIDo />
-        <Separator />
+        <Separator /> */}
 
         {/* Events  */}
         <Events />

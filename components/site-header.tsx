@@ -10,6 +10,7 @@ import { cn } from "@/lib/utils";
 import { SiteHeaderWrapper } from "./site-header-wrapper";
 import { ToggleTheme } from "./toggle-theme";
 import { MoreOptions } from "./site-header-actions";
+import { MnshMark } from "@/components/mnsh-mark";
 
 const CommandMenu = dynamic(() =>
   import("@/components/command-menu").then((mod) => mod.CommandMenu)
@@ -28,23 +29,37 @@ export function SiteHeader() {
     >
       <div
         className={cn(
-          "mx-auto flex h-12 items-center justify-between gap-2 border-x border-t border-b border-edge px-2 sm:gap-4 md:max-w-3xl",
+          "mx-auto flex h-12 items-center justify-between border-x border-t border-b border-border md:max-w-3xl",
           "transition-shadow duration-300",
           "[header[data-affix='true']_&]:shadow-[0_8px_16px_-8px_black]/8 dark:[header[data-affix='true']_&]:shadow-[0_8px_16px_-8px_black]/80"
         )}
         data-header-container
       >
 
+        <div className="flex h-full w-12 items-center justify-center border-r border-border">
+          <Link href="/" aria-label="Home" className="flex h-full w-full items-center justify-center">
+            <MnshMark className="h-9 w-9 text-muted-foreground transition-colors duration-300 hover:text-foreground" />
+          </Link>
+        </div>
+
         <div className="flex-1" />
 
-        <DesktopNav items={MAIN_NAV} />
+        <div className="flex h-full items-center">
+          <DesktopNav items={MAIN_NAV} />
+        </div>
 
-        <MoreOptions />
+        <div className="flex h-full items-center border-l border-border px-4">
+          <MoreOptions />
+        </div>
 
-        <div className="flex items-center gap-2">
-          <CommandMenu />
+        <div className="flex h-full items-center border-l border-border">
+          <div className="flex h-full items-center px-4">
+            <CommandMenu />
+          </div>
           {/* <ToggleTheme /> */}
-          <MobileNav className="sm:hidden" items={MAIN_NAV} />
+          <div className="flex h-full w-12 items-center justify-center border-l border-border sm:hidden">
+            <MobileNav items={MAIN_NAV} />
+          </div>
         </div>
       </div>
     </SiteHeaderWrapper>

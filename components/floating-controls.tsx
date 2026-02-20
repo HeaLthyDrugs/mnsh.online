@@ -71,17 +71,12 @@ export function FloatingControls() {
                             />
                             <div className="flex flex-col gap-0">
                                 <SettingItem
-                                    label="PRELOADER"
+                                    label="Show Labels"
                                     value="false"
                                     onMouseEnter={playHover}
                                 />
                                 <SettingItem
-                                    label="SHOW LABELS"
-                                    value="false"
-                                    onMouseEnter={playHover}
-                                />
-                                <SettingItem
-                                    label="THEME"
+                                    label="Theme"
                                     value={isDark ? "dark" : "light"}
                                     isActive
                                     onClick={() => {
@@ -91,12 +86,7 @@ export function FloatingControls() {
                                     onMouseEnter={playHover}
                                 />
                                 <SettingItem
-                                    label="SYSTEM THEME"
-                                    value="off"
-                                    onMouseEnter={playHover}
-                                />
-                                <SettingItem
-                                    label="SOUND"
+                                    label="Sound"
                                     value={isSoundEnabled ? "enabled" : "disabled"}
                                     onClick={() => {
                                         playTap();

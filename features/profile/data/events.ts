@@ -2,22 +2,33 @@
  * Events Data Configuration
  * 
  * Grid System: 2 cols (mobile) / 4 cols (tablet) / 6 cols (desktop)
+ * Dense packing enabled — items fill gaps automatically.
  * 
  * Available Size Options:
  * - xs: Extra small (1 col) - Perfect for small accents
- * - small: Small (1/1/2 cols) - Standard small cards
+ * - small: Small (1 col) - Standard small cards
  * - medium: Medium (1/2/2 cols) - Default size
  * - large: Large (2/2/3 cols) - Featured events
  * - wide: Wide (2/4/6 cols) - Full width banners
  * - tall: Tall (1/2/2 cols, 2 rows) - Detailed content
  * - xl: Extra large (2/2/3 cols, 2 rows) - Hero cards
+ *
+ * Desktop row math (6 cols):
+ * Row 1-2: xl(3×2) + large(3) = 6 | xl bleeds into row 2
+ * Row 2:   medium(2) + xs(1) = 3 (fills remaining of row 2)
+ * Row 3:   tall(2×2) + medium(2) + small(1) + xs(1) = 6
+ * Row 4:   (tall continues) + xs(1) + xs(1) + medium(2) = 6 (dense fills)
+ * Row 5:   wide(6)
+ * Row 6:   large(3) + medium(2) + xs(1) = 6
+ * Row 7-8: small(1) + xl(3×2) + medium(2) = 6 | xl bleeds
+ * Music player (2×2) inserted at position 5 — dense packing places it
  */
 
 import { Event } from "../types/events";
 
 export const EVENTS: Event[] = [
     // ═══════════════════════════════════════════════════════════════
-    // ROW 1: XL Hero (3 cols) + Large (3 cols) = 6 cols
+    // ROW 1-2: XL Hero (3 cols × 2 rows) + Large (3 cols × 1 row)
     // ═══════════════════════════════════════════════════════════════
     {
         id: "tech-summit-2025",
@@ -47,7 +58,7 @@ export const EVENTS: Event[] = [
     },
 
     // ═══════════════════════════════════════════════════════════════
-    // ROW 2: Tall (2 cols, 2 rows) + Medium (2 cols) + Small (2 cols) = 6 cols
+    // ROW 2 (remaining): Medium (2 cols) + XS (1 col) = 3 cols
     // ═══════════════════════════════════════════════════════════════
     {
         id: "react-masterclass",
@@ -55,11 +66,11 @@ export const EVENTS: Event[] = [
         date: "22.02.2025",
         location: "Online",
         category: "Workshop",
-        description: "Deep dive into React 19 features, Server Components, and modern patterns. Full-day intensive workshop.",
+        description: "Deep dive into React 19 features, Server Components, and modern patterns.",
         backgroundImage: "https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=800&q=80",
         textColor: "text-white",
         tags: ["React", "Next.js"],
-        size: "tall",
+        size: "medium",
     },
     {
         id: "design-systems",
@@ -70,8 +81,12 @@ export const EVENTS: Event[] = [
         description: "Build scalable design systems from scratch.",
         backgroundColor: "bg-gradient-to-br from-violet-100 to-purple-200 dark:from-violet-950 dark:to-purple-900",
         tags: ["Design", "UI/UX"],
-        size: "medium",
+        size: "xs",
     },
+
+    // ═══════════════════════════════════════════════════════════════
+    // ROW 3-4: Tall (2 cols × 2 rows) + small(1) + xs(1) + medium(2) = 6
+    // ═══════════════════════════════════════════════════════════════
     {
         id: "startup-pitch",
         title: "Pitch Night",
@@ -84,9 +99,8 @@ export const EVENTS: Event[] = [
         size: "small",
     },
 
-    // ═══════════════════════════════════════════════════════════════
-    // ROW 3: XS (1 col) + XS (1 col) + Medium (2 cols) + Small (2 cols) = 6 cols
-    // ═══════════════════════════════════════════════════════════════
+    // ← Music player gets inserted here (position 5) as tall (2×2)
+
     {
         id: "tip-git",
         title: "Git Tips",
@@ -130,9 +144,19 @@ export const EVENTS: Event[] = [
         tags: ["Best Practices"],
         size: "small",
     },
+    {
+        id: "tip-perf",
+        title: "Performance",
+        date: "03.02.2025",
+        category: "Tip",
+        description: "Optimization tips.",
+        backgroundColor: "bg-gradient-to-br from-lime-100 to-green-200 dark:from-lime-950 dark:to-green-900",
+        tags: ["Performance"],
+        size: "xs",
+    },
 
     // ═══════════════════════════════════════════════════════════════
-    // ROW 4: Wide Banner (6 cols) = 6 cols
+    // ROW 5: Wide Banner (6 cols)
     // ═══════════════════════════════════════════════════════════════
     {
         id: "annual-showcase",
@@ -149,7 +173,7 @@ export const EVENTS: Event[] = [
     },
 
     // ═══════════════════════════════════════════════════════════════
-    // ROW 5: Large (3 cols) + Medium (2 cols) + XS (1 col) = 6 cols
+    // ROW 6: Large (3 cols) + Medium (2 cols) + XS (1 col) = 6 cols
     // ═══════════════════════════════════════════════════════════════
     {
         id: "webdev-conf",
@@ -175,18 +199,18 @@ export const EVENTS: Event[] = [
         size: "medium",
     },
     {
-        id: "tip-perf",
-        title: "Performance",
-        date: "03.02.2025",
+        id: "tip-a11y",
+        title: "Accessibility",
+        date: "05.02.2025",
         category: "Tip",
-        description: "Optimization tips.",
-        backgroundColor: "bg-gradient-to-br from-lime-100 to-green-200 dark:from-lime-950 dark:to-green-900",
-        tags: ["Performance"],
+        description: "A11y essentials.",
+        backgroundColor: "bg-gradient-to-br from-cyan-100 to-teal-200 dark:from-cyan-950 dark:to-teal-900",
+        tags: ["A11y"],
         size: "xs",
     },
 
     // ═══════════════════════════════════════════════════════════════
-    // ROW 6: Small (2 cols) + XL (3 cols) + XS (1 col) = 6 cols
+    // ROW 7-8: Small (1) + XL (3×2) + Medium (2) = 6
     // ═══════════════════════════════════════════════════════════════
     {
         id: "typescript-deep",
@@ -213,13 +237,13 @@ export const EVENTS: Event[] = [
         size: "xl",
     },
     {
-        id: "tip-a11y",
-        title: "Accessibility",
-        date: "05.02.2025",
+        id: "tip-security",
+        title: "Security",
+        date: "06.02.2025",
         category: "Tip",
-        description: "A11y essentials.",
-        backgroundColor: "bg-gradient-to-br from-cyan-100 to-teal-200 dark:from-cyan-950 dark:to-teal-900",
-        tags: ["A11y"],
-        size: "xs",
+        description: "Web security essentials.",
+        backgroundColor: "bg-gradient-to-br from-red-100 to-orange-200 dark:from-red-950 dark:to-orange-900",
+        tags: ["Security"],
+        size: "medium",
     },
 ];

@@ -242,7 +242,7 @@ export function CommandMenu({ posts = [] }: { posts?: Post[] }) {
       </Button>
 
       <CommandDialog open={open} onOpenChange={setOpen}>
-        <CommandInput placeholder="Type a command or search..." />
+        <CommandInput placeholder="Type to search" />
 
         <CommandList className="min-h-80">
           <CommandEmpty>No results found.</CommandEmpty>
@@ -258,7 +258,7 @@ export function CommandMenu({ posts = [] }: { posts?: Post[] }) {
           <CommandSeparator />
 
           <CommandLinkGroup
-            heading="Daifolio"
+            heading="Others"
             links={DAIFOLIO_LINKS}
             onLinkSelect={handleOpenLink}
             playHover={playHover}
@@ -268,20 +268,9 @@ export function CommandMenu({ posts = [] }: { posts?: Post[] }) {
           <CommandSeparator />
 
           <CommandLinkGroup
-            heading="Blog"
+            heading="Blogs"
             links={blogLinks}
             fallbackIcon={TextIcon}
-            onLinkSelect={handleOpenLink}
-            playHover={playHover}
-            playTap={playTap}
-          />
-
-          <CommandSeparator />
-
-          <CommandLinkGroup
-            heading="Components"
-            links={componentLinks}
-            fallbackIcon={Icons.react}
             onLinkSelect={handleOpenLink}
             playHover={playHover}
             playTap={playTap}
@@ -296,56 +285,6 @@ export function CommandMenu({ posts = [] }: { posts?: Post[] }) {
             playHover={playHover}
             playTap={playTap}
           />
-
-          <CommandSeparator />
-
-          <CommandGroup heading="Brand Assets">
-            <CommandItem
-              onMouseEnter={playHover}
-              onSelect={() => {
-                playTap();
-                handleCopyText(
-                  getMarkSVG(resolvedTheme === "light" ? "#000" : "#fff"),
-                  "Copied Mark as SVG"
-                );
-              }}
-            >
-              <MnshMark />
-              Copy Mark as SVG
-            </CommandItem>
-
-            <CommandItem
-              onMouseEnter={playHover}
-              onSelect={() => {
-                playTap();
-                handleCopyText(
-                  getWordmarkSVG(resolvedTheme === "light" ? "#000" : "#fff"),
-                  "Copied Logotype as SVG"
-                );
-              }}
-            >
-              <TypeIcon />
-              Copy Logotype as SVG
-            </CommandItem>
-
-            <CommandItem
-              onMouseEnter={playHover}
-              onSelect={() => {
-                playTap();
-                handleOpenLink("/blog/chanhdai-brand");
-              }}
-            >
-              <TriangleDashedIcon />
-              Brand Guidelines
-            </CommandItem>
-
-            <CommandItem onMouseEnter={playHover} onSelect={() => playTap()} asChild>
-              <a href="https://assets.chanhdai.com/chanhdai-brand.zip" download>
-                <DownloadIcon />
-                Download Brand Assets
-              </a>
-            </CommandItem>
-          </CommandGroup>
 
           <CommandSeparator />
 
@@ -496,18 +435,24 @@ function CommandMenuFooter() {
     <>
       <div className="flex h-10" />
 
-      <div className="absolute inset-x-0 bottom-0 flex h-10 items-center justify-between gap-2 border-t bg-zinc-100/30 px-4 text-xs font-medium dark:bg-zinc-800/30">
-        <MnshWordmark className="size-6 text-muted-foreground" aria-hidden />
+      <div className="absolute inset-x-0 bottom-0 flex h-10 items-center justify-between border-t border-border bg-zinc-100/30 text-xs font-medium dark:bg-zinc-800/30">
+        <div className="flex h-full w-12 items-center justify-center border-r border-border">
+          <MnshMark
+            className="size-7 text-muted-foreground transition-colors duration-300 hover:text-foreground"
+            aria-hidden
+          />
+        </div>
 
-        <div className="flex shrink-0 items-center gap-2">
+        <div className="flex-1" />
+
+        <div className="flex h-full items-center border-l border-border px-4 gap-2">
           <span>{ENTER_ACTION_LABELS[selectedCommandKind]}</span>
           <CommandMenuKbd>
             <CornerDownLeftIcon />
           </CommandMenuKbd>
-          <Separator
-            orientation="vertical"
-            className="data-[orientation=vertical]:h-4"
-          />
+        </div>
+
+        <div className="flex h-full items-center border-l border-border px-4 gap-2">
           <span className="text-muted-foreground">Exit</span>
           <CommandMenuKbd>Esc</CommandMenuKbd>
         </div>
