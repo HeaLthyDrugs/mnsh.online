@@ -1,7 +1,9 @@
+import { NotFound as PageNotFound } from "@/components/not-found";
+
+export const metadata = {
+  title: "Page Not Found",
+};
+
 export default function NotFound() {
-  return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <h1>404 - Page Not Found</h1>
-    </div>
-  );
+  return <PageNotFound className="h-screen" />;
 }
