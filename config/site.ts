@@ -19,10 +19,14 @@ export const MAIN_NAV: NavItem[] = [
   {
     title: "Me",
     href: "/",
+    shortcut: "M",
+    description: "Go to Home page",
   },
   {
     title: "Works",
     href: "/work",
+    shortcut: "W",
+    description: "View my works",
   },
 ];
 
