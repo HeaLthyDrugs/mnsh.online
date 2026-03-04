@@ -11,89 +11,13 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
+import { motion, AnimatePresence } from "framer-motion";
 import {
     AudioLinesIcon,
     type AudioLinesIconHandle,
 } from "@/components/animated-icons/audio-lines";
 
-// ─── Genre definitions ───────────────────────────────────────────
-interface Track {
-    title: string;
-    artist: string;
-    cover: string;
-}
-
-interface Genre {
-    label: string;
-    icon: string;
-    tracks: Track[];
-}
-
-const GENRES: Genre[] = [
-    {
-        label: "Ambient",
-        icon: "🌊",
-        tracks: [
-            {
-                title: "Midnight Waves",
-                artist: "Ambient Drift",
-                cover: "https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=400&q=80",
-            },
-            {
-                title: "Forest Rain",
-                artist: "Nature Sound Co.",
-                cover: "https://images.unsplash.com/photo-1448375240586-882707db888b?w=400&q=80",
-            },
-            {
-                title: "Deep Focus",
-                artist: "Lo-Fi Studio",
-                cover: "https://images.unsplash.com/photo-1459749411175-04bf5292ceea?w=400&q=80",
-            },
-        ],
-    },
-    {
-        label: "Synthwave",
-        icon: "⚡",
-        tracks: [
-            {
-                title: "Neon Pulse",
-                artist: "Synthwave Collective",
-                cover: "https://images.unsplash.com/photo-1614149162883-504ce4d13909?w=400&q=80",
-            },
-            {
-                title: "Retro Drive",
-                artist: "Night Runner",
-                cover: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=400&q=80",
-            },
-            {
-                title: "Chrome Dreams",
-                artist: "Signal Wave",
-                cover: "https://images.unsplash.com/photo-1633356122102-3fe601e05bd2?w=400&q=80",
-            },
-        ],
-    },
-    {
-        label: "Lo-Fi",
-        icon: "☕",
-        tracks: [
-            {
-                title: "Late Night Study",
-                artist: "Chill Beats",
-                cover: "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=400&q=80",
-            },
-            {
-                title: "Sunday Morning",
-                artist: "Vinyl Café",
-                cover: "https://images.unsplash.com/photo-1494232410401-ad00d5433cfa?w=400&q=80",
-            },
-            {
-                title: "Warm Tape",
-                artist: "Analog Mood",
-                cover: "https://images.unsplash.com/photo-1487180144351-b8472da7d491?w=400&q=80",
-            },
-        ],
-    },
-];
+import { GENRES } from "../data/music";
 
 // Glass style shared across buttons
 const GLASS =
@@ -104,11 +28,14 @@ export function MusicPlayer({ className }: { className?: string }) {
     const [genreIdx, setGenreIdx] = useState(0);
     const [currentTrack, setCurrentTrack] = useState(0);
     const [isPlaying, setIsPlaying] = useState(false);
-    const [progress, setProgress] = useState(0);
+    const [currentTime, setCurrentTime] = useState(0);
+    const [duration, setDuration] = useState(0);
+    const [volume, setVolume] = useState(1);
     const [isMuted, setIsMuted] = useState(false);
+    const [volumeOpen, setVolumeOpen] = useState(false);
     const [genreOpen, setGenreOpen] = useState(false);
-    const [imgLoaded, setImgLoaded] = useState(false);
-    const progressInterval = useRef<ReturnType<typeof setInterval> | null>(null);
+
+    const audioRef = useRef<HTMLAudioElement>(null);
     const audioLinesRef = useRef<AudioLinesIconHandle>(null);
 
     const genre = GENRES[genreIdx];
@@ -123,61 +50,97 @@ export function MusicPlayer({ className }: { className?: string }) {
         }
     }, [isPlaying]);
 
-    // Simulate playback
+    // Handle actual play/pause logic
     useEffect(() => {
+        if (!audioRef.current) return;
+
         if (isPlaying) {
-            progressInterval.current = setInterval(() => {
-                setProgress((prev) => {
-                    if (prev >= 100) {
-                        handleNext();
-                        return 0;
-                    }
-                    return prev + 0.5;
-                });
-            }, 150);
-        } else if (progressInterval.current) {
-            clearInterval(progressInterval.current);
+            audioRef.current.play().catch(console.error);
+        } else {
+            audioRef.current.pause();
         }
-        return () => {
-            if (progressInterval.current) clearInterval(progressInterval.current);
-        };
-    }, [isPlaying, currentTrack, genreIdx]);
+    }, [isPlaying, currentTrack, genreIdx]); // Effect runs on track change too
+
+    // Ensure audio resets smoothly when track changes
+    useEffect(() => {
+        setCurrentTime(0);
+        setCurrentTime(0);
+        // Play automatically if we were already playing
+        if (isPlaying && audioRef.current) {
+            audioRef.current.play().catch(console.error);
+        }
+    }, [currentTrack, genreIdx]);
+
+    // Apply volume/mute state manually
+    useEffect(() => {
+        if (audioRef.current) {
+            audioRef.current.muted = isMuted;
+            audioRef.current.volume = volume;
+        }
+    }, [isMuted, volume]);
 
     const handlePlayPause = useCallback(() => setIsPlaying((p) => !p), []);
 
     const handleNext = useCallback(() => {
         setCurrentTrack((p) => (p + 1) % genre.tracks.length);
-        setProgress(0);
-        setImgLoaded(false);
     }, [genre.tracks.length]);
 
     const handlePrev = useCallback(() => {
         setCurrentTrack((p) => (p - 1 + genre.tracks.length) % genre.tracks.length);
-        setProgress(0);
-        setImgLoaded(false);
     }, [genre.tracks.length]);
 
     const handleGenreChange = useCallback((idx: number) => {
         setGenreIdx(idx);
         setCurrentTrack(0);
-        setProgress(0);
         setGenreOpen(false);
-        setImgLoaded(false);
     }, []);
 
     const handleProgressClick = useCallback(
         (e: React.MouseEvent<HTMLDivElement>) => {
+            if (!audioRef.current || duration === 0) return;
             const rect = e.currentTarget.getBoundingClientRect();
-            const pct = ((e.clientX - rect.left) / rect.width) * 100;
-            setProgress(Math.max(0, Math.min(100, pct)));
+            const pct = (e.clientX - rect.left) / rect.width;
+            audioRef.current.currentTime = pct * duration;
         },
-        []
+        [duration]
     );
 
-    const formatTime = (pct: number) => {
-        const s = Math.floor((pct / 100) * 210);
-        return `${Math.floor(s / 60)}:${(s % 60).toString().padStart(2, "0")}`;
+    const handleVolumeChange = useCallback(
+        (e: React.MouseEvent<HTMLDivElement>) => {
+            const rect = e.currentTarget.getBoundingClientRect();
+            // Calculate percentage from bottom to top
+            const pct = 1 - (e.clientY - rect.top) / rect.height;
+            const newVol = Math.max(0, Math.min(1, pct));
+            setVolume(newVol);
+            if (newVol > 0 && isMuted) setIsMuted(false);
+        },
+        [isMuted]
+    );
+
+    const handleTimeUpdate = () => {
+        if (audioRef.current) {
+            setCurrentTime(audioRef.current.currentTime);
+        }
     };
+
+    const handleLoadedMetadata = () => {
+        if (audioRef.current) {
+            setDuration(audioRef.current.duration);
+        }
+    };
+
+    const handleAudioEnded = () => {
+        handleNext(); // Auto play next track
+    };
+
+    const formatTime = (timeInSeconds: number) => {
+        if (isNaN(timeInSeconds) || !isFinite(timeInSeconds)) return "0:00";
+        const m = Math.floor(timeInSeconds / 60);
+        const s = Math.floor(timeInSeconds % 60);
+        return `${m}:${s.toString().padStart(2, "0")}`;
+    };
+
+    const progressPercent = duration > 0 ? (currentTime / duration) * 100 : 0;
 
     return (
         <div
@@ -187,31 +150,98 @@ export function MusicPlayer({ className }: { className?: string }) {
                 className
             )}
         >
-            {/* ── Album Art — fills the ENTIRE card ───────────── */}
-            <Image
-                key={`${genreIdx}-${currentTrack}`}
-                src={track.cover}
-                alt={track.title}
-                fill
-                className={cn(
-                    "object-cover transition-all duration-700 ease-out",
-                    "group-hover/player:scale-105",
-                    imgLoaded ? "opacity-100 scale-100" : "opacity-0 scale-110"
-                )}
-                onLoad={() => setImgLoaded(true)}
-                unoptimized
+            {/* ── Hidden Audio Element ────────────────────────── */}
+            <audio
+                ref={audioRef}
+                src={track.audioSrc}
+                onTimeUpdate={handleTimeUpdate}
+                onLoadedMetadata={handleLoadedMetadata}
+                onEnded={handleAudioEnded}
             />
+
+            {/* ── Background Blurred Art ───────────── */}
+            <div className="absolute inset-0 z-0 bg-neutral-900 border border-t-[1.5px] border-l-[1.5px] border-white/5 shadow-2xl overflow-hidden">
+                <AnimatePresence>
+                    <motion.div
+                        key={`bg-${genreIdx}-${currentTrack}`}
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 1, ease: "easeInOut" }}
+                        className="absolute inset-0"
+                    >
+                        <Image
+                            src={track.cover}
+                            alt={`${track.title} background`}
+                            fill
+                            className={cn(
+                                "object-cover blur-[25px] scale-125 opacity-70",
+                            )}
+                            unoptimized
+                        />
+                    </motion.div>
+                </AnimatePresence>
+                {/* Dark overlay for contrast - lighter to show colors */}
+                <div className="absolute inset-0 bg-black/10" />
+            </div>
+
+            {/* ── Center Sharp Album Art (Square, Zero rounding) ───────────── */}
+            <div className="absolute inset-x-0 top-10 bottom-[120px] flex items-center justify-center z-10 pointer-events-none">
+                <div className="relative w-3/5 aspect-square max-w-[200px] shadow-2xl overflow-hidden bg-black/20">
+                    <AnimatePresence>
+                        <motion.div
+                            key={`cover-${genreIdx}-${currentTrack}`}
+                            initial={{ opacity: 0, scale: 0.95, filter: "blur(4px)" }}
+                            animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
+                            exit={{ opacity: 0, scale: 1.05, filter: "blur(4px)" }}
+                            transition={{ duration: 0.6, ease: "easeOut" }}
+                            className="absolute inset-0"
+                        >
+                            <Image
+                                src={track.cover}
+                                alt={track.title}
+                                fill
+                                className={cn(
+                                    "object-cover rounded-none",
+                                    "group-hover/player:scale-105 transition-transform duration-700"
+                                )}
+                                unoptimized
+                            />
+                        </motion.div>
+                    </AnimatePresence>
+
+                    {/* Track Info Inside Cover Art */}
+                    <div className="absolute inset-x-0 bottom-0 p-2.5 pt-6 bg-gradient-to-t from-black/80 via-black/40 to-transparent">
+                        <div className="space-y-0 overflow-hidden">
+                            <h4
+                                key={`title-${genreIdx}-${currentTrack}`}
+                                className={cn(
+                                    "text-white text-[11px] font-semibold truncate leading-tight drop-shadow-sm",
+                                    "animate-[slideUp_0.35s_ease-out]"
+                                )}
+                            >
+                                {track.title}
+                            </h4>
+                            <p
+                                key={`artist-${genreIdx}-${currentTrack}`}
+                                className={cn(
+                                    "text-white/60 text-[9px] truncate drop-shadow-sm",
+                                    "animate-[slideUp_0.4s_ease-out]"
+                                )}
+                            >
+                                {track.artist}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
             {/* Track indicator dots — top */}
             <div className="absolute top-3 left-0 right-0 flex justify-center gap-1.5 z-20">
                 {genre.tracks.map((_, i) => (
                     <button
                         key={i}
-                        onClick={() => {
-                            setCurrentTrack(i);
-                            setProgress(0);
-                            setImgLoaded(false);
-                        }}
+                        onClick={() => setCurrentTrack(i)}
                         className={cn(
                             "h-1 bg-white transition-all duration-500 ease-out",
                             i === currentTrack
@@ -261,28 +291,7 @@ export function MusicPlayer({ className }: { className?: string }) {
             />
 
             {/* ── Controls — overlaid at bottom ───────────────── */}
-            <div className="absolute inset-x-0 bottom-0 z-20 px-4 pb-3.5 pt-6 flex flex-col gap-2.5">
-                {/* Track Info */}
-                <div className="space-y-0.5 overflow-hidden">
-                    <h4
-                        key={`title-${genreIdx}-${currentTrack}`}
-                        className={cn(
-                            "text-white text-sm font-medium truncate leading-tight drop-shadow-sm",
-                            "animate-[slideUp_0.35s_ease-out]"
-                        )}
-                    >
-                        {track.title}
-                    </h4>
-                    <p
-                        key={`artist-${genreIdx}-${currentTrack}`}
-                        className={cn(
-                            "text-white/55 text-xs truncate drop-shadow-sm",
-                            "animate-[slideUp_0.4s_ease-out]"
-                        )}
-                    >
-                        {track.artist}
-                    </p>
-                </div>
+            <div className="absolute inset-x-0 bottom-0 z-20 px-4 pb-3.5 pt-6 flex flex-col gap-3">
 
                 {/* Progress / Seek Bar — glass effect */}
                 <div className="space-y-1">
@@ -296,40 +305,80 @@ export function MusicPlayer({ className }: { className?: string }) {
                         {/* Glow behind fill */}
                         <div
                             className="absolute h-full opacity-40 blur-[4px] bg-white"
-                            style={{ width: `${progress}%` }}
+                            style={{ width: `${progressPercent}%` }}
                         />
                         {/* Fill */}
                         <div
                             className="h-full relative transition-[width] duration-100 ease-linear bg-white/80"
-                            style={{ width: `${progress}%` }}
+                            style={{ width: `${progressPercent}%` }}
                         >
                             {/* Scrubber */}
                             <div className="absolute right-0 top-1/2 -translate-y-1/2 w-2.5 h-2.5 bg-white opacity-0 group-hover/progress:opacity-100 transition-all duration-200 scale-0 group-hover/progress:scale-100 shadow-[0_0_6px_rgba(255,255,255,0.5)]" />
                         </div>
                     </div>
                     <div className="flex justify-between text-[10px] text-white/30 font-mono tabular-nums">
-                        <span>{formatTime(progress)}</span>
-                        <span>3:30</span>
+                        <span>{formatTime(currentTime)}</span>
+                        <span>{formatTime(duration)}</span>
                     </div>
                 </div>
 
                 {/* Transport Controls — all glass */}
                 <div className="flex items-center justify-between">
-                    {/* Volume — glass icon */}
-                    <button
-                        onClick={() => setIsMuted(!isMuted)}
-                        className={cn(
-                            "flex items-center justify-center size-8 text-white/70",
-                            GLASS
-                        )}
-                        aria-label={isMuted ? "Unmute" : "Mute"}
+                    {/* Volume — Container */}
+                    <div
+                        className="relative flex items-end justify-center group/volume z-50 size-8"
+                        onMouseEnter={() => setVolumeOpen(true)}
+                        onMouseLeave={() => setVolumeOpen(false)}
+                        onClick={() => setVolumeOpen(!volumeOpen)}
                     >
-                        {isMuted ? (
-                            <VolumeX className="size-3.5" />
-                        ) : (
-                            <Volume2 className="size-3.5" />
-                        )}
-                    </button>
+                        {/* The Volume Button and Expanding Track background */}
+                        <div
+                            className={cn(
+                                "absolute bottom-0 flex flex-col items-center justify-end w-8 rounded-none overflow-hidden transition-all duration-300 origin-bottom",
+                                GLASS,
+                                volumeOpen ? "h-32 bg-white/20 border-white/30 backdrop-blur-xl shadow-lg" : "h-8"
+                            )}
+                        >
+                            {/* The Volume Slider Track (only visible when open) */}
+                            <div
+                                className={cn(
+                                    "absolute top-3 w-1.5 bottom-11 bg-black/40 rounded-none cursor-pointer transition-opacity duration-300",
+                                    volumeOpen ? "opacity-100" : "opacity-0 pointer-events-none"
+                                )}
+                                onClick={(e) => {
+                                    e.stopPropagation(); // Don't close the slider when adjusting volume
+                                    handleVolumeChange(e);
+                                }}
+                            >
+                                {/* Volume Fill */}
+                                <div
+                                    className="absolute bottom-0 w-full bg-white rounded-none pointer-events-none transition-all duration-100"
+                                    style={{ height: `${volume * 100}%` }}
+                                >
+                                    <div className="absolute top-0 right-1/2 translate-x-1/2 -translate-y-1/2 w-3 h-1 bg-white shadow-[0_0_8px_rgba(255,255,255,0.8)]" />
+                                </div>
+                            </div>
+
+                            {/* The actually clickable icon button */}
+                            <button
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    setIsMuted(!isMuted);
+                                }}
+                                className={cn(
+                                    "relative flex items-center justify-center min-h-8 w-8 text-white/70 hover:text-white transition-colors z-10 shrink-0",
+                                    isMuted ? "opacity-80" : "opacity-100"
+                                )}
+                                aria-label={isMuted ? "Unmute" : "Mute"}
+                            >
+                                {isMuted || volume === 0 ? (
+                                    <VolumeX className="size-3.5" />
+                                ) : (
+                                    <Volume2 className="size-3.5" />
+                                )}
+                            </button>
+                        </div>
+                    </div>
 
                     {/* Center transport */}
                     <div className="flex items-center gap-3">
@@ -380,51 +429,69 @@ export function MusicPlayer({ className }: { className?: string }) {
                         </button>
                     </div>
 
-                    {/* Genre — glass icon button with dropdown */}
-                    <div className="relative">
-                        <button
-                            onClick={() => setGenreOpen((p) => !p)}
-                            className={cn(
-                                "flex items-center justify-center size-8 text-white/70",
-                                GLASS
-                            )}
-                            aria-label="Change genre"
-                        >
-                            <Disc3
-                                className={cn(
-                                    "size-3.5 transition-transform duration-700",
-                                    isPlaying && "animate-[spin_3s_linear_infinite]"
-                                )}
-                            />
-                        </button>
-
-                        {/* Genre dropdown — opens upward */}
+                    {/* Genre — Expanding Container */}
+                    <div
+                        className="relative flex items-end justify-end group/genre z-50 size-8"
+                        onMouseEnter={() => setGenreOpen(true)}
+                        onMouseLeave={() => setGenreOpen(false)}
+                        onClick={() => setGenreOpen(!genreOpen)}
+                    >
+                        {/* The expanded track background */}
                         <div
                             className={cn(
-                                "absolute bottom-full right-0 mb-1.5 min-w-[110px] overflow-hidden",
-                                "backdrop-blur-xl bg-black/60 border border-white/10",
-                                "transition-all duration-300 origin-bottom-right",
-                                genreOpen
-                                    ? "opacity-100 scale-100 translate-y-0"
-                                    : "opacity-0 scale-95 translate-y-1 pointer-events-none"
+                                "absolute bottom-0 right-0 rounded-none overflow-hidden transition-all duration-300 origin-bottom-right",
+                                GLASS,
+                                genreOpen ? "w-[124px] h-[128px] bg-white/20 border-white/30 backdrop-blur-xl shadow-lg" : "w-8 h-8"
                             )}
                         >
-                            {GENRES.map((g, i) => (
-                                <button
-                                    key={g.label}
-                                    onClick={() => handleGenreChange(i)}
+                            {/* Genere Selectors (only visible when open) */}
+                            <div
+                                className={cn(
+                                    "absolute top-0 left-0 w-full flex flex-col transition-opacity duration-300",
+                                    genreOpen ? "opacity-100 delay-100" : "opacity-0 pointer-events-none"
+                                )}
+                            >
+                                {GENRES.map((g, i) => {
+                                    const Icon = g.icon;
+                                    return (
+                                        <button
+                                            key={g.label}
+                                            onClick={(e) => {
+                                                e.stopPropagation();
+                                                handleGenreChange(i);
+                                            }}
+                                            className={cn(
+                                                "flex items-center gap-2.5 w-full h-8 px-3 text-left",
+                                                "transition-colors duration-200 hover:bg-white/10",
+                                                i === genreIdx
+                                                    ? "text-white bg-white/10"
+                                                    : "text-white/60 hover:text-white"
+                                            )}
+                                        >
+                                            <Icon className="size-3.5 shrink-0" />
+                                            <span className="text-[11px] font-medium tracking-wide truncate">{g.label}</span>
+                                        </button>
+                                    );
+                                })}
+                            </div>
+
+                            {/* The actually clickable icon button - fixed at bottom right */}
+                            <button
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    setGenreOpen(!genreOpen);
+                                }}
+                                className="absolute bottom-0 right-0 flex items-center justify-center min-h-8 min-w-8 text-white/70 hover:text-white transition-colors z-10 shrink-0"
+                                aria-label="Change genre"
+                            >
+                                <Disc3
                                     className={cn(
-                                        "flex items-center gap-2 w-full px-3 py-2 text-left text-xs",
-                                        "transition-all duration-200",
-                                        i === genreIdx
-                                            ? "text-white bg-white/10"
-                                            : "text-white/50 hover:text-white hover:bg-white/5"
+                                        "size-3.5 transition-transform duration-700",
+                                        isPlaying && !genreOpen && "animate-[spin_3s_linear_infinite]",
+                                        genreOpen && "scale-110 text-white"
                                     )}
-                                >
-                                    <span className="text-[11px]">{g.icon}</span>
-                                    {g.label}
-                                </button>
-                            ))}
+                                />
+                            </button>
                         </div>
                     </div>
                 </div>

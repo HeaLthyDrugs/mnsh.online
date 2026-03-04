@@ -26,7 +26,7 @@ const sizeToGridClasses: Record<string, string> = {
 };
 
 // Music player grid placement — portrait tall card
-const MUSIC_PLAYER_CLASSES = "col-span-1 md:col-span-2 row-span-2";
+const MUSIC_PLAYER_CLASSES = "col-span-2 md:col-span-2 row-span-2";
 
 // Index in the events array where we insert the music player
 const MUSIC_PLAYER_POSITION = 5;

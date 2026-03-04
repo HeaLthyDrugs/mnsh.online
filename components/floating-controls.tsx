@@ -46,7 +46,7 @@ export function FloatingControls() {
                 {!isSoundEnabled ? <VolumeX className="size-4" /> : <Volume2 className="size-4" />}
             </button>
 
-            <div className="h-full w-px bg-border" aria-hidden="true" />
+            <div className="h-full w-[0.5px] bg-border" aria-hidden="true" />
 
             <FamilyDrawerRoot>
                 <FamilyDrawerTrigger asChild>
