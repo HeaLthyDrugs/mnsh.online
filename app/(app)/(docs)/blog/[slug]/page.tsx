@@ -156,11 +156,11 @@ export default async function Page({
                 </div>
             </div>
 
-            <div className="screen-line-before screen-line-after">
+            <div className="border-y border-edge">
                 <div
                     className={cn(
-                        "h-8",
-                        "before:absolute before:-left-[100vw] before:-z-1 before:h-full before:w-[200vw]",
+                        "relative flex h-8 w-full",
+                        "before:absolute before:inset-0 before:-z-1 before:h-full before:w-full",
                         "before:bg-[repeating-linear-gradient(315deg,var(--pattern-foreground)_0,var(--pattern-foreground)_1px,transparent_0,transparent_50%)] before:bg-size-[10px_10px] before:[--pattern-foreground:var(--color-edge)]/56"
                     )}
                 />
@@ -270,7 +270,7 @@ export default async function Page({
                 {/* Fallback title when no image */}
                 {!blog.metadata.image && (
                     <>
-                        <h1 className="screen-line-after mb-4 font-semibold">
+                        <h1 className="border-b border-edge pb-4 mb-4 font-semibold">
                             {blog.metadata.title}
                         </h1>
                         <p className="lead mt-2 mb-4 text-muted-foreground">{blog.metadata.description}</p>
@@ -307,7 +307,7 @@ export default async function Page({
                 </div>
             </Prose>
 
-            <div className="screen-line-before h-4 w-full" />
+            <div className="border-t border-edge h-4 w-full" />
         </>
     );
 }

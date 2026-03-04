@@ -11,11 +11,11 @@ export const metadata: Metadata = {
 export default function Page() {
     return (
         <div className="min-h-svh">
-            <div className="screen-line-after px-2 py-2">
+            <div className="border-b border-edge px-2 py-2">
                 <h1 className="text-3xl font-semibold font-heading">Tools</h1>
             </div>
 
-            <div className="px-2 py-2 screen-line-after">
+            <div className="px-2 py-2 border-b border-edge">
                 <p className="font-heading text-sm text-balance text-muted-foreground ">
                     {metadata.description as string}
                 </p>
@@ -23,7 +23,7 @@ export default function Page() {
 
             <Separator />
 
-            <div className="screen-line-before p-2">
+            <div className="border-t border-edge p-2">
                 <ToolsContainer tools={TOOLS} />
             </div>
 
@@ -38,7 +38,7 @@ function Separator({ className }: { className?: string }) {
         <div
             className={cn(
                 "relative flex h-8 w-full border-x border-edge",
-                "before:absolute before:-left-[100vw] before:-z-1 before:h-8 before:w-[200vw]",
+                "before:absolute before:inset-0 before:-z-1 before:h-full before:w-full",
                 "before:bg-[repeating-linear-gradient(315deg,var(--pattern-foreground)_0,var(--pattern-foreground)_1px,transparent_0,transparent_50%)] before:bg-size-[10px_10px] before:[--pattern-foreground:var(--color-edge)]/56",
                 className
             )}

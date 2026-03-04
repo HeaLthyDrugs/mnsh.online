@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 export default function Page() {
     return (
         <div className="min-h-svh">
-            <div className="screen-line-after px-2 py-2">
+            <div className="border-b border-edge px-2 py-2">
                 <h1 className="text-3xl font-semibold font-heading">Gear</h1>
             </div>
 
@@ -20,7 +20,7 @@ export default function Page() {
                 </p>
             </div>
 
-            <div className="screen-line-before p-2">
+            <div className="border-t border-edge p-2">
                 <GearList items={GEAR} />
             </div>
 

@@ -6,6 +6,8 @@ import { WorkListWithSearch } from "@/features/work/components/work-list-with-se
 import { WorkSearchInput } from "@/features/work/components/work-search-input";
 import { getAllWorks } from "@/features/work/lib/works";
 
+
+
 export const metadata: Metadata = {
   title: "Works",
   description:
@@ -17,7 +19,7 @@ export default function Page() {
 
   return (
     <div className="min-h-svh">
-      <div className="screen-line-after px-2 py-2">
+      <div className="border-b border-edge px-2 py-2">
         <h1 className="text-3xl font-semibold font-heading">Works</h1>
       </div>
 
@@ -27,7 +29,7 @@ export default function Page() {
         </p>
       </div>
 
-      <div className="screen-line-before p-2">
+      <div className="border-t border-edge">
       </div>
 
       <Suspense fallback={<WorkList works={allWorks} />}>
@@ -38,3 +40,4 @@ export default function Page() {
     </div>
   );
 }
+

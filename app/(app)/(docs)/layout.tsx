@@ -9,9 +9,8 @@ export default function DocsLayout({
     <div className="mx-auto border-x border-edge md:max-w-3xl">
       <div
         className={cn(
-          "h-8 px-2",
-          "screen-line-after",
-          "before:absolute before:-left-[100vw] before:-z-1 before:h-full before:w-[200vw]",
+          "relative flex h-8 w-full border-b border-edge",
+          "before:absolute before:inset-0 before:-z-1 before:h-full before:w-full",
           "before:bg-[repeating-linear-gradient(315deg,var(--pattern-foreground)_0,var(--pattern-foreground)_1px,transparent_0,transparent_50%)] before:bg-size-[10px_10px] before:[--pattern-foreground:var(--color-edge)]/56"
         )}
       />

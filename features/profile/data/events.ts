@@ -67,15 +67,6 @@ export const EVENTS: Event[] = [
         size: "medium",
     },
     {
-        id: "github",
-        title: "GitHub",
-        date: "",
-        category: "Social",
-        backgroundColor: "bg-gradient-to-br from-zinc-200 to-zinc-300 dark:from-zinc-800 dark:to-zinc-900",
-        link: "https://github.com",
-        size: "xs",
-    },
-    {
         id: "twitter",
         title: "X (Twitter)",
         date: "",
@@ -94,12 +85,12 @@ export const EVENTS: Event[] = [
         size: "xs",
     },
     {
-        id: "mail",
-        title: "Email",
+        id: "github",
+        title: "GitHub",
         date: "",
-        category: "Contact",
-        backgroundColor: "bg-gradient-to-br from-rose-200 to-rose-300 dark:from-rose-800 dark:to-rose-900",
-        link: "mailto:hello@example.com",
-        size: "xs",
-    }
+        category: "Social",
+        backgroundColor: "bg-gradient-to-br from-zinc-200 to-zinc-300 dark:from-zinc-800 dark:to-zinc-900",
+        link: "https://github.com",
+        size: "medium",
+    },
 ];

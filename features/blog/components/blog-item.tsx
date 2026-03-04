@@ -45,8 +45,8 @@ export function BlogItem({
             href={`/blog/${post.slug}`}
             className={cn(
                 "group/post flex flex-col gap-2 p-2",
-                "max-sm:screen-line-before max-sm:screen-line-after",
-                "sm:nth-[2n+1]:screen-line-before sm:nth-[2n+1]:screen-line-after"
+                "max-sm:border-y max-sm:border-edge",
+                "sm:nth-[2n+1]:border-y sm:nth-[2n+1]:border-edge"
             )}
         >
             {metadata.image && (
@@ -80,7 +80,7 @@ export function BlogItem({
                 </div>
             )}
 
-            <div className="flex flex-col gap-1 p-2">
+            <div className="flex flex-col gap-1">
                 <h3 className="text-lg leading-snug font-medium text-balance underline-offset-4 group-hover/post:underline">
                     {metadata.title}
                 </h3>
