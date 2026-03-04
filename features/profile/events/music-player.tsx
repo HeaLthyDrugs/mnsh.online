@@ -316,7 +316,7 @@ export function MusicPlayer({ className }: { className?: string }) {
                             <div className="absolute right-0 top-1/2 -translate-y-1/2 w-2.5 h-2.5 bg-white opacity-0 group-hover/progress:opacity-100 transition-all duration-200 scale-0 group-hover/progress:scale-100 shadow-[0_0_6px_rgba(255,255,255,0.5)]" />
                         </div>
                     </div>
-                    <div className="flex justify-between text-[10px] text-white/30 font-mono tabular-nums">
+                    <div className="flex justify-between text-[10px] text-white/30 font-sans tabular-nums">
                         <span>{formatTime(currentTime)}</span>
                         <span>{formatTime(duration)}</span>
                     </div>
@@ -384,7 +384,7 @@ export function MusicPlayer({ className }: { className?: string }) {
                     <div className="flex items-center gap-3">
                         <button
                             onClick={handlePrev}
-                            className="text-white/60 hover:text-white transition-all duration-300 active:scale-90"
+                            className="text-white/60 cursor-pointer hover:text-white transition-all duration-300 active:scale-90"
                             aria-label="Previous track"
                         >
                             <SkipBack className="size-4" fill="currentColor" />
@@ -394,7 +394,7 @@ export function MusicPlayer({ className }: { className?: string }) {
                         <button
                             onClick={handlePlayPause}
                             className={cn(
-                                "relative flex items-center justify-center",
+                                "relative flex items-center justify-center cursor-pointer",
                                 "w-10 h-10 text-white",
                                 GLASS
                             )}
@@ -422,7 +422,7 @@ export function MusicPlayer({ className }: { className?: string }) {
 
                         <button
                             onClick={handleNext}
-                            className="text-white/60 hover:text-white transition-all duration-300 active:scale-90"
+                            className="text-white/60 cursor-pointer hover:text-white transition-all duration-300 active:scale-90"
                             aria-label="Next track"
                         >
                             <SkipForward className="size-4" fill="currentColor" />

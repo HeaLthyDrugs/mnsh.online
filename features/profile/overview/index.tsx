@@ -116,7 +116,7 @@ function CopyableEmail({ email }: { email: string }) {
   return (
     <button
       onClick={handleCopy}
-      className="group inline-flex items-center gap-1.5 font-mono text-sm transition-colors hover:text-foreground"
+      className="group inline-flex items-center gap-1.5 font-sans text-sm transition-colors hover:text-foreground"
       aria-label={copied ? "Email copied!" : `Copy email: ${emailDecoded}`}
     >
       <span className="underline-offset-4 group-hover:underline">
@@ -165,7 +165,7 @@ function InfoRow({
   return (
     <div
       className={cn(
-        "flex items-stretch font-mono text-sm",
+        "flex items-stretch font-sans text-sm",
         "transition-colors hover:bg-muted/20",
         !isLast && "border-b border-edge"
       )}

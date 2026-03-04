@@ -13,6 +13,7 @@ import { getAllWorks, getWorkBySlug } from "@/features/work/lib/works";
 import { findNeighbour, getPostBySlug } from "@/features/work/data/posts";
 import { Prose } from "@/components/ui/typography";
 import { InlineTOC } from "@/components/inline-toc";
+import { FloatingTOC } from "@/components/floating-toc";
 import { MDX } from "@/components/mdx";
 import { cn } from "@/lib/utils";
 import { Post } from "@/features/work/types/work-post";
@@ -128,9 +129,9 @@ export default async function Page({
           variant="link"
           asChild
         >
-          <Link href="/">
+          <Link href="/work">
             <ArrowLeftIcon />
-            Work
+            Works
           </Link>
         </Button>
 
@@ -138,12 +139,12 @@ export default async function Page({
           {previous && (
             <Tooltip>
               <TooltipTrigger asChild>
-                <Button variant="secondary" size="icon:sm" className="rounded-none" asChild>
-                  <Link href={`/work/${previous.slug}`}>
+                <Link href={`/work/${previous.slug}`} className="rounded-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring">
+                  <kbd className="pointer-events-none flex h-5 min-w-6 items-center justify-center gap-1 rounded-sm bg-black/5 px-1 font-sans text-[13px] font-normal text-muted-foreground shadow-[inset_0_-1px_2px] shadow-black/10 select-none dark:bg-white/10 dark:shadow-white/10 dark:text-shadow-xs [&_svg:not([class*='size-'])]:size-3">
                     <ArrowLeftIcon />
                     <span className="sr-only">Previous: {previous.metadata.title}</span>
-                  </Link>
-                </Button>
+                  </kbd>
+                </Link>
               </TooltipTrigger>
               <TooltipContent className="flex items-center gap-2">
                 <Kbd>←</Kbd>
@@ -155,12 +156,12 @@ export default async function Page({
           {next && (
             <Tooltip>
               <TooltipTrigger asChild>
-                <Button variant="secondary" size="icon:sm" className="rounded-none" asChild>
-                  <Link href={`/work/${next.slug}`}>
+                <Link href={`/work/${next.slug}`} className="rounded-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring">
+                  <kbd className="pointer-events-none flex h-5 min-w-6 items-center justify-center gap-1 rounded-sm bg-black/5 px-1 font-sans text-[13px] font-normal text-muted-foreground shadow-[inset_0_-1px_2px] shadow-black/10 select-none dark:bg-white/10 dark:shadow-white/10 dark:text-shadow-xs [&_svg:not([class*='size-'])]:size-3">
                     <ArrowRightIcon />
                     <span className="sr-only">Next: {next.metadata.title}</span>
-                  </Link>
-                </Button>
+                  </kbd>
+                </Link>
               </TooltipTrigger>
               <TooltipContent className="flex items-center gap-2">
                 <span>{next.metadata.title}</span>
@@ -182,18 +183,23 @@ export default async function Page({
       </div>
 
       <Prose className="px-4">
-        <h1 className="border-b border-edge pb-6 mb-6 font-semibold">
-          {work.metadata.title}
-        </h1>
+        <div className="-mx-4 px-4 pb-4 mb-4 pt-4 not-prose">
+          <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-foreground mb-2">
+            {work.metadata.title}
+          </h1>
+          <p className="text-base text-muted-foreground text-balance mb-6">
+            {work.metadata.description}
+          </p>
+          <InlineTOC items={toc} />
+        </div>
 
-        <p className="lead mt-6 mb-6">{work.metadata.description}</p>
-
-        <InlineTOC items={toc} />
 
         <div>
           <MDX code={work.content} />
         </div>
       </Prose>
+
+      <FloatingTOC items={toc} />
 
       <div className="border-t border-edge h-4 w-full" />
     </>

@@ -12,6 +12,7 @@ import { getAllBlogs, getBlogBySlug } from "@/features/blog/lib/blogs";
 import { findBlogNeighbour, getBlogPostBySlug } from "@/features/blog/data/posts";
 import { Prose } from "@/components/ui/typography";
 import { InlineTOC } from "@/components/inline-toc";
+import { FloatingTOC } from "@/components/floating-toc";
 import { MDX } from "@/components/mdx";
 import { cn } from "@/lib/utils";
 import { BlogPost } from "@/features/blog/types/blog-post";
@@ -124,7 +125,7 @@ export default async function Page({
             />
             <div className="flex items-center justify-between p-2 pl-4">
                 <Button
-                    className="h-7 gap-2 rounded-lg px-0 font-mono text-muted-foreground"
+                    className="h-7 gap-2 rounded-lg px-0 font-sans text-muted-foreground"
                     variant="link"
                     asChild
                 >
@@ -137,21 +138,21 @@ export default async function Page({
                 <div className="flex items-center gap-2">
 
                     {previous && (
-                        <Button variant="secondary" size="icon:sm" asChild>
-                            <Link href={`/blog/${previous.slug}`}>
+                        <Link href={`/blog/${previous.slug}`} className="rounded-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring">
+                            <kbd className="pointer-events-none flex h-5 min-w-6 items-center justify-center gap-1 rounded-sm bg-black/5 px-1 font-sans text-[13px] font-normal text-muted-foreground shadow-[inset_0_-1px_2px] shadow-black/10 select-none dark:bg-white/10 dark:shadow-white/10 dark:text-shadow-xs [&_svg:not([class*='size-'])]:size-3">
                                 <ArrowLeftIcon />
                                 <span className="sr-only">Previous</span>
-                            </Link>
-                        </Button>
+                            </kbd>
+                        </Link>
                     )}
 
                     {next && (
-                        <Button variant="secondary" size="icon:sm" asChild>
-                            <Link href={`/blog/${next.slug}`}>
+                        <Link href={`/blog/${next.slug}`} className="rounded-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring">
+                            <kbd className="pointer-events-none flex h-5 min-w-6 items-center justify-center gap-1 rounded-sm bg-black/5 px-1 font-sans text-[13px] font-normal text-muted-foreground shadow-[inset_0_-1px_2px] shadow-black/10 select-none dark:bg-white/10 dark:shadow-white/10 dark:text-shadow-xs [&_svg:not([class*='size-'])]:size-3">
                                 <span className="sr-only">Next</span>
                                 <ArrowRightIcon />
-                            </Link>
-                        </Button>
+                            </kbd>
+                        </Link>
                     )}
                 </div>
             </div>
@@ -306,6 +307,8 @@ export default async function Page({
                     <MDX code={blog.content} />
                 </div>
             </Prose>
+
+            <FloatingTOC items={toc} />
 
             <div className="border-t border-edge h-4 w-full" />
         </>

@@ -8,30 +8,24 @@ export function NotFound({ className }: { className?: string }) {
   return (
     <div
       className={cn(
-        "flex h-[calc(100svh-5.5rem)] flex-col items-center justify-center",
+        "relative flex h-[calc(100svh-5.5rem)] w-full flex-col items-center justify-center border-x border-edge px-6 text-center",
+        "before:absolute before:inset-0 before:-z-1 before:h-full before:w-full",
+        "before:bg-[repeating-linear-gradient(315deg,var(--pattern-foreground)_0,var(--pattern-foreground)_1px,transparent_0,transparent_50%)] before:bg-size-[10px_10px] before:[--pattern-foreground:var(--color-edge)]/56",
         className
       )}
     >
-      <svg
-        className="h-28 w-full text-border"
-        xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 514 258"
-        fill="none"
-      >
-        <path
-          d="M65 193v64h128v-64H65Zm0 0H1V65h64m0 128V65m384 0H321v128h128m0-128V1H257v256h192v-64m0-128v128m0-128h64v128h-64M65 65h128V1H65v64Z"
-          stroke="currentColor"
-          strokeWidth="1"
-          vectorEffect="non-scaling-stroke"
-        />
-      </svg>
+      <h1 className="font-sans text-[10rem] font-bold leading-none tracking-tighter md:text-[15rem]">
+        404
+      </h1>
+      <p className="mt-4 max-w-[500px] text-lg text-muted-foreground md:text-xl">
+        Congratulations, you&apos;ve found a page that doesn&apos;t exist.
+        <br />
+        &nbsp;and also a rounded button.
+      </p>
 
-      <h1 className="mt-8 mb-6 font-mono text-8xl font-medium">404</h1>
-
-      <Button variant="default" className="rounded-none" asChild>
+      <Button variant="default" className="mt-8 rounded-full" asChild>
         <Link href="/">
-          Go to Home
-          <ArrowRightIcon />
+          Go home
         </Link>
       </Button>
     </div>

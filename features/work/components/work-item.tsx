@@ -60,7 +60,7 @@ export function WorkItem({
           <div className="pointer-events-none absolute inset-0 rounded-none ring-1 ring-black/10 ring-inset dark:ring-white/10" />
 
           {metadata.new && (
-            <span className="absolute top-2 right-2 rounded-md bg-info px-1.5 font-mono text-sm font-medium text-white text-shadow-xs">
+            <span className="absolute top-2 right-2 rounded-md bg-info px-1.5 font-sans text-sm font-medium text-white text-shadow-xs">
               New
             </span>
           )}
