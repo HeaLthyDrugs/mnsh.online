@@ -58,9 +58,14 @@ export function EventItem({
 
                 {/* Title */}
                 <h3 className={cn(
-                    "text-sm md:text-base lg:text-lg font-semibold leading-snug text-balance line-clamp-2 transition-colors",
-                    event.textColor || "text-foreground",
-                    hasBackgroundImage && !event.textColor && "text-white"
+                    "absolute top-3 left-3 z-20 font-sans font-bold text-muted-foreground",
+                    // Smooth transition
+                    "transition-all duration-300 ease-out",
+                    // Mobile: always visible, Desktop: show on hover
+                    "md:opacity-0 md:-translate-y-2",
+                    "md:group-hover/event:opacity-100 md:group-hover/event:translate-y-0",
+                    // Focus state
+                    "focus:outline-none focus:ring-2 focus:ring-white/30"
                 )}>
                     {event.title}
                 </h3>

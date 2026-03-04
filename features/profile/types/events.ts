@@ -29,8 +29,9 @@ export type Event = {
      * - wide: Wide (1 col on mobile, 2 cols on md, 3 cols on lg)
      * - tall: Tall (1 col, spans 2 rows)
      * - xl: Extra large (spans 2 cols and 2 rows on desktop)
+     * - hero: Hero size (spans 4 cols on desktop, 2 rows)
      */
-    size?: 'xs' | 'small' | 'medium' | 'large' | 'wide' | 'tall' | 'xl';
+    size?: 'xs' | 'small' | 'medium' | 'large' | 'wide' | 'tall' | 'xl' | 'hero';
     /** Custom gradient overlay for background image (e.g., "from-blue-900/80 to-purple-900/80") */
     gradientOverlay?: string;
     /** Custom text color for title and content */

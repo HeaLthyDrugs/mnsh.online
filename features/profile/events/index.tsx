@@ -23,13 +23,15 @@ const sizeToGridClasses: Record<string, string> = {
     tall: "col-span-1 md:col-span-2 row-span-2",
     // xl: 2 cols mobile, 2 cols tablet, 3 cols desktop, 2 rows
     xl: "col-span-2 md:col-span-2 lg:col-span-3 row-span-2",
+    // hero: 2 cols mobile, 4 cols tablet, 4 cols desktop, 2 rows
+    hero: "col-span-2 md:col-span-4 lg:col-span-4 row-span-2",
 };
 
 // Music player grid placement — portrait tall card
 const MUSIC_PLAYER_CLASSES = "col-span-2 md:col-span-2 row-span-2";
 
 // Index in the events array where we insert the music player
-const MUSIC_PLAYER_POSITION = 5;
+const MUSIC_PLAYER_POSITION = 1;
 
 export default function Events() {
     return (
