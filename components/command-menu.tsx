@@ -14,6 +14,8 @@ import {
   TextIcon,
   TriangleDashedIcon,
   TypeIcon,
+  ArrowUpDownIcon,
+  ArrowUpRightIcon,
 } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -57,7 +59,7 @@ type CommandLinkItem = {
 
 const MENU_LINKS: CommandLinkItem[] = [
   {
-    title: "Daifolio",
+    title: "Me",
     href: "/",
     icon: MnshMark,
   },
@@ -67,22 +69,17 @@ const MENU_LINKS: CommandLinkItem[] = [
     icon: RssIcon,
   },
   {
-    title: "Components",
-    href: "/components",
+    title: "Gear",
+    href: "/gear",
     icon: Icons.react,
   },
 ];
 
-const DAIFOLIO_LINKS: CommandLinkItem[] = [
+const ME_LINKS: CommandLinkItem[] = [
   {
     title: "About",
     href: "/#about",
     icon: LetterTextIcon,
-  },
-  {
-    title: "Tech Stack",
-    href: "/#stack",
-    icon: Icons.ts,
   },
   {
     title: "Experience",
@@ -90,24 +87,9 @@ const DAIFOLIO_LINKS: CommandLinkItem[] = [
     icon: BriefcaseBusinessIcon,
   },
   {
-    title: "Projects",
+    title: "Works & Projects",
     href: "/#projects",
     icon: Icons.project,
-  },
-  {
-    title: "Honors & Awards",
-    href: "/#awards",
-    icon: Icons.award,
-  },
-  {
-    title: "Certifications",
-    href: "/#certs",
-    icon: Icons.certificate,
-  },
-  {
-    title: "Download vCard",
-    href: "/vcard",
-    icon: CircleUserIcon,
   },
 ];
 
@@ -126,6 +108,7 @@ export function CommandMenu({ posts = [] }: { posts?: Post[] }) {
   const { setTheme, resolvedTheme } = useTheme();
 
   const [open, setOpen] = useState(false);
+  const [isModifierKeyPressed, setIsModifierKeyPressed] = useState(false);
 
   /* eslint-disable-next-line react-hooks/exhaustive-deps */
   const playOpen = useSound("/sounds/menu-open.wav");
@@ -135,6 +118,26 @@ export function CommandMenu({ posts = [] }: { posts?: Post[] }) {
       playOpen();
     }
   }, [open]);
+
+  useEffect(() => {
+    const downHandler = (e: KeyboardEvent) => {
+      if (e.ctrlKey || e.metaKey) setIsModifierKeyPressed(true);
+    };
+    const upHandler = (e: KeyboardEvent) => {
+      if (!e.ctrlKey && !e.metaKey) setIsModifierKeyPressed(false);
+    };
+    const resetHandler = () => setIsModifierKeyPressed(false);
+
+    window.addEventListener("keydown", downHandler);
+    window.addEventListener("keyup", upHandler);
+    window.addEventListener("blur", resetHandler);
+
+    return () => {
+      window.removeEventListener("keydown", downHandler);
+      window.removeEventListener("keyup", upHandler);
+      window.removeEventListener("blur", resetHandler);
+    };
+  }, []);
 
   useEffect(() => {
     const abortController = new AbortController();
@@ -167,13 +170,13 @@ export function CommandMenu({ posts = [] }: { posts?: Post[] }) {
     (href: string, openInNewTab = false) => {
       setOpen(false);
 
-      if (openInNewTab) {
+      if (openInNewTab || isModifierKeyPressed) {
         window.open(href, "_blank", "noopener");
       } else {
         router.push(href);
       }
     },
-    [router]
+    [router, isModifierKeyPressed]
   );
 
   const handleCopyText = useCallback((text: string, message: string) => {
@@ -241,7 +244,13 @@ export function CommandMenu({ posts = [] }: { posts?: Post[] }) {
         </CommandMenuKbd>
       </Button>
 
-      <CommandDialog open={open} onOpenChange={setOpen}>
+      <CommandDialog
+        open={open}
+        onOpenChange={setOpen}
+        commandProps={{
+          onValueChange: () => playHover(),
+        }}
+      >
         <CommandInput placeholder="Type to search" />
 
         <CommandList className="min-h-80">
@@ -253,30 +262,33 @@ export function CommandMenu({ posts = [] }: { posts?: Post[] }) {
             onLinkSelect={handleOpenLink}
             playHover={playHover}
             playTap={playTap}
+            isModifierKeyPressed={isModifierKeyPressed}
           />
 
           <CommandSeparator />
 
           <CommandLinkGroup
             heading="Others"
-            links={DAIFOLIO_LINKS}
+            links={ME_LINKS}
             onLinkSelect={handleOpenLink}
             playHover={playHover}
             playTap={playTap}
+            isModifierKeyPressed={isModifierKeyPressed}
           />
 
           <CommandSeparator />
 
-          <CommandLinkGroup
+          {/* <CommandLinkGroup
             heading="Blogs"
             links={blogLinks}
             fallbackIcon={TextIcon}
             onLinkSelect={handleOpenLink}
             playHover={playHover}
             playTap={playTap}
+            isModifierKeyPressed={isModifierKeyPressed}
           />
 
-          <CommandSeparator />
+          <CommandSeparator /> */}
 
           <CommandLinkGroup
             heading="Social Links"
@@ -284,6 +296,7 @@ export function CommandMenu({ posts = [] }: { posts?: Post[] }) {
             onLinkSelect={handleOpenLink}
             playHover={playHover}
             playTap={playTap}
+            isModifierKeyPressed={isModifierKeyPressed}
           />
 
           <CommandSeparator />
@@ -291,6 +304,7 @@ export function CommandMenu({ posts = [] }: { posts?: Post[] }) {
           <CommandGroup heading="Theme">
             <CommandItem
               onMouseEnter={playHover}
+              value="Light"
               keywords={["theme"]}
               onSelect={() => {
                 playTap();
@@ -302,6 +316,7 @@ export function CommandMenu({ posts = [] }: { posts?: Post[] }) {
             </CommandItem>
             <CommandItem
               onMouseEnter={playHover}
+              value="Dark"
               keywords={["theme"]}
               onSelect={() => {
                 playTap();
@@ -313,6 +328,7 @@ export function CommandMenu({ posts = [] }: { posts?: Post[] }) {
             </CommandItem>
             <CommandItem
               onMouseEnter={playHover}
+              value="Auto"
               keywords={["theme"]}
               onSelect={() => {
                 playTap();
@@ -338,6 +354,7 @@ function CommandLinkGroup({
   onLinkSelect,
   playHover,
   playTap,
+  isModifierKeyPressed,
 }: {
   heading: string;
   links: CommandLinkItem[];
@@ -345,6 +362,7 @@ function CommandLinkGroup({
   onLinkSelect: (href: string, openInNewTab?: boolean) => void;
   playHover: () => void;
   playTap: () => void;
+  isModifierKeyPressed: boolean;
 }) {
   return (
     <CommandGroup heading={heading}>
@@ -355,6 +373,7 @@ function CommandLinkGroup({
           <CommandItem
             onMouseEnter={playHover}
             key={link.href}
+            value={link.title}
             keywords={link.keywords}
             onSelect={() => {
               playTap();
@@ -374,6 +393,38 @@ function CommandLinkGroup({
               <Icon />
             )}
             {link.title}
+
+            <div className="ml-auto flex items-center gap-2 opacity-0 transition-opacity group-data-[selected=true]:opacity-100">
+              <CommandMenuKbd
+                className={cn(
+                  "relative transition-all duration-300"
+                )}
+              >
+                {/* Enter Action */}
+                <span
+                  className={cn(
+                    "absolute inset-0 flex items-center justify-center transition-all duration-300",
+                    isModifierKeyPressed || link.openInNewTab
+                      ? "opacity-0 scale-75 pointer-events-none"
+                      : "opacity-100 scale-100"
+                  )}
+                >
+                  <CornerDownLeftIcon />
+                </span>
+
+                {/* Open in New Tab Action */}
+                <span
+                  className={cn(
+                    "absolute inset-0 flex items-center justify-center gap-1 transition-all duration-300 whitespace-nowrap",
+                    isModifierKeyPressed || link.openInNewTab
+                      ? "opacity-100 scale-100"
+                      : "opacity-0 scale-75 pointer-events-none"
+                  )}
+                >
+                  <ArrowUpRightIcon />
+                </span>
+              </CommandMenuKbd>
+            </div>
           </CommandItem>
         );
       })}
@@ -381,80 +432,38 @@ function CommandLinkGroup({
   );
 }
 
-type CommandKind = "command" | "page" | "link";
-
-type CommandMetaMap = Map<
-  string,
-  {
-    commandKind: CommandKind;
-  }
->;
-
-function buildCommandMetaMap() {
-  const commandMetaMap: CommandMetaMap = new Map();
-
-  commandMetaMap.set("Download vCard", { commandKind: "command" });
-
-  commandMetaMap.set("Light", { commandKind: "command" });
-  commandMetaMap.set("Dark", { commandKind: "command" });
-  commandMetaMap.set("Auto", { commandKind: "command" });
-
-  commandMetaMap.set("Copy Mark as SVG", {
-    commandKind: "command",
-  });
-  commandMetaMap.set("Copy Logotype as SVG", {
-    commandKind: "command",
-  });
-  commandMetaMap.set("Download Brand Assets", {
-    commandKind: "command",
-  });
-
-  SOCIAL_LINK_ITEMS.forEach((item) => {
-    commandMetaMap.set(item.title, {
-      commandKind: "link",
-    });
-  });
-
-  return commandMetaMap;
-}
-
-const COMMAND_META_MAP = buildCommandMetaMap();
-
-const ENTER_ACTION_LABELS: Record<CommandKind, string> = {
-  command: "Run Command",
-  page: "Go to Page",
-  link: "Open Link",
-};
-
 function CommandMenuFooter() {
-  const selectedCommandKind = useCommandState(
-    (state) => COMMAND_META_MAP.get(state.value)?.commandKind ?? "page"
-  );
-
   return (
     <>
       <div className="flex h-10" />
 
-      <div className="absolute inset-x-0 bottom-0 flex h-10 items-center justify-between border-t border-border bg-zinc-100/30 text-xs font-medium dark:bg-zinc-800/30">
-        <div className="flex h-full w-12 items-center justify-center border-r border-border">
-          <MnshMark
-            className="size-7 text-muted-foreground transition-colors duration-300 hover:text-foreground"
-            aria-hidden
-          />
-        </div>
-
+      <div className="absolute inset-x-0 bottom-0 flex h-10 items-center justify-end border-t border-border bg-zinc-100/30 text-xs font-medium dark:bg-zinc-800/30">
         <div className="flex-1" />
 
-        <div className="flex h-full items-center border-l border-border px-4 gap-2">
-          <span>{ENTER_ACTION_LABELS[selectedCommandKind]}</span>
+        <div className="hidden h-full items-center border-l border-border px-4 gap-2 sm:flex">
+          <CommandMenuKbd>
+            <ArrowUpDownIcon />
+          </CommandMenuKbd>
+          <span className="text-muted-foreground">Select</span>
+        </div>
+
+        <div className="hidden h-full items-center border-l border-border px-4 gap-2 sm:flex">
           <CommandMenuKbd>
             <CornerDownLeftIcon />
           </CommandMenuKbd>
+          <span className="text-muted-foreground">Open</span>
+        </div>
+
+        <div className="hidden h-full items-center border-l border-border px-4 gap-2 sm:flex">
+          <CommandMenuKbd>
+            Ctrl <CornerDownLeftIcon />
+          </CommandMenuKbd>
+          <span className="text-muted-foreground">Open in new tab</span>
         </div>
 
         <div className="flex h-full items-center border-l border-border px-4 gap-2">
-          <span className="text-muted-foreground">Exit</span>
           <CommandMenuKbd>Esc</CommandMenuKbd>
+          <span className="text-muted-foreground">Exit</span>
         </div>
       </div>
     </>
