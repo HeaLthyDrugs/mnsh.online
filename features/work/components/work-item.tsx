@@ -7,7 +7,6 @@ import Image from "next/image";
 import { Tag } from "@/components/ui/tag";
 import { Icons } from "@/components/icons";
 import { ArrowUpRight } from "lucide-react";
-import { Button, buttonVariants } from "@/components/ui/button";
 import { SimpleTooltip } from "@/components/ui/tooltip";
 
 /**
@@ -26,6 +25,22 @@ function getProjectTypeIcon(projectType?: string) {
   }
 }
 
+function getStatusConfig(status?: string) {
+  switch (status) {
+    case "Completed":
+      return { label: "Finished", dotClass: "bg-zinc-400 dark:bg-zinc-500", desc: "This project has been completed." };
+    case "In Progress":
+      return { label: "Working", dotClass: "bg-amber-500", pingClass: "bg-amber-500", desc: "Actively working on this project." };
+    case "Maintained":
+      return { label: "Operational", dotClass: "bg-emerald-500", pingClass: "bg-emerald-500", desc: "All systems are operational and maintained." };
+    case "Archived":
+      return { label: "Archived", dotClass: "bg-muted-foreground", desc: "This project is archived and no longer maintained." };
+    default:
+      if (status) return { label: status, dotClass: "bg-muted-foreground", desc: `Status: ${status}` };
+      return null;
+  }
+}
+
 export function WorkItem({
   work,
   shouldPreloadImage,
@@ -40,12 +55,11 @@ export function WorkItem({
       href={`/work/${work.slug}`}
       className={cn(
         "group/post relative flex flex-col gap-4 p-2",
-        "max-sm:border-y max-sm:border-edge",
-        "sm:nth-[2n+1]:border-y sm:nth-[2n+1]:border-edge"
+        "border-y border-edge"
       )}
     >
       {metadata.image && (
-        <div className="relative select-none">
+        <div className="relative select-none block">
           <Image
             src={metadata.image}
             alt={metadata.title}
@@ -64,11 +78,12 @@ export function WorkItem({
               New
             </span>
           )}
+
         </div>
       )}
 
       <div className="flex flex-1 flex-col justify-between gap-3 px-1">
-        <div className="flex flex-col gap-1">
+        <div className="flex flex-col gap-2">
           <div className="flex flex-col gap-1">
             <h3 className="text-lg font-medium leading-tight tracking-tight text-foreground underline-offset-4 group-hover/post:underline">
               {metadata.title}
@@ -81,57 +96,63 @@ export function WorkItem({
             </p>
           )}
         </div>
-
-        {(metadata.liveUrl || metadata.repoUrl) && (
-          <div className="flex items-center gap-2">
-            <div
-              className={cn(
-                buttonVariants({
-                  size: "sm",
-                  variant: "secondary",
-                  className:
-                    "gap-0 divide-x px-0 font-sans active:scale-none dark:divide-white/10 rounded-none hover:rounded-none focus:rounded-none w-fit",
-                })
-              )}
-            >
-              {metadata.repoUrl && (
-                <SimpleTooltip content="View Source">
-                  <button
-                    type="button"
-                    className="flex size-7 items-center justify-center transition-colors hover:bg-muted/50 rounded-none outline-none disabled:opacity-50"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      e.stopPropagation();
-                      window.open(metadata.repoUrl, "_blank");
-                    }}
-                  >
-                    <Icons.github className="size-3.5" />
-                    <span className="sr-only">View Source for {metadata.title}</span>
-                  </button>
-                </SimpleTooltip>
-              )}
-
-              {metadata.liveUrl && (
-                <SimpleTooltip content="Preview Live Site">
-                  <button
-                    type="button"
-                    className="flex size-7 items-center justify-center transition-colors hover:bg-muted/50 rounded-none outline-none disabled:opacity-50"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      e.stopPropagation();
-                      window.open(metadata.liveUrl, "_blank");
-                    }}
-                  >
-                    <ArrowUpRight className="size-3.5" />
-                    <span className="sr-only">Preview Live Site for {metadata.title}</span>
-                  </button>
-                </SimpleTooltip>
-              )}
-            </div>
-          </div>
-        )}
       </div>
+
+      {(metadata.liveUrl || metadata.repoUrl || metadata.status) && (
+        <div className="mt-auto flex w-fit items-center gap-0 divide-x divide-edge border border-edge bg-background">
+          {metadata.status && (() => {
+            const statusConfig = getStatusConfig(metadata.status);
+            if (!statusConfig) return null;
+            return (
+              <SimpleTooltip content={statusConfig.desc}>
+                <div className="flex h-8 items-center gap-2 px-3 text-xs font-medium text-muted-foreground select-none transition-colors hover:bg-muted/30 hover:text-foreground cursor-help">
+                  <span className="relative flex size-2 shrink-0">
+                    {statusConfig.pingClass && (
+                      <span className={cn("absolute inline-flex h-full w-full animate-ping rounded-full opacity-75", statusConfig.pingClass)}></span>
+                    )}
+                    <span className={cn("relative inline-flex size-2 rounded-full", statusConfig.dotClass)}></span>
+                  </span>
+                  <span className="truncate">{statusConfig.label}</span>
+                </div>
+              </SimpleTooltip>
+            );
+          })()}
+
+          {metadata.repoUrl && (
+            <SimpleTooltip content="View Source">
+              <button
+                type="button"
+                className="flex h-8 items-center px-3 text-muted-foreground transition-colors hover:bg-muted/50 hover:text-foreground cursor-pointer outline-none"
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  window.open(metadata.repoUrl, "_blank", "noopener,noreferrer");
+                }}
+              >
+                <Icons.github className="size-4" />
+                <span className="sr-only">View Source for {metadata.title}</span>
+              </button>
+            </SimpleTooltip>
+          )}
+
+          {metadata.liveUrl && (
+            <SimpleTooltip content="Preview Live Site">
+              <button
+                type="button"
+                className="flex h-8 items-center px-3 text-muted-foreground transition-colors hover:bg-muted/50 hover:text-foreground cursor-pointer outline-none"
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  window.open(metadata.liveUrl, "_blank", "noopener,noreferrer");
+                }}
+              >
+                <ArrowUpRight className="size-4" />
+                <span className="sr-only">Preview Live Site for {metadata.title}</span>
+              </button>
+            </SimpleTooltip>
+          )}
+        </div>
+      )}
     </Link>
   );
 }
-
