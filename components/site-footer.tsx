@@ -19,10 +19,10 @@ export function SiteFooter() {
         <div className="flex flex-col">
           {/* Headline & Timezone */}
           <div className="py-8 px-4 space-y-4">
-            <h3 className="text-3xl md:text-3xl font-heading text-muted-foreground/80 leading-tight">
+            <h3 className="text-3xl md:text-3xl font-heading text-muted-foreground leading-tight">
               Got anything in mind ?
             </h3>
-            <p className="text-sm text-muted-foreground max-w-md leading-relaxed">
+            <p className="text-sm text-muted-foreground/80 max-w-md leading-relaxed">
               I&apos;m always open to interesting conversations — whether it&apos;s about building something together, sharing ideas, or just saying hello.
             </p>
 

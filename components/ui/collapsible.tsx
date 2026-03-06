@@ -68,4 +68,5 @@ export {
   CollapsibleContent,
   CollapsibleTrigger,
   CollapsibleWithContext,
+  useCollapsible,
 };

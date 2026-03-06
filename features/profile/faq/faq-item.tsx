@@ -1,4 +1,3 @@
-import { MinusIcon, PlusIcon } from "lucide-react";
 import Image from "next/image";
 
 import { Markdown } from "@/components/markdown";
@@ -10,6 +9,7 @@ import {
 import { ProseMono } from "@/components/ui/typography";
 import { USER } from "../data/user";
 import { Faq } from "../types/faq";
+import { FaqAnimatedIcon } from "./faq-animated-icon";
 
 export function FaqItem({
     className,
@@ -24,19 +24,13 @@ export function FaqItem({
                 <CollapsibleTrigger className="group/faq flex w-full items-center gap-4 p-3 text-left hover:bg-accent2 transition-colors duration-200">
                     {/* Question Text */}
                     <div className="flex-1 min-w-0">
-                        <h3 className="text-base font-semibold leading-snug text-foreground/90">
+                        <h3 className="text-base font-regular leading-snug text-foreground/90">
                             {faq.question}
                         </h3>
                     </div>
 
                     {/* Plus/Minus Icon */}
-                    <div
-                        className="shrink-0 flex items-center justify-center size-6 rounded-full text-muted-foreground/70"
-                        aria-hidden
-                    >
-                        <PlusIcon className="size-4 block group-data-[state=open]/faq:hidden" />
-                        <MinusIcon className="size-4 hidden group-data-[state=open]/faq:block" />
-                    </div>
+                    <FaqAnimatedIcon />
                 </CollapsibleTrigger>
 
                 <CollapsibleContent className="group overflow-hidden duration-300 data-[state=closed]:animate-collapsible-up data-[state=open]:animate-collapsible-down">

@@ -14,6 +14,7 @@ import WhatIDo from "@/features/profile/what-i-do";
 import Events from "@/features/profile/events";
 import Faq from "@/features/profile/faq";
 import Blog from "@/features/profile/blog";
+import AnimatedScene from "@/features/Scene/page";
 
 
 
@@ -29,7 +30,7 @@ export default function Page() {
       />
       <div className="mx-auto md:max-w-3xl">
         {/* Animated Scene  */}
-        {/* <AnimatedScene /> */}
+        <AnimatedScene />
 
         {/* Profile Header  */}
         <ProfileHeader />
