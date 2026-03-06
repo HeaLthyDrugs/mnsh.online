@@ -14,12 +14,14 @@ import { Prose } from "@/components/ui/typography";
 import { InlineTOC } from "@/components/inline-toc";
 import { FloatingTOC } from "@/components/floating-toc";
 import { MDX } from "@/components/mdx";
+import { MDXViewer } from "@/components/mdx-viewer";
 import { cn } from "@/lib/utils";
 import { BlogPost } from "@/features/blog/types/blog-post";
 import { SITE_INFO } from "@/config/site";
 import { USER } from "@/features/profile/data/user";
 import { BlogCoverActions } from "@/features/blog/components/blog-cover-actions";
 import { KeyboardNavigation } from "@/components/keyboard-navigation";
+import { LLMCopyButtonWithViewOptions } from "@/components/post-page-actions";
 
 
 export async function generateStaticParams() {
@@ -135,7 +137,11 @@ export default async function Page({
                     </Link>
                 </Button>
 
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2 z-10 relative">
+                    <LLMCopyButtonWithViewOptions
+                        markdownUrl={`/blog/${blog.slug}`}
+                        isComponent={false}
+                    />
 
                     {previous && (
                         <Link href={`/blog/${previous.slug}`} className="rounded-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring">
@@ -303,7 +309,8 @@ export default async function Page({
 
                 <InlineTOC items={toc} />
 
-                <div>
+                <div className="mt-8">
+
                     <MDX code={blog.content} />
                 </div>
             </Prose>

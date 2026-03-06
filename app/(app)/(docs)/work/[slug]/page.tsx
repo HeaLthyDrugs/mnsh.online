@@ -15,11 +15,13 @@ import { Prose } from "@/components/ui/typography";
 import { InlineTOC } from "@/components/inline-toc";
 import { FloatingTOC } from "@/components/floating-toc";
 import { MDX } from "@/components/mdx";
+import { MDXViewer } from "@/components/mdx-viewer";
 import { cn } from "@/lib/utils";
 import { Post } from "@/features/work/types/work-post";
 import { SITE_INFO } from "@/config/site";
 import { USER } from "@/features/profile/data/user";
 import { KeyboardNavigation } from "@/components/keyboard-navigation";
+import { LLMCopyButtonWithViewOptions } from "@/components/post-page-actions";
 
 
 export async function generateStaticParams() {
@@ -136,6 +138,10 @@ export default async function Page({
         </Button>
 
         <div className="flex items-center gap-1">
+          <LLMCopyButtonWithViewOptions
+            markdownUrl={getPostUrl(work)}
+            isComponent={work.metadata.category === "components"}
+          />
           {previous && (
             <Tooltip>
               <TooltipTrigger asChild>
@@ -193,8 +199,7 @@ export default async function Page({
           <InlineTOC items={toc} />
         </div>
 
-
-        <div>
+        <div className="mt-8">
           <MDX code={work.content} />
         </div>
       </Prose>
