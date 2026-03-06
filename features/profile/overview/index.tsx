@@ -48,7 +48,6 @@ function LocalTime({ timezone, label }: { timezone: string; label: string }) {
 
   return (
     <span className="inline-flex items-center gap-1.5 text-muted-foreground">
-      <ClockIcon size={12} />
       <span className="text-xs">
         {time} {label}
       </span>
@@ -61,7 +60,7 @@ function IconBox({ children }: { children: React.ReactNode }) {
   return (
     <div
       className={cn(
-        "flex size-8 shrink-0 items-center justify-center",
+        "flex size-7 shrink-0 items-center justify-center",
         "bg-gradient-to-br from-muted via-muted to-muted/80",
         "relative overflow-hidden",
         "border border-dashed border-muted-foreground/20",
@@ -116,7 +115,7 @@ function CopyableEmail({ email }: { email: string }) {
   return (
     <button
       onClick={handleCopy}
-      className="group inline-flex items-center gap-1.5 font-sans text-sm transition-colors hover:text-foreground"
+      className="group inline-flex cursor-pointer items-center gap-1.5 font-sans text-sm transition-colors hover:text-foreground"
       aria-label={copied ? "Email copied!" : `Copy email: ${emailDecoded}`}
     >
       <span className="underline-offset-4 group-hover:underline">
@@ -157,21 +156,24 @@ function InfoRow({
   icon,
   children,
   isLast = false,
+  className,
 }: {
   icon: React.ReactNode;
   children: React.ReactNode;
   isLast?: boolean;
+  className?: string;
 }) {
   return (
     <div
       className={cn(
         "flex items-stretch font-sans text-sm",
         "transition-colors hover:bg-muted/20",
-        !isLast && "border-b border-edge"
+        !isLast && "border-b border-edge",
+        className
       )}
     >
       {/* Icon column */}
-      <div className="flex items-center justify-center px-3 py-3">
+      <div className="flex items-center justify-center px-3 py-2">
         <IconBox>{icon}</IconBox>
       </div>
 
@@ -179,7 +181,7 @@ function InfoRow({
       <div className="w-px self-stretch bg-edge/60" />
 
       {/* Content column */}
-      <div className="flex flex-1 items-center px-4 py-3">
+      <div className="flex flex-1 items-center px-3 py-2">
         {children}
       </div>
     </div>
@@ -199,52 +201,99 @@ export function Overview() {
 
       <PanelContent className="p-0">
         {/* Info list with dividers */}
-        <div>
-          {/* Name */}
-          <InfoRow icon={<UserIcon />}>
-            <p className="text-balance" aria-label={`Name: ${USER.displayName}`}>
-              {USER.fullName}
-            </p>
-          </InfoRow>
-
-          {/* Location + Time */}
-          <InfoRow icon={<MapPinIcon />}>
-            <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
-              <a
-                href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
-                  USER.address
-                )}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="underline-offset-4 hover:underline"
-                aria-label={`Location: ${USER.address}`}
-              >
-                {USER.address}
-              </a>
-              <span className="text-muted-foreground/50">·</span>
-              <LocalTime timezone={USER.timezone} label={USER.localTimeLabel} />
-            </div>
-          </InfoRow>
-
-          {/* Email */}
-          <InfoRow icon={<MailIcon />}>
-            <CopyableEmail email={USER.email} />
-          </InfoRow>
-
-          {/* Website */}
-          {USER.website && (
-            <InfoRow icon={<EarthIcon />} isLast>
-              <a
-                href={USER.website}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="underline-offset-4 hover:underline"
-                aria-label="Portfolio website"
-              >
-                mnsh.online
-              </a>
+        {/* Info list with dividers in grid layout */}
+        <div className="grid grid-cols-1 md:grid-cols-2 md:divide-x divide-edge">
+          {/* Column 1 */}
+          <div className="flex flex-col">
+            {/* Name */}
+            <InfoRow icon={<UserIcon />}>
+              <p className="text-balance" aria-label={`Name: ${USER.displayName}`}>
+                {USER.fullName}
+              </p>
             </InfoRow>
-          )}
+
+            {/* Location + Time */}
+            <InfoRow icon={<MapPinIcon />}>
+              <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
+                <a
+                  href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+                    USER.address
+                  )}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="underline-offset-4 hover:underline"
+                  aria-label={`Location: ${USER.address}`}
+                >
+                  {USER.address}
+                </a>
+              </div>
+            </InfoRow>
+
+            {/* Email */}
+            <InfoRow icon={<MailIcon />}>
+              <CopyableEmail email={USER.email} />
+            </InfoRow>
+
+            {/* Website */}
+            {USER.website && (
+              <InfoRow icon={<EarthIcon />} className="border-b md:border-b-0">
+                <a
+                  href={USER.website}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="underline-offset-4 hover:underline"
+                  aria-label="Portfolio website"
+                >
+                  mnsh.online
+                </a>
+              </InfoRow>
+            )}
+          </div>
+
+          {/* Column 2 */}
+          <div className="flex flex-col">
+            {/* Job Title */}
+            <InfoRow icon={<BriefcaseIcon />}>
+              <p className="text-balance text-foreground/90">
+                {USER.jobTitle}
+              </p>
+            </InfoRow>
+
+            {/* Experience */}
+            <InfoRow icon={<ClockIcon />}>
+              <LocalTime timezone={USER.timezone} label={USER.localTimeLabel} />
+            </InfoRow>
+
+            {/* Status */}
+            <InfoRow
+              icon={
+                <span className="relative flex size-2.5">
+                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75"></span>
+                  <span className="relative inline-flex size-2.5 rounded-full bg-emerald-500"></span>
+                </span>
+              }
+            >
+              <p className="text-balance text-foreground/90 font-medium">
+                {USER.availabilityText}
+              </p>
+            </InfoRow>
+
+            {/* Currently Building */}
+            {USER.currentlyBuilding && (
+              <InfoRow icon={<span className="text-lg leading-none grayscale opacity-80 group-hover:grayscale-0 group-hover:opacity-100 transition-all">🚀</span>} isLast>
+                <div className="flex flex-col space-y-0.5">
+                  <a
+                    href={USER.currentlyBuilding.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="underline-offset-4 hover:underline font-medium text-foreground/90"
+                  >
+                    {USER.currentlyBuilding.name}
+                  </a>
+                </div>
+              </InfoRow>
+            )}
+          </div>
         </div>
       </PanelContent>
     </Panel>

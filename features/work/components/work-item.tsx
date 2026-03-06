@@ -7,7 +7,7 @@ import Image from "next/image";
 import { Tag } from "@/components/ui/tag";
 import { Icons } from "@/components/icons";
 import { ArrowUpRight } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { SimpleTooltip } from "@/components/ui/tooltip";
 
 /**
@@ -60,34 +60,19 @@ export function WorkItem({
           <div className="pointer-events-none absolute inset-0 rounded-none ring-1 ring-black/10 ring-inset dark:ring-white/10" />
 
           {metadata.new && (
-            <span className="absolute top-2 right-2 rounded-md bg-info px-1.5 font-sans text-sm font-medium text-white text-shadow-xs">
+            <span className="absolute top-2 right-2 rounded-none bg-info px-1.5 font-sans text-sm font-medium text-white text-shadow-xs">
               New
             </span>
-          )}
-
-          {metadata.projectType && (
-            <Tag className="absolute bottom-0 left-0 flex items-center gap-1.5 rounded-none bg-background/90 px-2 py-0.5 text-xs font-medium text-foreground backdrop-blur-sm">
-              {getProjectTypeIcon(metadata.projectType)}
-              <span>{metadata.projectType}</span>
-            </Tag>
           )}
         </div>
       )}
 
       <div className="flex flex-1 flex-col justify-between gap-3 px-1">
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-1">
           <div className="flex flex-col gap-1">
             <h3 className="text-lg font-medium leading-tight tracking-tight text-foreground underline-offset-4 group-hover/post:underline">
               {metadata.title}
             </h3>
-
-            <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-sm text-muted-foreground">
-              {metadata.client && (
-                <span>
-                  for <span className="text-foreground/90">{metadata.client}</span>
-                </span>
-              )}
-            </div>
           </div>
 
           {metadata.description && (
@@ -96,25 +81,56 @@ export function WorkItem({
             </p>
           )}
         </div>
-      </div>
 
-      {metadata.liveUrl && (
-        <SimpleTooltip content="Preview Live Site">
-          <Button
-            variant="ghost"
-            size="icon"
-            className="absolute bottom-0 right-0 z-10 size-8 rounded-none cursor-pointer opacity-0 transition-opacity group-hover/post:opacity-100 hover:bg-muted text-muted-foreground hover:text-foreground"
-            onClick={(e) => {
-              e.preventDefault();
-              e.stopPropagation();
-              window.open(metadata.liveUrl, "_blank");
-            }}
-          >
-            <ArrowUpRight className="size-4" />
-            <span className="sr-only">Preview {metadata.title}</span>
-          </Button>
-        </SimpleTooltip>
-      )}
+        {(metadata.liveUrl || metadata.repoUrl) && (
+          <div className="flex items-center gap-2">
+            <div
+              className={cn(
+                buttonVariants({
+                  size: "sm",
+                  variant: "secondary",
+                  className:
+                    "gap-0 divide-x px-0 font-sans active:scale-none dark:divide-white/10 rounded-none hover:rounded-none focus:rounded-none w-fit",
+                })
+              )}
+            >
+              {metadata.repoUrl && (
+                <SimpleTooltip content="View Source">
+                  <button
+                    type="button"
+                    className="flex size-7 items-center justify-center transition-colors hover:bg-muted/50 rounded-none outline-none disabled:opacity-50"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      window.open(metadata.repoUrl, "_blank");
+                    }}
+                  >
+                    <Icons.github className="size-3.5" />
+                    <span className="sr-only">View Source for {metadata.title}</span>
+                  </button>
+                </SimpleTooltip>
+              )}
+
+              {metadata.liveUrl && (
+                <SimpleTooltip content="Preview Live Site">
+                  <button
+                    type="button"
+                    className="flex size-7 items-center justify-center transition-colors hover:bg-muted/50 rounded-none outline-none disabled:opacity-50"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      window.open(metadata.liveUrl, "_blank");
+                    }}
+                  >
+                    <ArrowUpRight className="size-3.5" />
+                    <span className="sr-only">Preview Live Site for {metadata.title}</span>
+                  </button>
+                </SimpleTooltip>
+              )}
+            </div>
+          </div>
+        )}
+      </div>
     </Link>
   );
 }
