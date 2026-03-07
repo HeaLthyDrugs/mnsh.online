@@ -1,6 +1,7 @@
 "use client";
 
 import { CheckIcon, ExternalLinkIcon, RssIcon } from "lucide-react";
+import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 
 import { SITE_INFO, SOURCE_CODE_GITHUB_URL } from "@/config/site";
@@ -61,6 +62,42 @@ export function SiteFooter() {
           )}
         >
           <div className="flex items-center h-11 border-r border-edge bg-background">
+            {/* <SimpleTooltip content="Read my blog">
+              <Link
+                className="flex h-full items-center px-4 text-xs font-medium text-muted-foreground transition-colors hover:text-foreground hover:bg-muted/50 border-r border-edge"
+                href="/blog"
+              >
+                Blog
+              </Link>
+            </SimpleTooltip>
+
+            <SimpleTooltip content="View my works">
+              <Link
+                className="flex h-full items-center px-4 text-xs font-medium text-muted-foreground transition-colors hover:text-foreground hover:bg-muted/50 border-r border-edge"
+                href="/work"
+              >
+                Works
+              </Link>
+            </SimpleTooltip>
+
+            <SimpleTooltip content="My hardware & gear">
+              <Link
+                className="flex h-full items-center px-4 text-xs font-medium text-muted-foreground transition-colors hover:text-foreground hover:bg-muted/50 border-r border-edge"
+                href="/gear"
+              >
+                Gear
+              </Link>
+            </SimpleTooltip>
+
+            <SimpleTooltip content="Tools I use">
+              <Link
+                className="flex h-full items-center px-4 text-xs font-medium text-muted-foreground transition-colors hover:text-foreground hover:bg-muted/50 border-r border-edge"
+                href="/tools"
+              >
+                Tools
+              </Link>
+            </SimpleTooltip> */}
+
             <SimpleTooltip content="LLMs Context File">
               <a
                 className="flex h-full items-center px-4 text-xs font-medium text-muted-foreground transition-colors hover:text-foreground hover:bg-muted/50 border-r border-edge"
