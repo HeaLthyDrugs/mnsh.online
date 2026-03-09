@@ -46,11 +46,11 @@ export function SiteHeader() {
 
         <div className="hidden sm:flex h-full items-center border-l border-border">
           <DesktopNav items={MAIN_NAV} />
-          <MoreOptions />
+          {/* <MoreOptions /> */}
         </div>
 
-        <div className="flex h-full items-center border-l border-border">
-          <div className="flex h-full items-center px-4">
+        <div className="flex h-full items-center border-border">
+          <div className="hidden sm:flex h-full items-center px-4">
             <CommandMenu />
           </div>
           {/* <ToggleTheme /> */}

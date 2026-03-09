@@ -111,8 +111,8 @@ export function SiteFooter() {
 
             <SimpleTooltip content="RSS Feed">
               <a
-                className="flex h-full items-center px-4 text-muted-foreground transition-colors hover:text-foreground hover:bg-muted/50 border-r border-edge"
-                href={`${SITE_INFO.url}/rss`}
+                className="flex h-full items-center px-4 text-muted-foreground transition-colors hover:text-foreground hover:bg-muted/50"
+                href={`${SITE_INFO.url}/rss.xml`}
                 target="_blank"
                 rel="noopener noreferrer"
               >
@@ -121,7 +121,7 @@ export function SiteFooter() {
               </a>
             </SimpleTooltip>
 
-            <SimpleTooltip content="DMCA Protected">
+            {/* <SimpleTooltip content="DMCA Protected">
               <a
                 className="flex h-full items-center px-4 text-muted-foreground transition-colors hover:text-foreground hover:bg-muted/50"
                 href={
@@ -134,7 +134,7 @@ export function SiteFooter() {
                 <Icons.dmca className="h-5 w-auto" />
                 <span className="sr-only">DMCA.com Protection Status</span>
               </a>
-            </SimpleTooltip>
+            </SimpleTooltip> */}
           </div>
 
         </div>
