@@ -232,8 +232,8 @@ export function CommandMenu({ posts = [] }: { posts?: Post[] }) {
           />
         </svg>
 
-        <span className="font-sans text-sm/4 font-medium sm:hidden">
-          Search
+        <span className="mr-8 font-sans text-sm/4 font-medium text-muted-foreground/50">
+          Search...
         </span>
 
         <CommandMenuKbd className="hidden tracking-wider sm:in-[.os-macos_&]:flex">
@@ -251,7 +251,7 @@ export function CommandMenu({ posts = [] }: { posts?: Post[] }) {
           onValueChange: () => playHover(),
         }}
       >
-        <CommandInput placeholder="Type to search" />
+        <CommandInput placeholder="Search for pages, posts, or commands..." />
 
         <CommandList className="min-h-80">
           <CommandEmpty>No results found.</CommandEmpty>
@@ -381,14 +381,17 @@ function CommandLinkGroup({
             }}
           >
             {link?.iconImage ? (
-              <Image
-                className="rounded-sm"
-                src={link.iconImage}
-                alt={link.title}
-                width={16}
-                height={16}
-                unoptimized
-              />
+              <div className="relative size-4 shrink-0">
+                <Image
+                  className="rounded-none"
+                  src={link.iconImage}
+                  alt={link.title}
+                  width={16}
+                  height={16}
+                  unoptimized
+                />
+                <div className="pointer-events-none absolute inset-0 rounded-none ring-1 ring-black/10 ring-inset dark:ring-white/10" />
+              </div>
             ) : (
               <Icon />
             )}
