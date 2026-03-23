@@ -22,7 +22,7 @@ import { SITE_INFO } from "@/config/site";
 import { USER } from "@/features/profile/data/user";
 import { KeyboardNavigation } from "@/components/keyboard-navigation";
 import { LLMCopyButtonWithViewOptions } from "@/components/post-page-actions";
-
+import { WorkCarousel } from "@/features/work/components/work-carousel";
 
 export async function generateStaticParams() {
   const works = getAllWorks();
@@ -190,12 +190,21 @@ export default async function Page({
 
       <Prose className="px-4">
         <div className="-mx-4 px-4 pb-4 mb-4 pt-4 not-prose">
-          <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-foreground mb-2">
+          <h1 className="text-2xl sm:text-2xl font-bold text-foreground mb-2">
             {work.metadata.title}
           </h1>
           <p className="text-base text-muted-foreground text-balance mb-6">
             {work.metadata.description}
           </p>
+        </div>
+
+        {work.metadata.gallery && work.metadata.gallery.length > 0 && (
+          <div className="mb-8 not-prose w-full">
+            <WorkCarousel gallery={work.metadata.gallery} />
+          </div>
+        )}
+
+        <div className="-mx-4 px-4 pb-4 mb-4 not-prose">
           <InlineTOC items={toc} />
         </div>
 

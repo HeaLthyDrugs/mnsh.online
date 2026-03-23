@@ -1,0 +1,76 @@
+---
+title: Stenomitra.com — Stenography Practice Platform
+description: A platform for stenographers practice dictation, take live tests, and track their progress — all in one place.
+image: https://plus.unsplash.com/premium_photo-1672201106204-58e9af7a2888?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D
+status: In Progress
+liveUrl: https://example.com
+repoUrl: https://github.com/example/project
+gallery:
+  - type: video
+    url: https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4
+    thumbnail: https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=2070&auto=format&fit=crop
+  - type: image
+    url: https://images.unsplash.com/photo-1511512578047-dfb367046420?q=80&w=2071&auto=format&fit=crop
+  - type: image
+    url: https://images.unsplash.com/photo-1538481199705-c710c4e965fc?q=80&w=2165&auto=format&fit=crop
+  - type: image
+    url: https://images.unsplash.com/photo-1493711662062-fa541adb3fc8?q=80&w=2070&auto=format&fit=crop
+  - type: image
+    url: https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=2000&auto=format&fit=crop
+---
+
+## Overview
+
+This is an example work project that demonstrates how to use MDX for showcasing your portfolio work.
+
+## The Problem
+
+Stenography students in India rely on coaching centers and offline audio recordings for practice. There is no standardized way to practice dictation at exam-level speeds, get accurate results, or compare performance with peers.
+
+- Practice materials are scattered across WhatsApp groups and local drives.
+- No mechanism exists for real-time feedback on typing accuracy.
+- Students cannot simulate actual exam conditions independently.
+
+## The Solution
+
+StenoMitra is a web platform that digitizes the entire stenography practice workflow.
+
+- **Dictation Engine** — Audio-based dictation exercises at configurable WPM speeds (60–120+), with real-time playback and submission.
+- **Live Tests** — Scheduled, timed tests that simulate real exam conditions with registration, countdown, and automatic result release.
+- **Accuracy Evaluation** — Automated comparison of typed output against original transcription using diff-based algorithms, with word-level error highlighting.
+- **Result Analytics** — Detailed breakdown of accuracy percentage, error count, speed metrics, and AI-generated performance summaries.
+- **Batch System** — Coaching centers can organize students into batches with shared dictation folders and progress visibility.
+- **Leaderboard** — Ranked participant scores per test, driving competitive practice.
+
+## How I Built It
+
+1. **Defined core user flow** — Listen to dictation audio, type along, submit, get scored.
+2. **Built the dictation player** — Custom audio player with speed controls, synced with a text input area and submission pipeline.
+3. **Implemented scoring logic** — Server-side diff matching (Levenshtein + diff-match-patch) to calculate accuracy, errors, and WPM.
+4. **Added live test infrastructure** — Scheduling system with registration windows, time-gated access, and automatic status transitions (upcoming → live → ended → results released).
+5. **Integrated payments** — Razorpay for subscription-based access and paid test entries.
+6. **Deployed with monitoring** — AWS Amplify and Vercel hosting, Sentry for error tracking and performance monitoring.
+
+## Tech Stack Used
+
+| Layer | Technology |
+|---|---|
+| Framework | Next.js 16 (App Router, Turbopack) |
+| Database | Supabase (PostgreSQL) |
+| Auth | Clerk |
+| Payments | Razorpay |
+| Storage | AWS S3 |
+| Video | Mux |
+| AI | Google Generative AI (Gemini) |
+| UI | Tailwind CSS, Radix UI, Framer Motion |
+| Monitoring | Sentry |
+| Hosting | Vercel, AWS Amplify |
+
+## Impact and Results
+
+- **Replaced offline practice** — Students can now practice at exam-standard speeds from any device, at any time.
+- **Live test participation** — Multiple students register and attempt scheduled tests simultaneously, simulating real exam pressure.
+- **Instant, objective scoring** — Automated accuracy evaluation removed manual correction entirely, saving hours per batch.
+- **Batch management adopted by coaching centers** — Instructors organize and monitor student progress through a single dashboard.
+- **PWA support** — Installable on mobile devices, making practice accessible without app store distribution.
+- **Subscription revenue** — Monetized through paid plans and test entries via Razorpay integration.

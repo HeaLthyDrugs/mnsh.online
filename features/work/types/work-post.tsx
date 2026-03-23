@@ -7,6 +7,14 @@ export type PostMetadata = {
    */
   image?: string;
   /**
+   * Image/Video gallery array for the work.
+   */
+  gallery?: {
+    type: "image" | "video";
+    url: string;
+    thumbnail?: string;
+  }[];
+  /**
    * Category identifier/slug used for filtering (see getPostsByCategory).
    */
   category?: string;
