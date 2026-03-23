@@ -16,7 +16,7 @@ export default function Page() {
     const allBlogs = getAllBlogs();
 
     return (
-        <div className="min-h-svh">
+        <div>
             <div className="border-b border-edge px-2 py-2">
                 <h1 className="text-3xl font-semibold font-heading">Blog</h1>
             </div>
@@ -30,8 +30,6 @@ export default function Page() {
             <Suspense fallback={<BlogList posts={allBlogs} />}>
                 <BlogListWithSearch posts={allBlogs} />
             </Suspense>
-
-            <div className="h-4" />
         </div>
     );
 }

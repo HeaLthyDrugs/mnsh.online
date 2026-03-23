@@ -53,7 +53,7 @@ export default function ProfileHeader() {
                     {/* Bio section with rotating text */}
                     <div className="flex flex-col items-start gap-1 border-b border-dashed border-edge px-3 py-3 text-sm sm:flex-row sm:items-center">
                         <span className="text-muted-foreground">
-                            I design and build digital products
+                            I build digital products
                         </span>
                         <div className="relative inline-flex h-5 overflow-hidden">
                             <AnimatePresence mode="popLayout">

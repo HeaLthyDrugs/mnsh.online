@@ -31,7 +31,7 @@ export type Event = {
      * - xl: Extra large (spans 2 cols and 2 rows on desktop)
      * - hero: Hero size (spans 4 cols on desktop, 2 rows)
      */
-    size?: 'xs' | 'small' | 'medium' | 'large' | 'wide' | 'tall' | 'xl' | 'hero';
+    size?: 'xxs' | 'xs' | 'small' | 'medium' | 'large' | 'wide' | 'tall' | 'xl' | 'hero';
     /** Custom gradient overlay for background image (e.g., "from-blue-900/80 to-purple-900/80") */
     gradientOverlay?: string;
     /** Custom text color for title and content */
@@ -40,4 +40,12 @@ export type Event = {
     showImage?: boolean;
     /** Custom background color if no background image */
     backgroundColor?: string;
+    /** Social icon path */
+    icon?: string;
+    /** Short tagline for social links */
+    tagline?: string;
+    /** Whether to show the glassmorphic action button */
+    showActionButton?: boolean;
+    /** Whether to show the title */
+    showTitle?: boolean;
 };

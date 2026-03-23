@@ -7,45 +7,46 @@ import { MusicPlayer } from "./music-player";
 import { cn } from "@/lib/utils";
 
 // Map sizes to CSS grid classes for responsive bento layout
-// Mobile: 2 cols, Tablet: 4 cols, Desktop: 6 cols
+// Doubled resolution for finer control: 1 normal unit = 2 grid units
+// Mobile: 4 cols, Tablet: 8 cols, Desktop: 12 cols
 const sizeToGridClasses: Record<string, string> = {
-    // xs: 1 col on all screens
-    xs: "col-span-1 row-span-1",
-    // small: 1 col on all screens
-    small: "col-span-1 row-span-1",
-    // medium: 1 col mobile, 2 cols tablet+
-    medium: "col-span-1 md:col-span-2 row-span-1",
-    // large: 2 cols mobile, 2 cols tablet, 3 cols desktop
-    large: "col-span-2 lg:col-span-3 row-span-1",
-    // wide: full width on all screens
-    wide: "col-span-2 md:col-span-4 lg:col-span-6 row-span-1",
-    // tall: 1 col mobile, 2 cols tablet+, 2 rows
-    tall: "col-span-1 md:col-span-2 row-span-2",
-    // xl: 2 cols mobile, 2 cols tablet, 3 cols desktop, 2 rows
-    xl: "col-span-2 md:col-span-2 lg:col-span-3 row-span-2",
-    // hero: 2 cols mobile, 4 cols tablet, 4 cols desktop, 2 rows
-    hero: "col-span-2 md:col-span-4 lg:col-span-4 row-span-2",
+    // xxs: 1/4 of a normal card (2x2 grid units -> perfect square)
+    xxs: "col-span-2 row-span-2",
+    // xs: 2x2 grid units
+    xs: "col-span-2 row-span-2",
+    // small: 2x2 grid units
+    small: "col-span-2 row-span-2",
+    // medium: 2x2 mobile, 4x2 tablet+
+    medium: "col-span-2 md:col-span-4 row-span-2",
+    // large: 4x2 mobile, 4x2 tablet, 6x2 desktop
+    large: "col-span-4 lg:col-span-6 row-span-2",
+    // wide: full width
+    wide: "col-span-4 md:col-span-8 lg:col-span-12 row-span-2",
+    // tall: 2x4 (Double height)
+    tall: "col-span-2 md:col-span-4 lg:col-span-6 row-span-4",
+    // xl: 4x4 mobile/tablet, 6x4 desktop
+    xl: "col-span-4 md:col-span-4 lg:col-span-6 row-span-4",
+    // hero: 4x4 mobile, 8x4 tablet/desktop
+    hero: "col-span-4 md:col-span-8 lg:col-span-8 row-span-4",
 };
 
-// Music player grid placement — portrait tall card
-const MUSIC_PLAYER_CLASSES = "col-span-2 md:col-span-2 row-span-2";
+// Music player grid placement — portrait tall card (2x2 standard units -> 4x4 grid units)
+const MUSIC_PLAYER_CLASSES = "col-span-4 md:col-span-6 row-span-4";
 
 // Index in the events array where we insert the music player
-const MUSIC_PLAYER_POSITION = 1;
+const MUSIC_PLAYER_POSITION = 3;
 
 export default function Events() {
     return (
         <Panel id="events">
 
-            <div className="w-full p-1">
+            <div className="w-full">
                 {/* 
                     Responsive Bento Grid:
-                    - Mobile: 2 columns
-                    - Tablet (md): 4 columns
-                    - Desktop (lg): 6 columns
-                    - Dense packing to eliminate gaps
+                    - Doubled resolution for more granular sizing
+                    - auto-rows-[100px] instead of 200px
                 */}
-                <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-0 auto-rows-[200px] grid-flow-dense"
+                <div className="grid grid-cols-4 md:grid-cols-8 lg:grid-cols-12 gap-0 auto-rows-[100px] grid-flow-dense"
                     style={{ gridAutoFlow: "dense" }}
                 >
                     {EVENTS.map((event, index) => {

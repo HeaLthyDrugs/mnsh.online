@@ -18,14 +18,20 @@ export function EventItem({
         <div
             className={cn(
                 "group/event relative flex h-full w-full flex-col overflow-hidden border border-edge",
+                event.link && "cursor-pointer",
                 !hasBackgroundImage && !event.backgroundColor && "bg-card",
                 event.backgroundColor,
                 className
             )}
+            onClick={() => {
+                if (event.link) {
+                    window.open(event.link, "_blank");
+                }
+            }}
         >
-            {/* Background Image - No Overlay */}
+            {/* Background Image (The Main Visual) */}
             {hasBackgroundImage && (
-                <div className="absolute inset-0 -z-0">
+                <div className="absolute inset-0 z-0">
                     <Image
                         src={event.backgroundImage!}
                         alt=""
@@ -53,111 +59,83 @@ export function EventItem({
             {/* Content Section */}
             <div className={cn(
                 "relative z-10 flex flex-1 flex-col gap-2 p-3 md:gap-3 md:p-4",
-                !showInlineImage && "pt-3 md:pt-4"
+                event.size === 'xxs' && "p-1 md:p-1.5",
+                !showInlineImage && "pt-3 md:pt-4",
+                event.size === 'xxs' && !showInlineImage && "pt-1 md:pt-1.5"
             )}>
 
                 {/* Title */}
                 <h3 className={cn(
-                    "absolute top-3 left-3 z-20 font-sans font-bold text-muted-foreground",
+                    "absolute top-2 left-2 z-20 font-sans text-[10px] font-bold uppercase tracking-wider text-white px-1",
+                    // Respect property and hide on mobile
+                    (event.showTitle === false || event.size === 'xxs') ? "hidden" : "hidden md:block",
                     // Smooth transition
                     "transition-all duration-300 ease-out",
-                    // Mobile: always visible, Desktop: show on hover
-                    "md:opacity-0 md:-translate-y-2",
-                    "md:group-hover/event:opacity-100 md:group-hover/event:translate-y-0",
-                    // Focus state
-                    "focus:outline-none focus:ring-2 focus:ring-white/30"
+                    // Desktop: show on hover
+                    "md:opacity-0 md:-translate-y-1",
+                    "md:group-hover/event:opacity-100 md:group-hover/event:translate-y-0"
                 )}>
                     {event.title}
                 </h3>
 
-                {/* Date and Location */}
-                {/* <div className={cn(
-                    "flex flex-col gap-1 text-xs md:text-sm",
-                    event.textColor || (hasBackgroundImage ? "text-white/90" : "text-muted-foreground")
-                )}>
-                    <div className="flex items-center gap-1.5 md:gap-2">
-                        <CalendarIcon className="size-3 md:size-3.5 shrink-0" />
-                        <time className="truncate">{event.date}</time>
-                    </div>
-                    {event.location && (
-                        <div className="flex items-center gap-1.5 md:gap-2">
-                            <MapPinIcon className="size-3 md:size-3.5 shrink-0" />
-                            <span className="truncate">{event.location}</span>
-                        </div>
-                    )}
-                </div> */}
-
-                {/* Description */}
-                {/* {event.description && (
-                    <p className={cn(
-                        "text-xs md:text-sm line-clamp-2 flex-1",
-                        event.textColor || (hasBackgroundImage ? "text-white/80" : "text-muted-foreground")
-                    )}>
-                        {event.description}
-                    </p>
-                )} */}
-
-                {/* Tags */}
-                {/* {event.tags && event.tags.length > 0 && (
-                    <div className="flex flex-wrap gap-1 md:gap-1.5 mt-auto">
-                        {event.tags.slice(0, 3).map((tag, index) => (
-                            <Tag
-                                key={index}
-                                className={cn(
-                                    "text-[10px] md:text-xs pointer-events-none",
-                                    hasBackgroundImage && "bg-white/20 text-white ring-1 ring-white/30 backdrop-blur-sm"
-                                )}
-                            >
-                                {tag}
-                            </Tag>
-                        ))}
-                        {event.tags.length > 3 && (
+                {/* Tagline Overlay (Primarily for Socials) */}
+                <div className="relative z-10 flex flex-1 flex-col items-center justify-center">
+                    <div className="mt-auto mb-2 md:mb-3">
+                        {event.tagline && (
                             <span className={cn(
-                                "text-[10px] md:text-xs",
-                                event.textColor || (hasBackgroundImage ? "text-white/70" : "text-muted-foreground")
+                                "px-2 py-0.5 rounded-full bg-black/60 backdrop-blur-md border border-white/10 shadow-lg",
+                                "text-[10px] md:text-xs font-bold text-white tracking-tight animate-in fade-in slide-in-from-bottom-2"
                             )}>
-                                +{event.tags.length - 3}
+                                {event.tagline}
                             </span>
                         )}
                     </div>
-                )} */}
+                </div>
+
+                {/* Legacy Description logic for non-socials */}
+                {event.category !== "Social" && (
+                    <div className="flex flex-1 flex-col justify-end">
+                        {event.description && (
+                            <p className={cn(
+                                "text-xs md:text-sm line-clamp-2",
+                                event.textColor || (hasBackgroundImage ? "text-white/80" : "text-muted-foreground")
+                            )}>
+                                {event.description}
+                            </p>
+                        )}
+                    </div>
+                )}
 
             </div>
 
             {/* Glassmorphic Action Button - Bottom Left */}
-            <button
+            <div
                 className={cn(
-                    "absolute cursor-pointer bottom-3 left-3 z-20",
+                    "absolute bottom-2 left-2 z-20",
                     "flex items-center justify-center",
-                    "size-9 md:size-10",
+                    "size-6 md:size-8",
+                    // Hide if flag is false or on mobile
+                    event.showActionButton === false ? "hidden" : "hidden md:flex",
                     // Subtle glassmorphism effect
                     "backdrop-blur-xs",
                     hasBackgroundImage
-                        ? "bg-white/10 hover:bg-white/15 border border-white/20"
-                        : "bg-black/5 hover:bg-black/8 dark:bg-white/5 dark:hover:bg-white/10 border border-black/5 dark:border-white/10",
+                        ? "bg-white/10 border border-white/20"
+                        : "bg-black/5 dark:bg-white/5 border border-black/5 dark:border-white/10",
                     // Smooth transition
                     "transition-all duration-300 ease-out",
-                    // Mobile: always visible, Desktop: show on hover
+                    // Hover states
                     "md:opacity-0 md:translate-y-2",
-                    "md:group-hover/event:opacity-100 md:group-hover/event:translate-y-0",
-                    // Focus state
-                    "focus:outline-none focus:ring-2 focus:ring-white/30"
+                    "md:group-hover/event:opacity-100 md:group-hover/event:translate-y-0"
                 )}
-                onClick={(e) => {
-                    e.stopPropagation();
-                    if (event.link) {
-                        window.open(event.link, "_blank");
-                    }
-                }}
-                aria-label="View event"
+                aria-label="View link"
             >
                 <ArrowUpRight
                     className={cn(
-                        "size-4 md:size-5",
+                        "size-3 md:size-4",
                         hasBackgroundImage ? "text-white/80" : "text-foreground/70"
                     )}
                 />
-            </button>
+            </div>
 
             {/* Border */}
             <div className="pointer-events-none absolute inset-0 ring-1 ring-black/5 ring-inset dark:ring-white/5" />

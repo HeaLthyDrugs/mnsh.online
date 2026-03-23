@@ -18,7 +18,7 @@ export default function Page() {
   const allWorks = getAllWorks();
 
   return (
-    <div className="min-h-svh">
+    <div>
       <div className="border-b border-edge px-2 py-2">
         <h1 className="text-3xl font-semibold font-heading">Works</h1>
       </div>
@@ -35,8 +35,6 @@ export default function Page() {
       <Suspense fallback={<WorkList works={allWorks} />}>
         <WorkListWithSearch works={allWorks} />
       </Suspense>
-
-      <div className="h-4" />
     </div>
   );
 }
