@@ -28,6 +28,8 @@ const sizeToGridClasses: Record<string, string> = {
     xl: "col-span-4 md:col-span-4 lg:col-span-6 row-span-4",
     // hero: 4x4 mobile, 8x4 tablet/desktop
     hero: "col-span-4 md:col-span-8 lg:col-span-8 row-span-4",
+    // social: 1/4 width (1x1 on mobile, 2x2 on tablet, 3x2 on desktop)
+    social: "col-span-1 row-span-1 md:col-span-2 md:row-span-2 lg:col-span-3 lg:row-span-2",
 };
 
 // Music player grid placement — portrait tall card (2x2 standard units -> 4x4 grid units)

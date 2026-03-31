@@ -36,9 +36,9 @@ export function SiteHeader() {
         data-header-container
       >
 
-        <div className="flex h-full w-12 items-center justify-center border-r border-border">
+        <div className="flex h-full w-[53px] shrink-0 items-center justify-center border-r border-border">
           <Link href="/" aria-label="Home" className="flex h-full w-full items-center justify-center">
-            <MnshMark className="h-9 w-9 text-muted-foreground transition-colors duration-300 hover:text-foreground" />
+            <MnshMark className="h-10 w-10 text-muted-foreground transition-colors duration-300 hover:text-foreground" />
           </Link>
         </div>
 

@@ -188,6 +188,47 @@ function InfoRow({
   );
 }
 
+function GreetingAboutSection() {
+  const [greeting, setGreeting] = useState("Hello");
+
+  useEffect(() => {
+    const hour = new Date().getHours();
+    if (hour < 5 || hour >= 18) {
+      setGreeting("Good evening");
+    } else if (hour < 12) {
+      setGreeting("Good morning");
+    } else {
+      setGreeting("Good afternoon");
+    }
+  }, []);
+
+  return (
+    <div className="flex items-stretch font-sans text-sm transition-colors hover:bg-muted/10 border-b border-edge">
+      {/* Left Column matching InfoRow Width */}
+      <div className="flex items-center justify-center px-3 py-4 shrink-0">
+        <div className="flex size-7 justify-center items-center">
+          <span className="[writing-mode:vertical-rl] rotate-180 text-[10px] font-medium uppercase tracking-[0.4em] text-muted-foreground/80 whitespace-nowrap">
+            About Me
+          </span>
+        </div>
+      </div>
+
+      {/* Vertical separator - full height */}
+      <div className="w-px self-stretch bg-edge/60" />
+
+      {/* Content column */}
+      <div className="flex flex-1 flex-col justify-center px-4 py-5 md:px-5 space-y-3 leading-relaxed text-muted-foreground">
+        <p className="text-balance">
+          {greeting}. I am a <strong className="font-medium text-foreground">{USER.jobTitle}</strong> with over {USER.experienceYears} years of experience designing and developing pixel-perfect applications. Small details matter deeply to me.
+        </p>
+        <p className="text-balance">
+          Currently, I lead UI Design & Frontend at <a href={USER.jobs[0].website} target="_blank" rel="noopener noreferrer" className="font-medium text-foreground transition-colors hover:text-primary underline underline-offset-4 decoration-edge hover:decoration-foreground/60">Simplamo</a>, run my startup <a href={USER.jobs[1].website} target="_blank" rel="noopener noreferrer" className="font-medium text-foreground transition-colors hover:text-primary underline underline-offset-4 decoration-edge hover:decoration-foreground/60">Quaric</a>, and I'm actively building <a href={USER.currentlyBuilding?.link} target="_blank" rel="noopener noreferrer" className="font-medium text-foreground transition-colors hover:text-primary underline underline-offset-4 decoration-edge hover:decoration-foreground/60">HealthyDrugs</a>—{USER.currentlyBuilding?.label}.
+        </p>
+      </div>
+    </div>
+  );
+}
+
 export function Overview() {
   const { key } = useLoop(2000); // Change every 2 seconds for role animation
 
@@ -200,7 +241,8 @@ export function Overview() {
       <h2 className="sr-only">About Me</h2>
 
       <PanelContent className="p-0">
-        {/* Info list with dividers */}
+        <GreetingAboutSection />
+
         {/* Info list with dividers in grid layout */}
         <div className="grid grid-cols-1 md:grid-cols-2 md:divide-x divide-edge">
           {/* Column 1 */}
