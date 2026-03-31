@@ -160,7 +160,7 @@ export function WorkCarousel({ gallery }: WorkCarouselProps) {
                     key={index}
                     onClick={() => setCurrentIndex(index)}
                     className={cn(
-                      "relative flex-shrink-0 w-32 sm:w-40 aspect-video bg-black/20 focus:outline-none transition-all box-border",
+                      "relative flex-shrink-0 h-[72px] sm:h-[90px] bg-black/20 focus:outline-none transition-all box-border",
                       isActive
                         ? "border-2 border-white z-10 opacity-100 shadow-[0_0_8px_rgba(255,255,255,0.6)]"
                         : "border-2 border-transparent opacity-50 hover:opacity-100"
@@ -170,10 +170,10 @@ export function WorkCarousel({ gallery }: WorkCarouselProps) {
                       <img
                         src={thumbUrl}
                         alt={`Thumbnail ${index + 1}`}
-                        className="w-full h-full object-cover"
+                        className="h-full w-auto block object-cover"
                       />
                     ) : (
-                      <div className="w-full h-full flex items-center justify-center bg-zinc-800 text-zinc-400">
+                      <div className="h-full aspect-video flex items-center justify-center bg-zinc-800 text-zinc-400">
                         {item.type === "video" ? <Play size={24} /> : "No media"}
                       </div>
                     )}
