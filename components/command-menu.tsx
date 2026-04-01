@@ -16,6 +16,8 @@ import {
   TypeIcon,
   ArrowUpDownIcon,
   ArrowUpRightIcon,
+  WrenchIcon,
+  MonitorSmartphoneIcon,
 } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -42,7 +44,8 @@ import { useSound } from "@/hooks/use-sound";
 import { Icons } from "./icons";
 import { Button } from "./ui/button";
 
-import { Post } from "@/features/work/types/work-post";
+import { Post as WorkPost } from "@/features/work/types/work-post";
+import { BlogPost } from "@/features/blog/types/blog-post";
 import { getMarkSVG, MnshMark } from "./mnsh-mark";
 import { getWordmarkSVG, MnshWordmark } from "./mnsh-wordmark";
 import { Separator } from "./ui/seperator";
@@ -53,6 +56,7 @@ type CommandLinkItem = {
 
   icon?: React.ComponentType<LucideProps>;
   iconImage?: string;
+  coverImage?: string;
   keywords?: string[];
   openInNewTab?: boolean;
 };
@@ -64,14 +68,24 @@ const MENU_LINKS: CommandLinkItem[] = [
     icon: MnshMark,
   },
   {
+    title: "Works",
+    href: "/work",
+    icon: BriefcaseBusinessIcon,
+  },
+  {
     title: "Blog",
     href: "/blog",
     icon: RssIcon,
   },
   {
+    title: "Tools",
+    href: "/tools",
+    icon: WrenchIcon,
+  },
+  {
     title: "Gear",
     href: "/gear",
-    icon: Icons.react,
+    icon: MonitorSmartphoneIcon,
   },
 ];
 
@@ -100,7 +114,7 @@ const SOCIAL_LINK_ITEMS: CommandLinkItem[] = SOCIAL_LINKS.map((item) => ({
   openInNewTab: true,
 }));
 
-export function CommandMenu({ posts = [] }: { posts?: Post[] }) {
+export function CommandMenu({ blogs = [], works = [] }: { blogs?: BlogPost[], works?: WorkPost[] }) {
   const router = useRouter();
   const playHover = useSound("/sounds/hover.wav");
   const playTap = useSound("/sounds/tap.wav");
@@ -193,16 +207,15 @@ export function CommandMenu({ posts = [] }: { posts?: Post[] }) {
     [setTheme]
   );
 
-  const { blogLinks, componentLinks } = useMemo(
+  const { blogLinks, workLinks, componentLinks } = useMemo(
     () => ({
-      blogLinks: posts
+      blogLinks: blogs
         .filter((post) => post.metadata?.category !== "components")
-        .map(postToCommandLinkItem),
-      componentLinks: posts
-        .filter((post) => post.metadata?.category === "components")
-        .map(postToCommandLinkItem),
+        .map(blogToCommandLinkItem),
+      componentLinks: [],
+      workLinks: works.map(workToCommandLinkItem),
     }),
-    [posts]
+    [blogs, works]
   );
 
   return (
@@ -268,17 +281,6 @@ export function CommandMenu({ posts = [] }: { posts?: Post[] }) {
           <CommandSeparator />
 
           <CommandLinkGroup
-            heading="Others"
-            links={ME_LINKS}
-            onLinkSelect={handleOpenLink}
-            playHover={playHover}
-            playTap={playTap}
-            isModifierKeyPressed={isModifierKeyPressed}
-          />
-
-          <CommandSeparator />
-
-          {/* <CommandLinkGroup
             heading="Blogs"
             links={blogLinks}
             fallbackIcon={TextIcon}
@@ -288,7 +290,19 @@ export function CommandMenu({ posts = [] }: { posts?: Post[] }) {
             isModifierKeyPressed={isModifierKeyPressed}
           />
 
-          <CommandSeparator /> */}
+          <CommandSeparator />
+
+          <CommandLinkGroup
+            heading="Works"
+            links={workLinks}
+            fallbackIcon={BriefcaseBusinessIcon}
+            onLinkSelect={handleOpenLink}
+            playHover={playHover}
+            playTap={playTap}
+            isModifierKeyPressed={isModifierKeyPressed}
+          />
+
+          <CommandSeparator />
 
           <CommandLinkGroup
             heading="Social Links"
@@ -380,20 +394,32 @@ function CommandLinkGroup({
               onLinkSelect(link.href, link.openInNewTab);
             }}
           >
-            {link?.iconImage ? (
-              <div className="relative size-4 shrink-0">
+            {link?.coverImage ? (
+              <div className="relative h-5 w-8 shrink-0 bg-muted">
                 <Image
-                  className="rounded-none"
+                  className="h-full w-full rounded-none object-cover"
+                  src={link.coverImage}
+                  alt={link.title}
+                  width={32}
+                  height={20}
+                  unoptimized
+                />
+                <div className="pointer-events-none absolute inset-0 rounded-none ring-1 ring-black/10 ring-inset dark:ring-white/10" />
+              </div>
+            ) : link?.iconImage ? (
+              <div className="relative size-5 shrink-0">
+                <Image
+                  className="rounded-none object-contain"
                   src={link.iconImage}
                   alt={link.title}
-                  width={16}
+                  width={20}
                   height={16}
                   unoptimized
                 />
                 <div className="pointer-events-none absolute inset-0 rounded-none ring-1 ring-black/10 ring-inset dark:ring-white/10" />
               </div>
             ) : (
-              <Icon />
+              <Icon className="size-5 opacity-50 transition-opacity group-hover:opacity-100" />
             )}
             {link.title}
 
@@ -485,12 +511,23 @@ function CommandMenuKbd({ className, ...props }: React.ComponentProps<"kbd">) {
   );
 }
 
-function postToCommandLinkItem(post: Post): CommandLinkItem {
-  const isComponent = post.metadata?.category === "components";
-
+function workToCommandLinkItem(work: WorkPost): CommandLinkItem {
   return {
-    title: post.metadata.title,
-    href: isComponent ? `/components/${post.slug}` : `/blog/${post.slug}`,
-    keywords: isComponent ? ["component"] : undefined,
+    title: work.metadata.title,
+    href: `/work/${work.slug}`,
+    keywords: [
+      work.metadata.category || "",
+      ...(work.metadata.technologies || []),
+    ].filter(Boolean),
+    coverImage: work.metadata.image || work.metadata.gallery?.[0]?.thumbnail || work.metadata.gallery?.[0]?.url,
+  };
+}
+
+function blogToCommandLinkItem(blog: BlogPost): CommandLinkItem {
+  return {
+    title: blog.metadata.title,
+    href: `/blog/${blog.slug}`,
+    keywords: [blog.metadata.category || "", ...(blog.metadata.tags || [])].filter(Boolean),
+    coverImage: blog.metadata.image,
   };
 }

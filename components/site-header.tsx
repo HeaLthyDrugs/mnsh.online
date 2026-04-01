@@ -11,6 +11,8 @@ import { SiteHeaderWrapper } from "./site-header-wrapper";
 import { ToggleTheme } from "./toggle-theme";
 import { MoreOptions } from "./site-header-actions";
 import { MnshMark } from "@/components/mnsh-mark";
+import { getAllBlogs } from "@/features/blog/lib/blogs";
+import { getAllWorks } from "@/features/work/lib/works";
 
 const CommandMenu = dynamic(() =>
   import("@/components/command-menu").then((mod) => mod.CommandMenu)
@@ -20,7 +22,9 @@ const MobileNav = dynamic(() =>
   import("@/components/mobile-nav").then((mod) => mod.MobileNav)
 );
 
-export function SiteHeader() {
+export async function SiteHeader() {
+  const blogs = getAllBlogs().map(({ slug, metadata }) => ({ slug, metadata, content: "" }));
+  const works = getAllWorks().map(({ slug, metadata }) => ({ slug, metadata, content: "" }));
 
 
   return (
@@ -51,7 +55,7 @@ export function SiteHeader() {
 
         <div className="flex h-full items-center border-border">
           <div className="hidden sm:flex h-full items-center px-4">
-            <CommandMenu />
+            <CommandMenu blogs={blogs} works={works} />
           </div>
           {/* <ToggleTheme /> */}
           <div className="flex h-full w-12 items-center justify-center border-l border-border sm:hidden">

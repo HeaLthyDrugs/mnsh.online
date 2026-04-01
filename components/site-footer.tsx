@@ -10,8 +10,15 @@ import { CopyIcon, type CopyIconHandle } from "./animated-icons/copy";
 import { Icons } from "./icons";
 import { SimpleTooltip } from "./ui/tooltip";
 import { ToggleTheme } from "./toggle-theme";
-
-
+import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { MessageCircleMoreIcon } from "./animated-icons/message-circle-more";
+import { USER } from "@/features/profile/data/user";
 
 export function SiteFooter() {
   return (
@@ -20,8 +27,53 @@ export function SiteFooter() {
         <div className="flex flex-col">
           {/* Headline & Timezone */}
           <div className="py-8 px-4 space-y-4">
-            <h3 className="text-3xl md:text-3xl font-heading text-muted-foreground leading-tight">
-              Got anything in mind ?
+            <h3 className="text-3xl md:text-3xl font-heading text-muted-foreground leading-tight flex items-center flex-wrap gap-x-4 gap-y-4">
+              <span>Got anything in mind ?</span>
+              <svg
+                width="60"
+                height="30"
+                viewBox="0 0 60 30"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="text-muted-foreground/40 hidden sm:block shrink-0 translate-y-1"
+              >
+                <path d="M 0 20 Q 25 -5, 55 15" strokeDasharray="4 5" />
+              </svg>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="rounded-none cursor-pointer shrink-0 font-sans font-medium text-sm text-foreground border-2 border-dashed border-muted-foreground/60 hover:bg-muted/30 hover:border-muted-foreground transition-all"
+                  >
+                    <MessageCircleMoreIcon className="size-4" />
+                    Start a conversation
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="start" className="w-42 rounded-none">
+                  <DropdownMenuItem asChild className="rounded-none cursor-pointer">
+                    <a href="https://wa.me/918432563227" target="_blank" rel="noopener noreferrer">
+                      <Icons.whatsapp className="mr-2 size-4" />
+                      WhatsApp
+                    </a>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem asChild className="rounded-none cursor-pointer">
+                    <a href={`mailto:${USER.email}`}>
+                      <Icons.mail className="mr-2 size-4" />
+                      Email
+                    </a>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem asChild className="rounded-none cursor-pointer">
+                    <a href="https://cal.com/mnsh" target="_blank" rel="noopener noreferrer">
+                      <Icons.phone className="mr-2 size-4" />
+                      Schedule a call
+                    </a>
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
             </h3>
             <p className="text-sm text-muted-foreground/80 max-w-md leading-relaxed">
               I&apos;m always open to interesting conversations — whether it&apos;s about building something together, sharing ideas, or just saying hello.
