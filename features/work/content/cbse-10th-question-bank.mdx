@@ -1,40 +1,126 @@
 ---
 title: CBSE 10th Question Bank
 description: A app for CBSE students to prepare for their exams, with lots of content and features.
-image: https://plus.unsplash.com/premium_photo-1672201106204-58e9af7a2888?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D
-createdAt: 2025-01-15
-updatedAt: 2025-01-15
-new: true
-projectType: Freelance
-client: Example Corp
-startDate: 2024-06-01
-endDate: 2025-01-15
-technologies:
-  - Next.js
-  - TypeScript
-  - Tailwind CSS
-  - PostgreSQL
-status: In Progress
-liveUrl: https://example.com
-repoUrl: https://github.com/example/project
+image: https://assets.mnsh.online/work/cbse-10th-question-bank/cover.png
+status: Maintained
+liveUrl: https://play.google.com/store/apps/details?id=com.testverse.cbsequestionbank&pcampaignid=web_share
+gallery:
+  - type: image
+    url: https://assets.mnsh.online/work/cbse-10th-question-bank/about.png
+  - type: image
+    url: https://assets.mnsh.online/work/cbse-10th-question-bank/add-new-subject.png
+  - type: image
+    url: https://assets.mnsh.online/work/cbse-10th-question-bank/analytics.png
+  - type: image
+    url: https://assets.mnsh.online/work/cbse-10th-question-bank/bookmark-screen.png
+  - type: image
+    url: "https://assets.mnsh.online/work/cbse-10th-question-bank/help&support.png"
+  - type: image
+    url: https://assets.mnsh.online/work/cbse-10th-question-bank/home.png
+  - type: image
+    url: https://assets.mnsh.online/work/cbse-10th-question-bank/manage-subscription.png
+  - type: image
+    url: https://assets.mnsh.online/work/cbse-10th-question-bank/mcq-practice.png
+  - type: image
+    url: https://assets.mnsh.online/work/cbse-10th-question-bank/notes-viewer.png
+  - type: image
+    url: https://assets.mnsh.online/work/cbse-10th-question-bank/notes.png
+  - type: image
+    url: https://assets.mnsh.online/work/cbse-10th-question-bank/payment-history.png
+  - type: image
+    url: https://assets.mnsh.online/work/cbse-10th-question-bank/pdf-viewer.png
+  - type: image
+    url: https://assets.mnsh.online/work/cbse-10th-question-bank/profile.png
+  - type: image
+    url: https://assets.mnsh.online/work/cbse-10th-question-bank/questions-grid.png
+  - type: image
+    url: "https://assets.mnsh.online/work/cbse-10th-question-bank/refer&earn.png"
+  - type: image
+    url: https://assets.mnsh.online/work/cbse-10th-question-bank/results-solution.png
+  - type: image
+    url: https://assets.mnsh.online/work/cbse-10th-question-bank/results-summary.png
+  - type: image
+    url: https://assets.mnsh.online/work/cbse-10th-question-bank/saved-items-mcqsets.png
+  - type: image
+    url: https://assets.mnsh.online/work/cbse-10th-question-bank/saved-items-notes.png
+  - type: image
+    url: https://assets.mnsh.online/work/cbse-10th-question-bank/settings.png
+  - type: image
+    url: https://assets.mnsh.online/work/cbse-10th-question-bank/study-tracker.png
+  - type: image
+    url: https://assets.mnsh.online/work/cbse-10th-question-bank/submit-practice.png
+  - type: image
+    url: https://assets.mnsh.online/work/cbse-10th-question-bank/subscription-2.png
 ---
 
-## Overview
+<a href="https://play.google.com/store/apps/details?id=com.testverse.cbsequestionbank&pcampaignid=web_share" target="_blank" rel="noopener noreferrer">
+  <img 
+    src="https://assets.mnsh.online/googleplay.png" 
+    alt="Get it on Google Play" 
+    width="160"
+  />
+</a>
 
-This is an example work project that demonstrates how to use MDX for showcasing your portfolio work.
+## Purpose
 
-## Features
+CBSE Gateway is a mobile app built for class 10 students preparing for CBSE board exams. It consolidates previous year papers, chapter-wise questions, MCQ practice sets, and study productivity tools into a single, structured interface — eliminating the need to rely on scattered PDFs and third-party websites.
 
-- Clean design
-- Responsive layout
-- Easy to customize
+---
 
-## Technologies Used
+## Problem
 
-- Next.js
-- TypeScript
-- Tailwind CSS
+CBSE 10th-grade students preparing for board exams face a fragmented study experience. Question papers are scattered across unreliable websites, there is no structured way to practice chapter-wise or section-wise questions, and tracking study progress requires separate tools. Students waste time searching instead of studying.
 
-## Conclusion
+---
 
-You can add more MDX files in the `features/work/content` directory to showcase your work.
+## Solution
+
+A dedicated mobile application that organizes the entire CBSE 10th exam preparation workflow.
+
+- **Previous Year Papers** — Access past board exam papers organized by year, with section-wise and marks-wise filtering.
+- **Chapter-Wise Questions** — Practice questions grouped by subject and chapter for targeted revision.
+- **MCQ Practice Sets** — Timed MCQ tests with instant scoring, accuracy tracking, and leaderboard rankings.
+- **Study Materials** — Structured notes and content delivered through a headless CMS for real-time updates.
+- **Built-In Tools** — Todo list, study tracker with session timing, and quick notes — no external apps needed.
+- **Progress Tracking** — Subject-wise performance analytics, streak tracking, and weekly activity reports.
+
+---
+
+## Process
+
+1. Identified the core pain point: students lack a single, reliable source for CBSE 10th exam content.
+2. Designed the information architecture around how students actually study — by subject, chapter, year, and question type.
+3. Built the mobile app using Expo and React Native for cross-platform delivery.
+4. Used Sanity CMS as the content backend so question papers and study materials can be updated without app releases.
+5. Integrated Supabase for user authentication, profile management, MCQ attempt tracking, and analytics.
+6. Added Razorpay for premium subscription handling with module-level access control.
+7. Implemented push notifications via OneSignal to keep students engaged with study reminders.
+
+---
+
+## Tech Stack
+
+| Technology | Role |
+|---|---|
+| React Native | Cross-platform mobile framework |
+| Expo (SDK 53) | Build tooling, routing, and native modules |
+| Expo Router | File-based navigation |
+| TypeScript | Type safety across the codebase |
+| Sanity CMS | Headless CMS for question papers and study content |
+| Supabase | Authentication, database, and edge functions |
+| Appwrite | User profiles and study tracker data |
+| Razorpay | Payment processing for subscriptions |
+| OneSignal | Push notifications |
+| NativeWind | Tailwind-style utility classes for React Native |
+| React Native Reanimated | Animations and gesture handling |
+
+---
+
+## Impact
+
+- **Single source of truth** — Students access all CBSE 10th exam content from one app instead of multiple websites.
+- **Structured practice** — Questions organized by chapter, year, section, and marks allow focused revision.
+- **Real-time content updates** — New papers and materials are published through the CMS without requiring an app update.
+- **Measurable progress** — MCQ accuracy, study streaks, and subject-wise analytics give students clear visibility into their preparation.
+- **Reduced friction** — Built-in todo, study tracker, and notes remove the need for external productivity tools.
+- **Freemium model** — Free trial periods for tools (30 days) and features (7 days) allow students to evaluate before subscribing.
