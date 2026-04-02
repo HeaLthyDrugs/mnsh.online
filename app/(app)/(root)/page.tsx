@@ -36,13 +36,13 @@ export default function Page() {
         <ProfileHeader />
         <Separator />
 
+        {/* Overview  */}
+        <Overview />
+        <Separator />
         {/* Work I have done  */}
         <Work />
         <Separator />
 
-        {/* Overview  */}
-        <Overview />
-        <Separator />
 
 
         {/* Services I provide  */}

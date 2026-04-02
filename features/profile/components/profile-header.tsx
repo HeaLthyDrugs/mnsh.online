@@ -93,7 +93,7 @@ export default function ProfileHeader() {
                             </div>
                         )}
 
-                        <div className="flex items-center px-3 py-2 sm:px-1 sm:py-1">
+                        {/* <div className="flex items-center px-3 py-2 sm:px-1 sm:py-1">
                             <DropdownMenu>
                                 <DropdownMenuTrigger asChild>
                                     <Button variant="outline" size="sm" className="rounded-none cursor-pointer shrink-0">
@@ -130,7 +130,7 @@ export default function ProfileHeader() {
                                     </DropdownMenuItem>
                                 </DropdownMenuContent>
                             </DropdownMenu>
-                        </div>
+                        </div> */}
                     </div>
                 </div>
             </div>

@@ -1,8 +1,11 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
+import { useSetAtom } from "jotai";
+import { isGalleryExpandedAtom } from "@/store/ui-store";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronLeft, ChevronRight, Play, X } from "lucide-react";
+import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 import { cn } from "@/lib/utils";
 
 type GalleryItem = {
@@ -19,6 +22,7 @@ export function WorkCarousel({ gallery }: WorkCarouselProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isExpanded, setIsExpanded] = useState(false);
   const thumbnailsRef = useRef<HTMLDivElement>(null);
+  const setIsGalleryExpandedGlobal = useSetAtom(isGalleryExpandedAtom);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -39,6 +43,7 @@ export function WorkCarousel({ gallery }: WorkCarouselProps) {
   }, [isExpanded, gallery.length]);
 
   useEffect(() => {
+    setIsGalleryExpandedGlobal(isExpanded);
     if (isExpanded) {
       document.body.style.overflow = "hidden";
     } else {
@@ -46,8 +51,9 @@ export function WorkCarousel({ gallery }: WorkCarouselProps) {
     }
     return () => {
       document.body.style.overflow = "";
+      setIsGalleryExpandedGlobal(false);
     };
-  }, [isExpanded]);
+  }, [isExpanded, setIsGalleryExpandedGlobal]);
 
   if (!gallery || gallery.length === 0) return null;
 
@@ -79,7 +85,7 @@ export function WorkCarousel({ gallery }: WorkCarouselProps) {
         {/* Main Viewport */}
         <div
           className={cn(
-            "relative w-full aspect-video bg-black group overflow-hidden",
+            "relative w-full aspect-video bg-zinc-100 dark:bg-zinc-950 group overflow-hidden",
             currentItem.type === "image" ? "cursor-pointer" : ""
           )}
           onClick={() => {
@@ -95,7 +101,7 @@ export function WorkCarousel({ gallery }: WorkCarouselProps) {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.3 }}
-              className="absolute inset-0 flex items-center justify-center bg-black z-0"
+              className="absolute inset-0 flex items-center justify-center bg-zinc-100 dark:bg-zinc-950 z-0"
             >
               {currentItem.type === "video" ? (
                 <video
@@ -207,23 +213,50 @@ export function WorkCarousel({ gallery }: WorkCarouselProps) {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
-            className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md p-4 sm:p-8"
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-xl"
             onClick={() => setIsExpanded(false)}
           >
             <button
               onClick={() => setIsExpanded(false)}
-              className="absolute top-4 right-4 sm:top-6 sm:right-6 p-2 text-white/70 hover:text-white bg-black/20 hover:bg-black/40 backdrop-blur-md rounded-none transition-all z-50"
+              className="absolute top-2 right-2 sm:top-6 sm:right-6 p-2 text-white/70 hover:text-white bg-black/20 hover:bg-black/40 backdrop-blur-md rounded-none transition-all z-50"
               aria-label="Close fullscreen"
             >
               <X size={24} />
             </button>
 
-            <img
-              src={currentItem.url}
-              alt="Fullscreen expanded view"
-              className="max-w-full max-h-full object-contain select-none shadow-2xl"
-              onClick={(e) => e.stopPropagation()} // Prevent click on image from closing
-            />
+            <div
+              className="w-full h-full flex items-center justify-center cursor-move"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <TransformWrapper
+                initialScale={1}
+                minScale={0.5}
+                maxScale={8}
+                centerOnInit
+                wheel={{ step: 0.1 }}
+              >
+                <TransformComponent
+                  wrapperStyle={{ width: "100%", height: "100%" }}
+                  contentStyle={{
+                    width: "100%",
+                    height: "100%",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
+                  <img
+                    src={currentItem.url}
+                    alt="Fullscreen expanded view"
+                    className="max-w-full max-h-full object-contain select-none shadow-2xl"
+                    draggable={false}
+                  />
+                </TransformComponent>
+              </TransformWrapper>
+            </div>
+            <div className="absolute bottom-2 left-1/2 -translate-x-1/2 bg-black/60 text-white/80 text-xs sm:text-sm px-4 py-2 rounded-none pointer-events-none backdrop-blur-xl border border-white/10">
+              Gestures enabled: Pinch/Scroll to zoom, Drag to pan
+            </div>
           </motion.div>
         )}
       </AnimatePresence>

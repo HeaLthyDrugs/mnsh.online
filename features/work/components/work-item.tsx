@@ -1,5 +1,6 @@
 "use client";
 
+import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import type { Post } from "../types/work-post";
 import { cn } from "@/lib/utils";
@@ -41,6 +42,45 @@ function getStatusConfig(status?: string) {
   }
 }
 
+function TruncatedDescription({ text }: { text: string }) {
+  const textRef = useRef<HTMLParagraphElement>(null);
+  const [isTruncated, setIsTruncated] = useState(false);
+
+  useEffect(() => {
+    const el = textRef.current;
+    if (!el) return;
+
+    const check = () => setIsTruncated(el.scrollHeight > el.clientHeight);
+    check();
+
+    const timeoutId = setTimeout(check, 100);
+    window.addEventListener("resize", check);
+    return () => {
+      clearTimeout(timeoutId);
+      window.removeEventListener("resize", check);
+    };
+  }, [text]);
+
+  const pBlock = (
+    <p
+      ref={textRef}
+      className="line-clamp-2 text-sm text-muted-foreground/80 leading-relaxed"
+    >
+      {text}
+    </p>
+  );
+
+  if (isTruncated) {
+    return (
+      <SimpleTooltip content={<p className="max-w-xs text-sm leading-relaxed text-muted-foreground">{text}</p>}>
+        {pBlock}
+      </SimpleTooltip>
+    );
+  }
+
+  return pBlock;
+}
+
 export function WorkItem({
   work,
   shouldPreloadImage,
@@ -50,16 +90,12 @@ export function WorkItem({
 }) {
   const { metadata } = work;
 
-  return (
-    <Link
-      href={`/work/${work.slug}`}
-      className={cn(
-        "group/post relative flex flex-col gap-4 p-2",
-        "border-y border-edge"
-      )}
-    >
+  const inProgress = metadata.status === "In Progress";
+
+  const innerContent = (
+    <>
       {metadata.image && (
-        <div className="relative select-none block">
+        <div className="relative select-none block overflow-hidden">
           <Image
             src={metadata.image}
             alt={metadata.title}
@@ -67,33 +103,44 @@ export function WorkItem({
             height={630}
             quality={100}
             priority={shouldPreloadImage}
-            className="rounded-none aspect-1200/630 object-cover"
+            className={cn(
+              "rounded-none aspect-1200/630 object-cover transition-all duration-300",
+              inProgress && "blur-sm scale-[1.02] opacity-80"
+            )}
             unoptimized
           />
 
-          <div className="pointer-events-none absolute inset-0 rounded-none ring-1 ring-black/10 ring-inset dark:ring-white/10" />
+          {inProgress && (
+            <div className="absolute inset-0 z-10 flex items-center justify-center bg-background/30 backdrop-blur-[2px] bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] dark:bg-[radial-gradient(#1f2937_1px,transparent_1px)] bg-[size:16px_16px]">
+              <span className="text-[10px] uppercase tracking-[0.2em] font-mono font-medium text-foreground/40 select-none dark:text-foreground/90">
+                Work in Progress
+              </span>
+            </div>
+          )}
 
-          {metadata.new && (
-            <span className="absolute top-2 right-2 rounded-none bg-info px-1.5 font-sans text-sm font-medium text-white text-shadow-xs">
+          <div className="pointer-events-none absolute inset-0 z-20 rounded-none ring-1 ring-black/10 ring-inset dark:ring-white/10" />
+
+          {metadata.new && !inProgress && (
+            <span className="absolute z-20 top-2 right-2 rounded-none bg-info px-1.5 font-sans text-sm font-medium text-white text-shadow-xs">
               New
             </span>
           )}
-
         </div>
       )}
 
       <div className="flex flex-1 flex-col justify-between gap-3 px-1">
         <div className="flex flex-col gap-2">
           <div className="flex flex-col gap-1">
-            <h3 className="text-lg font-medium leading-tight tracking-tight text-foreground underline-offset-4 group-hover/post:underline">
+            <h3 className={cn(
+              "text-lg font-medium leading-tight tracking-tight text-foreground underline-offset-4",
+              !inProgress && "group-hover/post:underline"
+            )}>
               {metadata.title}
             </h3>
           </div>
 
           {metadata.description && (
-            <p className="line-clamp-2 text-sm text-muted-foreground/80 leading-relaxed">
-              {metadata.description}
-            </p>
+            <TruncatedDescription text={metadata.description} />
           )}
         </div>
       </div>
@@ -153,6 +200,29 @@ export function WorkItem({
           )}
         </div>
       )}
+    </>
+  );
+
+  const containerClassName = cn(
+    "group/post relative flex flex-col gap-4 p-2",
+    "border-y border-edge",
+    inProgress ? "cursor-default" : "cursor-pointer"
+  );
+
+  if (inProgress) {
+    return (
+      <div className={containerClassName}>
+        {innerContent}
+      </div>
+    );
+  }
+
+  return (
+    <Link
+      href={`/work/${work.slug}`}
+      className={containerClassName}
+    >
+      {innerContent}
     </Link>
   );
 }

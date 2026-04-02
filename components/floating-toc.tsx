@@ -4,11 +4,14 @@ import { useEffect, useState } from "react";
 import type { TOCItemType } from "fumadocs-core/toc";
 import { cn } from "@/lib/utils";
 import { ListIcon, XIcon } from "lucide-react";
+import { useAtom } from "jotai";
+import { isGalleryExpandedAtom } from "@/store/ui-store";
 
 export function FloatingTOC({ items }: { items: TOCItemType[] }) {
     const [activeId, setActiveId] = useState<string>("");
     const [isVisible, setIsVisible] = useState(false);
     const [isOpenMobile, setIsOpenMobile] = useState(false);
+    const [isGalleryExpanded] = useAtom(isGalleryExpandedAtom);
 
     useEffect(() => {
         const handleScroll = () => {
@@ -171,7 +174,7 @@ export function FloatingTOC({ items }: { items: TOCItemType[] }) {
             <div
                 className={cn(
                     "fixed right-4 top-1/2 -translate-y-1/2 z-50 transition-all duration-500 ease-out flex items-center group/toc hidden xl:flex",
-                    isVisible
+                    isVisible && !isGalleryExpanded
                         ? "opacity-100 translate-x-0"
                         : "opacity-0 translate-x-8 pointer-events-none"
                 )}
@@ -213,7 +216,7 @@ export function FloatingTOC({ items }: { items: TOCItemType[] }) {
             <div
                 className={cn(
                     "fixed top-1/2 -translate-y-1/2 right-0 z-50 transition-all duration-500 ease-out xl:hidden flex flex-row items-center",
-                    isVisible || isOpenMobile
+                    (isVisible || isOpenMobile) && !isGalleryExpanded
                         ? "opacity-100 translate-x-0 pointer-events-auto"
                         : "opacity-0 translate-x-8 pointer-events-none"
                 )}

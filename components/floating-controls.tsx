@@ -5,6 +5,7 @@ import { Settings, Volume2, VolumeX } from "lucide-react";
 import { useAtom } from "jotai";
 import { cn } from "@/lib/utils";
 import { isSoundEnabledAtom } from "@/store/sound-store";
+import { isGalleryExpandedAtom } from "@/store/ui-store";
 import { useSound } from "@/hooks/use-sound";
 import { useAnimatedThemeToggle } from "@/hooks/use-animated-theme-toggle";
 
@@ -20,6 +21,7 @@ import {
 
 export function FloatingControls() {
     const [isSoundEnabled, setIsSoundEnabled] = useAtom(isSoundEnabledAtom);
+    const [isGalleryExpanded] = useAtom(isGalleryExpandedAtom);
     const { toggleTheme, isDark } = useAnimatedThemeToggle();
 
     const playHover = useSound("/sounds/hover.wav");
@@ -30,7 +32,12 @@ export function FloatingControls() {
     };
 
     return (
-        <div className="fixed bottom-2 right-2 z-50 flex h-9 items-center overflow-hidden border bg-background/80 shadow-lg backdrop-blur-md transition-all hover:bg-background/90">
+        <div 
+            className={cn(
+                "fixed bottom-2 right-2 z-50 flex h-9 items-center overflow-hidden border bg-background/80 shadow-lg backdrop-blur-md transition-all duration-300 hover:bg-background/90",
+                isGalleryExpanded && "opacity-0 pointer-events-none translate-y-4"
+            )}
+        >
             <button
                 onClick={() => {
                     playTap();
