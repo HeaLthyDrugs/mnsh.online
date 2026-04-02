@@ -1,40 +1,92 @@
 ---
-title: leank.space - peer to peer communication
-description: Instant Chat & File sharing with no login required.
-image: https://plus.unsplash.com/premium_photo-1672201106204-58e9af7a2888?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D
-createdAt: 2025-01-15
-updatedAt: 2025-01-15
-new: true
-projectType: Freelance
-client: Example Corp
-startDate: 2024-06-01
-endDate: 2025-01-15
-technologies:
-  - Next.js
-  - TypeScript
-  - Tailwind CSS
-  - PostgreSQL
-status: In Progress
-liveUrl: https://example.com
-repoUrl: https://github.com/example/project
+title: leank.space - P2P Communication
+description: Instant chat and file sharing platform using WebRTC for secure, direct peer-to-peer communication without servers or logins.
+image: https://assets.mnsh.online/work/leank-p2p-communication/cover.png
+status: Maintained
+liveUrl: https://leank.space
+gallery:
+  - type: video
+    url: https://assets.mnsh.online/work/leank-p2p-communication/recording.mov
+    thumbnail: https://assets.mnsh.online/work/leank-p2p-communication/home.png
+  - type: image
+    url: https://assets.mnsh.online/work/leank-p2p-communication/home.png
+  - type: image
+    url: https://assets.mnsh.online/work/leank-p2p-communication/lobby.png
+  - type: image
+    url: https://assets.mnsh.online/work/leank-p2p-communication/room.png
+  - type: image
+    url: https://assets.mnsh.online/work/leank-p2p-communication/chat-panel.png
+  - type: image
+    url: https://assets.mnsh.online/work/leank-p2p-communication/peers.png
+  - type: image
+    url: https://assets.mnsh.online/work/leank-p2p-communication/connection.png
+  - type: image
+    url: https://assets.mnsh.online/work/leank-p2p-communication/invite-peer.png
+  - type: image
+    url: https://assets.mnsh.online/work/leank-p2p-communication/tos.png
+  - type: image
+    url: https://assets.mnsh.online/work/leank-p2p-communication/pp.png
 ---
 
-## Overview
+# Overview
 
-This is an example work project that demonstrates how to use MDX for showcasing your portfolio work.
+A browser-based platform for video calls, chat, and file sharing that connects users directly to each other. No backend. No accounts. No data stored anywhere.
 
-## Features
+---
 
-- Clean design
-- Responsive layout
-- Easy to customize
+## The Problem
 
-## Technologies Used
+Every mainstream communication tool routes your data through company servers — your calls, messages, and files pass through infrastructure you do not control. This introduces latency, privacy concerns, and dependency on third-party uptime. Users who want a quick, private conversation have no lightweight alternative that works without sign-up or downloads.
 
-- Next.js
-- TypeScript
-- Tailwind CSS
+---
 
-## Conclusion
+## The Solution
 
-You can add more MDX files in the `features/work/content` directory to showcase your work.
+Leank eliminates the middleman entirely by establishing direct browser-to-browser connections.
+
+- **Direct P2P video and voice calls** using WebRTC — no media server involved
+- **Encrypted text chat and file transfer** routed through the BitTorrent tracker network for peer discovery, then transmitted directly
+- **Instant sessions** via shareable room IDs — no accounts, no sign-up
+- **Zero data retention** — nothing is stored on any server, ever
+- **Dual WebRTC architecture** — separate optimized channels for media streams and data transfer
+
+---
+
+## How It Was Built
+
+The application uses a dual-connection architecture:
+
+1. **Peer discovery** happens through public BitTorrent trackers — both users search for the same room ID
+2. **Signaling data is exchanged** (ICE candidates, SDP) to establish a direct route between browsers
+3. **Two parallel WebRTC connections** are created — one optimized for real-time video/audio via `simple-peer`, another for text and files via `trystero`
+4. **Screen sharing** swaps the camera feed in-place on the existing connection — no new connection is created
+
+Once connected, the tracker disconnects entirely. All data flows browser-to-browser.
+
+---
+
+## Tech Stack
+
+| Technology | Purpose |
+|---|---|
+| Next.js (React 19) | Application framework and routing |
+| TypeScript | Type-safe development |
+| Tailwind CSS v4 | Styling and UI system |
+| simple-peer | WebRTC video and audio streams |
+| trystero | P2P data channels via BitTorrent trackers |
+| Lucide React | Interface iconography |
+| ESLint | Code quality enforcement |
+
+---
+
+## Impact and Results
+
+- **Zero server cost** for communication infrastructure — no media servers, no storage, no database
+- **Sub-second connection setup** — users join a room and start talking immediately
+- **Complete privacy by architecture** — data never touches a server, making surveillance or data breaches structurally impossible
+- **No onboarding friction** — share a link, open in browser, start communicating
+- **Works on any modern browser** — no app install, no plugin, no extension required
+
+## Project Link
+
+- **Live Platform** — [leank.space](https://leank.space)
