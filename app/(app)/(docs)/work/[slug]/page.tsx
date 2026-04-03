@@ -145,16 +145,25 @@ export default async function Page({
           {previous && (
             <Tooltip>
               <TooltipTrigger asChild>
-                <Link href={`/work/${previous.slug}`} className="rounded-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring">
-                  <kbd className="pointer-events-none flex h-5 min-w-6 items-center justify-center gap-1 rounded-sm bg-black/5 px-1 font-sans text-[13px] font-normal text-muted-foreground shadow-[inset_0_-1px_2px] shadow-black/10 select-none dark:bg-white/10 dark:shadow-white/10 dark:text-shadow-xs [&_svg:not([class*='size-'])]:size-3">
+                <Button
+                  className="size-7 border-none rounded-none"
+                  variant="secondary"
+                  size="icon:sm"
+                  asChild
+                >
+                  <Link href={`/work/${previous.slug}`}>
                     <ArrowLeftIcon />
                     <span className="sr-only">Previous: {previous.metadata.title}</span>
-                  </kbd>
-                </Link>
+                  </Link>
+                </Button>
               </TooltipTrigger>
-              <TooltipContent className="flex items-center gap-2">
-                <Kbd>←</Kbd>
-                <span>{previous.metadata.title}</span>
+              <TooltipContent className="pr-2 pl-3">
+                <div className="flex items-center gap-3">
+                  Previous Post
+                  <Kbd>
+                    <ArrowLeftIcon />
+                  </Kbd>
+                </div>
               </TooltipContent>
             </Tooltip>
           )}
@@ -162,16 +171,25 @@ export default async function Page({
           {next && (
             <Tooltip>
               <TooltipTrigger asChild>
-                <Link href={`/work/${next.slug}`} className="rounded-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring">
-                  <kbd className="pointer-events-none flex h-5 min-w-6 items-center justify-center gap-1 rounded-sm bg-black/5 px-1 font-sans text-[13px] font-normal text-muted-foreground shadow-[inset_0_-1px_2px] shadow-black/10 select-none dark:bg-white/10 dark:shadow-white/10 dark:text-shadow-xs [&_svg:not([class*='size-'])]:size-3">
-                    <ArrowRightIcon />
+                <Button
+                  className="size-7 border-none rounded-none"
+                  variant="secondary"
+                  size="icon:sm"
+                  asChild
+                >
+                  <Link href={`/work/${next.slug}`}>
                     <span className="sr-only">Next: {next.metadata.title}</span>
-                  </kbd>
-                </Link>
+                    <ArrowRightIcon />
+                  </Link>
+                </Button>
               </TooltipTrigger>
-              <TooltipContent className="flex items-center gap-2">
-                <span>{next.metadata.title}</span>
-                <Kbd>→</Kbd>
+              <TooltipContent className="pr-2 pl-3">
+                <div className="flex items-center gap-3">
+                  Next Post
+                  <Kbd>
+                    <ArrowRightIcon />
+                  </Kbd>
+                </div>
               </TooltipContent>
             </Tooltip>
           )}

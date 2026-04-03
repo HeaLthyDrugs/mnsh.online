@@ -22,6 +22,9 @@ import { USER } from "@/features/profile/data/user";
 import { BlogCoverActions } from "@/features/blog/components/blog-cover-actions";
 import { KeyboardNavigation } from "@/components/keyboard-navigation";
 import { LLMCopyButtonWithViewOptions } from "@/components/post-page-actions";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
+import { Kbd } from "@/components/ui/kbd";
+import { PostShareMenu } from "@/features/blog/components/post-share-menu";
 
 
 export async function generateStaticParams() {
@@ -127,7 +130,7 @@ export default async function Page({
             />
             <div className="flex items-center justify-between p-2 pl-4">
                 <Button
-                    className="h-7 gap-2 rounded-lg px-0 font-sans text-muted-foreground"
+                    className="h-7 gap-2 rounded-none px-0 font-sans text-muted-foreground"
                     variant="link"
                     asChild
                 >
@@ -143,22 +146,61 @@ export default async function Page({
                         isComponent={false}
                     />
 
+                    <PostShareMenu
+                        title={blog.metadata.title}
+                        url={`/blog/${blog.slug}`}
+                    />
+
                     {previous && (
-                        <Link href={`/blog/${previous.slug}`} className="rounded-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring">
-                            <kbd className="pointer-events-none flex h-5 min-w-6 items-center justify-center gap-1 rounded-sm bg-black/5 px-1 font-sans text-[13px] font-normal text-muted-foreground shadow-[inset_0_-1px_2px] shadow-black/10 select-none dark:bg-white/10 dark:shadow-white/10 dark:text-shadow-xs [&_svg:not([class*='size-'])]:size-3">
-                                <ArrowLeftIcon />
-                                <span className="sr-only">Previous</span>
-                            </kbd>
-                        </Link>
+                        <Tooltip>
+                            <TooltipTrigger asChild>
+                                <Button
+                                    className="size-7 border-none rounded-none"
+                                    variant="secondary"
+                                    size="icon:sm"
+                                    asChild
+                                >
+                                    <Link href={`/blog/${previous.slug}`}>
+                                        <ArrowLeftIcon />
+                                        <span className="sr-only">Previous</span>
+                                    </Link>
+                                </Button>
+                            </TooltipTrigger>
+                            <TooltipContent className="pr-2 pl-3">
+                                <div className="flex items-center gap-3">
+                                    Previous Post
+                                    <Kbd className="rounded-none">
+                                        <ArrowLeftIcon />
+                                    </Kbd>
+                                </div>
+                            </TooltipContent>
+                        </Tooltip>
                     )}
 
                     {next && (
-                        <Link href={`/blog/${next.slug}`} className="rounded-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring">
-                            <kbd className="pointer-events-none flex h-5 min-w-6 items-center justify-center gap-1 rounded-sm bg-black/5 px-1 font-sans text-[13px] font-normal text-muted-foreground shadow-[inset_0_-1px_2px] shadow-black/10 select-none dark:bg-white/10 dark:shadow-white/10 dark:text-shadow-xs [&_svg:not([class*='size-'])]:size-3">
-                                <span className="sr-only">Next</span>
-                                <ArrowRightIcon />
-                            </kbd>
-                        </Link>
+                        <Tooltip>
+                            <TooltipTrigger asChild>
+                                <Button
+                                    className="size-7 border-none rounded-none"
+                                    variant="secondary"
+                                    size="icon:sm"
+                                    asChild
+                                >
+                                    <Link href={`/blog/${next.slug}`}>
+                                        <span className="sr-only">Next</span>
+                                        <ArrowRightIcon />
+                                    </Link>
+                                </Button>
+                            </TooltipTrigger>
+                            <TooltipContent className="pr-2 pl-3">
+                                <div className="flex items-center gap-3">
+                                    Next Post
+                                    <Kbd className="rounded-none">
+                                        <ArrowRightIcon />
+                                    </Kbd>
+                                </div>
+                            </TooltipContent>
+                        </Tooltip>
                     )}
                 </div>
             </div>
@@ -257,14 +299,6 @@ export default async function Page({
                                         </div>
                                     </div>
 
-                                    {/* Right side: Action buttons */}
-                                    <div className="flex-shrink-0">
-                                        <BlogCoverActions
-                                            title={blog.metadata.title}
-                                            content={blog.content}
-                                            slug={blog.slug}
-                                        />
-                                    </div>
                                 </div>
                             </div>
 

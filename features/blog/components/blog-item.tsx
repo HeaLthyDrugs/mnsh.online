@@ -64,14 +64,14 @@ export function BlogItem({
                     <div className="pointer-events-none absolute inset-0 rounded-none ring-1 ring-black/10 ring-inset dark:ring-white/10" />
 
                     {metadata.new && (
-                        <span className="absolute top-1.5 right-1.5 rounded-md bg-info px-1.5 font-sans text-sm font-medium text-white text-shadow-xs">
+                        <span className="absolute top-1.5 right-1.5 rounded-none bg-info px-1.5 font-sans text-sm font-medium text-white text-shadow-xs">
                             New
                         </span>
                     )}
 
                     {metadata.category && (
                         <Tag
-                            className="absolute bottom-1.5 left-1.5 flex items-center gap-1 rounded-md bg-background/80 px-1.5 py-0.5 text-xs font-medium text-foreground backdrop-blur-sm"
+                            className="absolute bottom-1 left-1 flex items-center gap-1 rounded-none bg-background/60 px-1.5 py-0.5 text-xs font-medium text-foreground backdrop-blur-md"
                         >
                             {getCategoryIcon(metadata.category)}
                             <span className="capitalize">{metadata.category}</span>
@@ -97,20 +97,6 @@ export function BlogItem({
                         {formatDate(metadata.createdAt)}
                     </time>
                 </div>
-
-                {/* Tags */}
-                {metadata.tags && metadata.tags.length > 0 && (
-                    <div className="flex flex-wrap gap-1 mt-1">
-                        {metadata.tags.slice(0, 3).map((tag) => (
-                            <span
-                                key={tag}
-                                className="text-xs px-1.5 py-0.5 rounded bg-muted text-muted-foreground"
-                            >
-                                #{tag}
-                            </span>
-                        ))}
-                    </div>
-                )}
             </div>
         </Link>
     );
