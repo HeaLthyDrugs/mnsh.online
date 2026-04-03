@@ -220,7 +220,7 @@ function GreetingAboutSection() {
 
       {/* Content column */}
       <div className="flex flex-1 flex-col justify-center px-4 py-5 md:px-5 space-y-3 leading-relaxed text-muted-foreground">
-        <div className="prose prose-sm dark:prose-invert max-w-none text-muted-foreground prose-p:leading-relaxed prose-li:my-1 prose-ul:my-2 prose-a:underline prose-a:underline-offset-4 prose-a:decoration-edge hover:prose-a:decoration-foreground/60 prose-a:text-foreground hover:prose-a:text-primary prose-a:transition-colors prose-strong:text-foreground prose-strong:font-medium">
+        <div className="prose prose-sm dark:prose-invert max-w-none text-muted-foreground prose-p:leading-relaxed prose-li:my-1 prose-ul:my-2 prose-a:underline prose-a:underline-offset-4 prose-a:decoration-edge/50 hover:prose-a:decoration-foreground prose-a:text-foreground/90 hover:prose-a:text-foreground prose-a:transition-colors prose-strong:text-foreground prose-strong:font-medium">
           <Markdown>
             {USER.about}
           </Markdown>
