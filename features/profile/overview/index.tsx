@@ -22,6 +22,8 @@ import { LayersIcon } from "@/components/animated-icons/layers";
 import { AnimatePresence, motion } from "framer-motion";
 import { useLoop } from "@/lib/animation/useLoop";
 import { ClockIcon } from "@/components/animated-icons/clock";
+import { Markdown } from "@/components/markdown";
+
 
 // Local time component
 function LocalTime({ timezone, label }: { timezone: string; label: string }) {
@@ -218,13 +220,13 @@ function GreetingAboutSection() {
 
       {/* Content column */}
       <div className="flex flex-1 flex-col justify-center px-4 py-5 md:px-5 space-y-3 leading-relaxed text-muted-foreground">
-        <p className="text-balance">
-          {greeting}. I am a <strong className="font-medium text-foreground">{USER.jobTitle}</strong> with over {USER.experienceYears} years of experience designing and developing pixel-perfect applications. Small details matter deeply to me.
-        </p>
-        <p className="text-balance">
-          Currently, I lead UI Design & Frontend at <a href={USER.jobs[0].website} target="_blank" rel="noopener noreferrer" className="font-medium text-foreground transition-colors hover:text-primary underline underline-offset-4 decoration-edge hover:decoration-foreground/60">Simplamo</a>, run my startup <a href={USER.jobs[1].website} target="_blank" rel="noopener noreferrer" className="font-medium text-foreground transition-colors hover:text-primary underline underline-offset-4 decoration-edge hover:decoration-foreground/60">Quaric</a>, and I'm actively building <a href={USER.currentlyBuilding?.link} target="_blank" rel="noopener noreferrer" className="font-medium text-foreground transition-colors hover:text-primary underline underline-offset-4 decoration-edge hover:decoration-foreground/60">HealthyDrugs</a>—{USER.currentlyBuilding?.label}.
-        </p>
+        <div className="prose prose-sm dark:prose-invert max-w-none text-muted-foreground prose-p:leading-relaxed prose-li:my-1 prose-ul:my-2 prose-a:underline prose-a:underline-offset-4 prose-a:decoration-edge hover:prose-a:decoration-foreground/60 prose-a:text-foreground hover:prose-a:text-primary prose-a:transition-colors prose-strong:text-foreground prose-strong:font-medium">
+          <Markdown>
+            {USER.about}
+          </Markdown>
+        </div>
       </div>
+
     </div>
   );
 }
@@ -315,7 +317,7 @@ export function Overview() {
                 </span>
               }
             >
-              <p className="text-balance text-foreground/90 font-medium">
+              <p className="text-balance text-foreground/90">
                 {USER.availabilityText}
               </p>
             </InfoRow>
