@@ -40,7 +40,6 @@ export const USER: User = {
     avatar: "https://avatars.githubusercontent.com/u/122515021?v=4",
     ogImage:
         "https://assets.mnsh.online/og/og-main.png",
-    namePronunciationUrl: "https://assets.chanhdai.com/audio/chanhdai.mp3",
     keywords: [
         "manish",
         "mnsh",
@@ -53,9 +52,6 @@ export const USER: User = {
         "vmanish",
         "Manish Vishwakarma",
     ],
-    dateCreated: "2025-10-20", // YYYY-MM-DD
-    skills: ["React", "Next.js", "TypeScript", "Node.js"],
-    experienceYears: 5,
     availabilityStatus: "available",
     availabilityText: "Open for freelance works",
     timezone: "Asia/Kolkata",

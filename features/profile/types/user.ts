@@ -29,16 +29,8 @@ export type User = {
   avatar: string;
   /** Open Graph image URL for social sharing */
   ogImage: string;
-  /** Audio URL for name pronunciation */
-  namePronunciationUrl: string;
   /** SEO keywords list for metadata */
   keywords: string[];
-  /** Profile/site start date in YYYY-MM-DD */
-  dateCreated: string;
-  /** Key skills/technologies to highlight */
-  skills: string[];
-  /** Years of professional experience */
-  experienceYears: number;
   /** Current availability status */
   availabilityStatus: "available" | "busy" | "open-to-opportunities";
   /** Human-readable availability text */
