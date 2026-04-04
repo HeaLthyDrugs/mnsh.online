@@ -36,7 +36,6 @@ export const USER: User = {
   - NotJustHack — [Vadim - NotJustDev](https://www.notjust.dev/)
   - JSM Hackathon — [JSMastery](https://jsmastery.com/) (Shortlisted)
   - Vibe Coding Hackathon — [Outlier](https://outlier.ai/) (Shortlisted)
-- Known for **Full-Stack Apps**, **UI/UX Design**, and **Deployment**
 - Currently working on [Leank.space](https://leank.space)`,
     avatar: "https://avatars.githubusercontent.com/u/122515021?v=4",
     ogImage:
