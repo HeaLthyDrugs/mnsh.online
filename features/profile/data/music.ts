@@ -24,16 +24,28 @@ export const GENRES: Genre[] = [
         icon: Waves,
         tracks: [
             {
-                title: "Midnight Waves",
-                artist: "Ambient Drift",
-                cover: "https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=400&q=80",
-                audioSrc: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3", // Example external URL
+                title: "AAAHH MEN!",
+                artist: "Doja Cat",
+                cover: "https://assets.mnsh.online/music-covers/aahh%20men%20-%20doja%20cat.jpg",
+                audioSrc: "https://assets.mnsh.online/music/Doja%20Cat%20-%20AAAHH%20MEN!%20(Audio)%20(1).mp3", // Example external URL
             },
             {
                 title: "Forest Rain",
                 artist: "Nature Sound Co.",
                 cover: "https://images.unsplash.com/photo-1448375240586-882707db888b?w=400&q=80",
                 audioSrc: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3",
+            },
+            {
+                title: "Deep Focus",
+                artist: "Lo-Fi Studio",
+                cover: "https://images.unsplash.com/photo-1459749411175-04bf5292ceea?w=400&q=80",
+                audioSrc: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3",
+            },
+            {
+                title: "Deep Focus",
+                artist: "Lo-Fi Studio",
+                cover: "https://images.unsplash.com/photo-1459749411175-04bf5292ceea?w=400&q=80",
+                audioSrc: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3",
             },
             {
                 title: "Deep Focus",
