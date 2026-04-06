@@ -32,7 +32,6 @@ export function ToolCard({ tool }: ToolCardProps) {
                             alt={tool.name}
                             fill
                             className="object-cover p-1.5"
-                            unoptimized
                         />
                     ) : (
                         <div className="flex h-full w-full items-center justify-center bg-muted/50 text-muted-foreground">

@@ -402,7 +402,6 @@ function CommandLinkGroup({
                   alt={link.title}
                   width={32}
                   height={20}
-                  unoptimized
                 />
                 <div className="pointer-events-none absolute inset-0 rounded-none ring-1 ring-black/10 ring-inset dark:ring-white/10" />
               </div>
@@ -414,7 +413,6 @@ function CommandLinkGroup({
                   alt={link.title}
                   width={20}
                   height={16}
-                  unoptimized
                 />
                 <div className="pointer-events-none absolute inset-0 rounded-none ring-1 ring-black/10 ring-inset dark:ring-white/10" />
               </div>

@@ -37,7 +37,6 @@ export function EventItem({
                         alt=""
                         fill
                         className="object-cover"
-                        unoptimized
                     />
                 </div>
             )}
@@ -50,7 +49,6 @@ export function EventItem({
                         alt={event.title}
                         fill
                         className="object-cover"
-                        unoptimized
                     />
                     <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
                 </div>

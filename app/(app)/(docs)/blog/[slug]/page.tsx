@@ -231,7 +231,6 @@ export default async function Page({
                                 quality={100}
                                 priority
                                 className="w-full h-auto object-cover aspect-[1200/630]"
-                                unoptimized
                             />
 
                             {/* Progressive blur gradient overlay */}

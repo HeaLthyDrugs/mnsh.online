@@ -107,7 +107,6 @@ export function WorkItem({
               "rounded-none aspect-1200/630 object-cover transition-all duration-300",
               inProgress && "blur-sm scale-[1.02] opacity-80"
             )}
-            unoptimized
           />
 
           {inProgress && (

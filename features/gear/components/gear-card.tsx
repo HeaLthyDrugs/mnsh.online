@@ -28,7 +28,6 @@ export function GearCard({ item }: GearCardProps) {
                             alt={item.name}
                             fill
                             className="object-contain grayscale transition-all group-hover:grayscale-0"
-                            unoptimized
                         />
                     ) : (
                         <div className="flex h-full w-full items-center justify-center">

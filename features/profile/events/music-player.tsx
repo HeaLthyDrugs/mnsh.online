@@ -177,7 +177,6 @@ export function MusicPlayer({ className }: { className?: string }) {
                             className={cn(
                                 "object-cover blur-[25px] scale-125 opacity-70",
                             )}
-                            unoptimized
                         />
                     </motion.div>
                 </AnimatePresence>
@@ -205,7 +204,6 @@ export function MusicPlayer({ className }: { className?: string }) {
                                     "object-cover rounded-none",
                                     "group-hover/player:scale-105 transition-transform duration-700"
                                 )}
-                                unoptimized
                             />
                         </motion.div>
                     </AnimatePresence>

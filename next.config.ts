@@ -24,6 +24,18 @@ const nextConfig: NextConfig = {
 
 		return rewrites;
 	},
+	images: {
+		remotePatterns: [
+			{
+				protocol: 'https',
+				hostname: 'assets.mnsh.online',
+			},
+			{
+				protocol: 'https',
+				hostname: 'avatars.githubusercontent.com',
+			},
+		],
+	},
 	devIndicators: false,
 };
 
