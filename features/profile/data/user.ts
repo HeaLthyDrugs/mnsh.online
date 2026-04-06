@@ -30,8 +30,8 @@ export const USER: User = {
     jobTitle: "Software Developer",
     about: `- Bachelor's in **Computer Science** (2024)
 - **Freelance Developer** working with Fiverr and Local Clients
-- **Built and maintained** multiple real-world Websites and Applications
-- Participated in Hackathons:
+- **Building and maintaining** multiple real-world Websites and Applications
+- Actively participating in **Hackathons**:
   - HackFrost Winter Hackathon — [WeMakeDevs](https://www.wemakedevs.org/)
   - NotJustHack — [Vadim - NotJustDev](https://www.notjust.dev/)
   - JSM Hackathon — [JSMastery](https://jsmastery.com/) (Shortlisted)
