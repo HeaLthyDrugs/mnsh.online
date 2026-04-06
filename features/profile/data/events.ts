@@ -57,6 +57,7 @@ export const EVENTS: Event[] = [
         link: "/tools",
         size: "medium",
     },
+
     {
         id: "gear",
         title: "Gear",
@@ -109,5 +110,16 @@ export const EVENTS: Event[] = [
         backgroundImage: "/logo/socials/youtube.webp",
         showActionButton: false,
         showTitle: false,
+    },
+    {
+        id: "video-loop",
+        title: "Montage",
+        date: "",
+        category: "Video",
+        size: "video",
+        youtubeVideoIds: ["X6kaQpEXJMA", "VOzqMIwNnlc"],
+        aspectRatio: "16/9",
+        showTitle: false,
+        showActionButton: false,
     },
 ];

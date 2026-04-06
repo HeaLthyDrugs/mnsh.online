@@ -3,6 +3,7 @@ import Image from "next/image";
 import { Event } from "../types/events";
 import { cn } from "@/lib/utils";
 import { Tag } from "@/components/ui/tag";
+import { YoutubePlaylistPlayer } from "./youtube-player";
 
 export function EventItem({
     event,
@@ -23,6 +24,11 @@ export function EventItem({
                 event.backgroundColor,
                 className
             )}
+            style={
+                event.category === "Video"
+                    ? { aspectRatio: event.aspectRatio || "16/9" }
+                    : undefined
+            }
             onClick={() => {
                 if (event.link) {
                     window.open(event.link, "_blank");
@@ -38,6 +44,27 @@ export function EventItem({
                         fill
                         className="object-cover"
                     />
+                </div>
+            )}
+
+            {/* Background YouTube Video */}
+            {event.youtubeVideoIds && event.youtubeVideoIds.length > 0 && (
+                <div className="absolute inset-0 z-50 overflow-hidden pointer-events-auto bg-black flex items-center justify-center">
+                    <YoutubePlaylistPlayer videoIds={event.youtubeVideoIds} className="absolute inset-0" />
+                </div>
+            )}
+            
+            {/* Legacy Background YouTube Video component backward compatibility */}
+            {!event.youtubeVideoIds && event.youtubeVideoId && (
+                <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none bg-black flex items-center justify-center">
+                    <div className="w-[105%] h-[105%] relative pointer-events-none">
+                        <iframe
+                            src={`https://www.youtube.com/embed/${event.youtubeVideoId}?autoplay=1&mute=1&controls=0&loop=1&playlist=${event.youtubeVideoId}&playsinline=1&modestbranding=1&rel=0&disablekb=1&iv_load_policy=3`}
+                            title={event.title}
+                            className="absolute inset-0 w-full h-full border-0 outline-none opacity-95 pointer-events-none"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        />
+                    </div>
                 </div>
             )}
 

@@ -20,8 +20,10 @@ const sizeToGridClasses: Record<string, string> = {
     medium: "col-span-2 md:col-span-4 row-span-2",
     // large: 4x2 mobile, 4x2 tablet, 6x2 desktop
     large: "col-span-4 lg:col-span-6 row-span-2",
-    // wide: full width
+    // wide: full width (thin strip)
     wide: "col-span-4 md:col-span-8 lg:col-span-12 row-span-2",
+    // video: full width, spans 1 fluid row to automatically match its intrinsic aspect ratio!
+    video: "col-span-4 md:col-span-8 lg:col-span-12",
     // tall: 2x4 (Double height)
     tall: "col-span-2 md:col-span-4 lg:col-span-6 row-span-4",
     // xl: 4x4 mobile/tablet, 6x4 desktop
@@ -48,7 +50,7 @@ export default function Events() {
                     - Doubled resolution for more granular sizing
                     - auto-rows-[100px] instead of 200px
                 */}
-                <div className="grid grid-cols-4 md:grid-cols-8 lg:grid-cols-12 gap-0 auto-rows-[100px] grid-flow-dense"
+                <div className="grid grid-cols-4 md:grid-cols-8 lg:grid-cols-12 gap-0 auto-rows-[minmax(100px,auto)] grid-flow-dense"
                     style={{ gridAutoFlow: "dense" }}
                 >
                     {EVENTS.map((event, index) => {

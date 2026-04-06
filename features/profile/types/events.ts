@@ -13,6 +13,12 @@ export type Event = {
     category: string;
     /** Optional description; Markdown and line breaks supported. */
     description?: string;
+    /** Array of Youtube Video IDs for playlist support */
+    youtubeVideoIds?: string[];
+    /** Legacy parameter, kept for fallback */
+    youtubeVideoId?: string;
+    /** Enforces a specific mathematical aspect ratio on the bento (e.g. "16/9", "21/9", "9/16") */
+    aspectRatio?: string;
     /** Event image URL (absolute or path under /public). */
     image?: string;
     /** Background image URL for the bento card */
@@ -31,7 +37,7 @@ export type Event = {
      * - xl: Extra large (spans 2 cols and 2 rows on desktop)
      * - hero: Hero size (spans 4 cols on desktop, 2 rows)
      */
-    size?: 'xxs' | 'xs' | 'small' | 'medium' | 'large' | 'wide' | 'tall' | 'xl' | 'hero' | 'social';
+    size?: 'xxs' | 'xs' | 'small' | 'medium' | 'large' | 'wide' | 'tall' | 'xl' | 'hero' | 'social' | 'video';
     /** Custom gradient overlay for background image (e.g., "from-blue-900/80 to-purple-900/80") */
     gradientOverlay?: string;
     /** Custom text color for title and content */
