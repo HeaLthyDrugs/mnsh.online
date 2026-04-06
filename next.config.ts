@@ -34,6 +34,42 @@ const nextConfig: NextConfig = {
 				protocol: 'https',
 				hostname: 'avatars.githubusercontent.com',
 			},
+			{
+				protocol: 'https',
+				hostname: 'images.unsplash.com',
+			},
+			{
+				protocol: 'https',
+				hostname: 'code.visualstudio.com',
+			},
+			{
+				protocol: 'https',
+				hostname: 'static.figma.com',
+			},
+			{
+				protocol: 'https',
+				hostname: 'www.notion.so',
+			},
+			{
+				protocol: 'https',
+				hostname: 'assets.vercel.com',
+			},
+			{
+				protocol: 'https',
+				hostname: 'static.linear.app',
+			},
+			{
+				protocol: 'https',
+				hostname: 'm.media-amazon.com',
+			},
+			{
+				protocol: 'https',
+				hostname: 'rukminim2.flixcart.com',
+			},
+			{
+				protocol: 'https',
+				hostname: 'www.asrock.com',
+			},
 		],
 	},
 	devIndicators: false,
