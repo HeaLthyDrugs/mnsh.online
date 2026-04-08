@@ -55,9 +55,13 @@ export type PostMetadata = {
    */
   technologies?: string[];
   /**
-   * Current status of the work/project (e.g. "Completed", "In Progress", "Maintained").
+   * Current status of the work/project.
    */
-  status?: "Completed" | "In Progress" | "Maintained" | "Archived";
+  status?: "Working" | "Operational" | "Iterating";
+  /**
+   * Priority/Order of the work. Higher index means higher priority.
+   */
+  index: number;
   /**
    * URL to the live/deployed version of the project.
    */

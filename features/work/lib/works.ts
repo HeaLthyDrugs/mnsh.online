@@ -24,7 +24,8 @@ export function getAllWorks(): Post[] {
         metadata: data as Post["metadata"],
         content,
       };
-    });
+    })
+    .sort((a, b) => b.metadata.index - a.metadata.index);
 
   return works;
 }
