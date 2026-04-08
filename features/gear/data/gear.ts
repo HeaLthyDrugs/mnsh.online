@@ -65,7 +65,6 @@ export const GEAR: GearItem[] = [
         name: "ASRock B760M Pro RS/D4",
         description: "A solid motherboard bridging all my components together reliably.",
         url: "https://www.asrock.com/mb/Intel/B760M%20Pro%20RSD4/index.asp#Specification",
-        image: "https://www.asrock.com/mb/photo/B760M%20Pro%20RSD4(L1).png",
     },
     {
         name: "MSI Cabinet",

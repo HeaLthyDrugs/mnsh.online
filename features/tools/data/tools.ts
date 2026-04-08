@@ -20,7 +20,7 @@ export const TOOLS: Tool[] = [
         description: "The collaborative interface design tool I use for all my designs.",
         url: "https://www.figma.com/",
         category: "Design",
-        image: "https://static.figma.com/app/icon/1/icon-64.png",
+        image: "https://avatars.githubusercontent.com/u/5155369?s=180&v=4",
     },
     {
         name: "Notion",
@@ -41,6 +41,6 @@ export const TOOLS: Tool[] = [
         description: "The issue tracking tool I use to manage my projects.",
         url: "https://linear.app/",
         category: "Productivity",
-        image: "https://static.linear.app/client/favicon/180x180.png",
+        image: "https://avatars.githubusercontent.com/u/56003310?s=180&v=4",
     }
 ];
