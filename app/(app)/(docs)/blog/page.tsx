@@ -10,6 +10,26 @@ export const metadata: Metadata = {
     title: "Blog",
     description:
         "Thoughts, tutorials, and insights on technology, design, and development.",
+    openGraph: {
+        title: "Blog",
+        description:
+            "Thoughts, tutorials, and insights on technology, design, and development.",
+        images: [
+            {
+                url: "https://assets.mnsh.online/blog-covers/blog-headline.png",
+                width: 1200,
+                height: 630,
+                alt: "Blog",
+            },
+        ],
+    },
+    twitter: {
+        card: "summary_large_image",
+        title: "Blog",
+        description:
+            "Thoughts, tutorials, and insights on technology, design, and development.",
+        images: ["https://assets.mnsh.online/blog-covers/blog-headline.png"],
+    },
 };
 
 export default function Page() {
