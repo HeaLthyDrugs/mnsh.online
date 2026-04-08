@@ -9,6 +9,7 @@ import { Tag } from "@/components/ui/tag";
 import { Icons } from "@/components/icons";
 import { ArrowUpRight } from "lucide-react";
 import { SimpleTooltip } from "@/components/ui/tooltip";
+import { useSound } from "@/hooks/use-sound";
 
 /**
  * Returns the appropriate icon component based on project type.
@@ -29,25 +30,25 @@ function getProjectTypeIcon(projectType?: string) {
 function getStatusConfig(status?: string) {
   switch (status) {
     case "Working":
-      return { 
-        label: "Working", 
-        dotClass: "bg-amber-500", 
-        pingClass: "bg-amber-500", 
-        desc: "Actively working on this project." 
+      return {
+        label: "Working",
+        dotClass: "bg-amber-500",
+        pingClass: "bg-amber-500",
+        desc: "Actively working on this project."
       };
     case "Operational":
-      return { 
-        label: "Operational", 
-        dotClass: "bg-emerald-500", 
-        pingClass: "bg-emerald-500", 
-        desc: "All systems are operational and actively maintained." 
+      return {
+        label: "Operational",
+        dotClass: "bg-emerald-500",
+        pingClass: "bg-emerald-500",
+        desc: "All systems are operational and actively maintained."
       };
     case "Iterating":
-      return { 
-        label: "Iterating", 
-        dotClass: "bg-blue-500", 
-        pingClass: "bg-blue-500", 
-        desc: "Operational and continuously receiving new features." 
+      return {
+        label: "Iterating",
+        dotClass: "bg-blue-500",
+        pingClass: "bg-blue-500",
+        desc: "Operational and continuously receiving new features."
       };
     default:
       if (status) return { label: status, dotClass: "bg-muted-foreground", desc: `Status: ${status}` };
@@ -102,6 +103,8 @@ export function WorkItem({
   shouldPreloadImage?: boolean;
 }) {
   const { metadata } = work;
+  const playHover = useSound("/sounds/hover.wav");
+  const playTap = useSound("/sounds/tap.wav");
 
   const working = metadata.status === "Working";
 
@@ -124,7 +127,7 @@ export function WorkItem({
 
           {working && (
             <div className="absolute inset-0 z-10 flex items-center justify-center bg-background/30 backdrop-blur-[2px] bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] dark:bg-[radial-gradient(#1f2937_1px,transparent_1px)] bg-[size:16px_16px]">
-              <span className="text-[10px] uppercase tracking-[0.2em] font-mono font-medium text-foreground/40 select-none dark:text-foreground/90">
+              <span className="text-[10px] uppercase tracking-[0.2em] font-mono font-medium text-white/80 select-none dark:text-white/40">
                 Working...
               </span>
             </div>
@@ -182,7 +185,9 @@ export function WorkItem({
               <button
                 type="button"
                 className="flex h-8 items-center px-3 text-muted-foreground transition-colors hover:bg-muted/50 hover:text-foreground cursor-pointer outline-none"
+                onMouseEnter={playHover}
                 onClick={(e) => {
+                  playTap();
                   e.preventDefault();
                   e.stopPropagation();
                   window.open(metadata.repoUrl, "_blank", "noopener,noreferrer");
@@ -199,7 +204,9 @@ export function WorkItem({
               <button
                 type="button"
                 className="flex h-8 items-center px-3 text-muted-foreground transition-colors hover:bg-muted/50 hover:text-foreground cursor-pointer outline-none"
+                onMouseEnter={playHover}
                 onClick={(e) => {
+                  playTap();
                   e.preventDefault();
                   e.stopPropagation();
                   window.open(metadata.liveUrl, "_blank", "noopener,noreferrer");

@@ -18,8 +18,12 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { USER } from "@/features/profile/data/user";
+import { useSound } from "@/hooks/use-sound";
 
 export function SiteFooter() {
+  const playHover = useSound("/sounds/hover.wav");
+  const playTap = useSound("/sounds/tap.wav");
+
   return (
     <footer className="max-w-screen overflow-x-hidden px-2">
       <div className="border-t border-edge mx-auto border-x md:max-w-3xl">
@@ -116,6 +120,8 @@ export function SiteFooter() {
                 href={`${SITE_INFO.url}/llms.txt`}
                 target="_blank"
                 rel="noopener noreferrer"
+                onMouseEnter={playHover}
+                onClick={playTap}
               >
                 llms.txt
               </a>
@@ -127,6 +133,8 @@ export function SiteFooter() {
                 href={`${SITE_INFO.url}/rss.xml`}
                 target="_blank"
                 rel="noopener noreferrer"
+                onMouseEnter={playHover}
+                onClick={playTap}
               >
                 <RssIcon className="size-4" />
                 <span className="sr-only">RSS</span>
@@ -204,6 +212,8 @@ function ContactRow({
 }) {
   const [copied, setCopied] = useState(false);
   const copyIconRef = useRef<CopyIconHandle>(null);
+  const playHover = useSound("/sounds/hover.wav");
+  const playTap = useSound("/sounds/tap.wav");
 
   const handleCopy = async (e: React.MouseEvent) => {
     e.preventDefault();
@@ -225,7 +235,11 @@ function ContactRow({
     <div className="group relative flex items-stretch">
       {/* Copy button + Value */}
       <button
-        onClick={handleCopy}
+        onClick={(e) => {
+          playTap();
+          handleCopy(e);
+        }}
+        onMouseEnter={playHover}
         className="flex items-center gap-2.5 text-muted-foreground hover:text-foreground transition-colors pl-4 py-3"
       >
         <span className="relative size-3.5 shrink-0 cursor-pointer">
@@ -260,6 +274,8 @@ function ContactRow({
         target={platform === "mailto" ? undefined : "_blank"}
         rel={platform === "mailto" ? undefined : "noopener noreferrer"}
         className="flex items-center gap-2 text-xs text-muted-foreground hover:text-foreground transition-colors shrink-0 pr-4 py-3"
+        onMouseEnter={playHover}
+        onClick={playTap}
       >
         <span>{platform}</span>
         <ExternalLinkIcon className="size-3" />
@@ -271,6 +287,8 @@ function ContactRow({
 function ContactTriggerBox() {
   const [isOpen, setIsOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
+  const playHover = useSound("/sounds/hover.wav");
+  const playTap = useSound("/sounds/tap.wav");
 
   useEffect(() => {
     if (!isOpen) return;
@@ -286,7 +304,13 @@ function ContactTriggerBox() {
   return (
     <div 
       ref={containerRef}
-      onClick={() => !isOpen && setIsOpen(true)}
+      onClick={() => {
+        if (!isOpen) {
+          playTap();
+          setIsOpen(true);
+        }
+      }}
+      onMouseEnter={!isOpen ? playHover : undefined}
       className={cn(
         "flex flex-col border-t md:border-t-0 md:border-l border-edge transition-all outline-none w-full h-full min-h-[160px] relative overflow-hidden group",
         !isOpen ? "cursor-pointer hover:bg-muted/10 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] dark:bg-[radial-gradient(#1f2937_1px,transparent_1px)] bg-[size:16px_16px]" : "bg-background"
@@ -294,13 +318,13 @@ function ContactTriggerBox() {
     >
       {isOpen ? (
         <div className="absolute inset-0 flex flex-col justify-center z-20 animate-in fade-in zoom-in-95 duration-200 divide-y divide-edge">
-          <a href="https://wa.me/918432563227" target="_blank" rel="noopener noreferrer" className="flex items-center px-6 py-3 hover:bg-muted/50 transition-colors flex-1 justify-center text-xs font-medium text-muted-foreground hover:text-foreground">
+          <a href="https://wa.me/918432563227" target="_blank" rel="noopener noreferrer" className="flex items-center px-6 py-3 hover:bg-muted/50 transition-colors flex-1 justify-center text-xs font-medium text-muted-foreground hover:text-foreground" onMouseEnter={playHover} onClick={playTap}>
             <Icons.whatsapp className="mr-2 size-4 shrink-0" /> WhatsApp
           </a>
-          <a href={`mailto:${USER.email}`} className="flex items-center px-6 py-3 hover:bg-muted/50 transition-colors flex-1 justify-center text-xs font-medium text-muted-foreground hover:text-foreground">
+          <a href={`mailto:${USER.email}`} className="flex items-center px-6 py-3 hover:bg-muted/50 transition-colors flex-1 justify-center text-xs font-medium text-muted-foreground hover:text-foreground" onMouseEnter={playHover} onClick={playTap}>
             <Icons.mail className="mr-2 size-4 shrink-0" /> Email
           </a>
-          <a href="https://cal.com/mnsh" target="_blank" rel="noopener noreferrer" className="flex items-center px-6 py-3 hover:bg-muted/50 transition-colors flex-1 justify-center text-xs font-medium text-muted-foreground hover:text-foreground">
+          <a href="https://cal.com/mnsh" target="_blank" rel="noopener noreferrer" className="flex items-center px-6 py-3 hover:bg-muted/50 transition-colors flex-1 justify-center text-xs font-medium text-muted-foreground hover:text-foreground" onMouseEnter={playHover} onClick={playTap}>
             <Icons.phone className="mr-2 size-4 shrink-0" /> Schedule a call
           </a>
         </div>

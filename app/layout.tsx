@@ -11,6 +11,7 @@ import { fontDomaine, fontSFPro } from "@/lib/fonts";
 import { Providers } from "@/components/providers";
 import { ConsentManager } from "../lib/consent/consent-manager";
 import { FloatingControls } from "@/components/floating-controls";
+import { GlobalAudio } from "@/components/global-audio";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_INFO.url),
@@ -147,6 +148,7 @@ export default function RootLayout({
           <ConsentManager>
             {children}
           </ConsentManager>
+          <GlobalAudio />
           <FloatingControls />
         </Providers>
       </body>

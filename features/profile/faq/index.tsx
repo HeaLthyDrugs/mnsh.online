@@ -1,4 +1,7 @@
+"use client";
+
 import { MailIcon } from "lucide-react";
+import { useSound } from "@/hooks/use-sound";
 
 import { Panel, PanelHeader, PanelTitle } from "../components/panel";
 import { FAQS } from "../data/faqs";
@@ -15,6 +18,8 @@ function decodeBase64(str: string): string {
 
 export default function Faq() {
     const decodedEmail = decodeBase64(USER.email);
+    const playHover = useSound("/sounds/hover.wav");
+    const playTap = useSound("/sounds/tap.wav");
 
     return (
         <Panel id="faq">
@@ -42,6 +47,8 @@ export default function Faq() {
                         <a
                             href={`mailto:${decodedEmail}`}
                             className="inline-flex items-center gap-1.5 text-xs text-muted-foreground/60 hover:text-primary transition-colors duration-200 group whitespace-nowrap"
+                            onMouseEnter={playHover}
+                            onClick={playTap}
                         >
                             <span className="underline underline-offset-2 decoration-muted-foreground/30 group-hover:decoration-primary">
                                 Email me

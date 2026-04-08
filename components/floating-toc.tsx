@@ -6,12 +6,15 @@ import { cn } from "@/lib/utils";
 import { ListIcon, XIcon } from "lucide-react";
 import { useAtom } from "jotai";
 import { isGalleryExpandedAtom } from "@/store/ui-store";
+import { useSound } from "@/hooks/use-sound";
 
 export function FloatingTOC({ items }: { items: TOCItemType[] }) {
     const [activeId, setActiveId] = useState<string>("");
     const [isVisible, setIsVisible] = useState(false);
     const [isOpenMobile, setIsOpenMobile] = useState(false);
     const [isGalleryExpanded] = useAtom(isGalleryExpandedAtom);
+    const playHover = useSound("/sounds/hover.wav");
+    const playTap = useSound("/sounds/tap.wav");
 
     useEffect(() => {
         const handleScroll = () => {
@@ -155,7 +158,9 @@ export function FloatingTOC({ items }: { items: TOCItemType[] }) {
                                         : depth === 0 ? "font-medium text-foreground/90" : "text-muted-foreground"
                                 )}
                                 href={item.url}
+                                onMouseEnter={playHover}
                                 onClick={() => {
+                                    playTap();
                                     if (isMobile) setIsOpenMobile(false);
                                 }}
                             >
@@ -197,6 +202,8 @@ export function FloatingTOC({ items }: { items: TOCItemType[] }) {
                                 href={item.url}
                                 className="py-1 flex items-center justify-end w-8 group/line"
                                 aria-label={typeof item.title === "string" ? item.title : "Table of contents item"}
+                                onMouseEnter={playHover}
+                                onClick={playTap}
                             >
                                 <div
                                     className={cn(
@@ -235,7 +242,11 @@ export function FloatingTOC({ items }: { items: TOCItemType[] }) {
 
                 {/* Floating Action Button attached to edge */}
                 <button
-                    onClick={() => setIsOpenMobile(!isOpenMobile)}
+                    onClick={() => {
+                        playTap();
+                        setIsOpenMobile(!isOpenMobile);
+                    }}
+                    onMouseEnter={playHover}
                     aria-label="Table of Contents"
                     className={cn(
                         "w-10 h-10 flex items-center justify-center shadow-md transition-colors border border-r-0 outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",

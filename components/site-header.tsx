@@ -10,7 +10,7 @@ import { cn } from "@/lib/utils";
 import { SiteHeaderWrapper } from "./site-header-wrapper";
 import { ToggleTheme } from "./toggle-theme";
 import { MoreOptions } from "./site-header-actions";
-import { MnshMark } from "@/components/mnsh-mark";
+import { HomeLink } from "@/components/home-link";
 import { getAllBlogs } from "@/features/blog/lib/blogs";
 import { getAllWorks } from "@/features/work/lib/works";
 
@@ -41,9 +41,7 @@ export async function SiteHeader() {
       >
 
         <div className="flex h-full w-[53px] shrink-0 items-center justify-center border-r border-border">
-          <Link href="/" aria-label="Home" className="flex h-full w-full items-center justify-center">
-            <MnshMark className="h-10 w-10 text-muted-foreground transition-colors duration-300 hover:text-foreground" />
-          </Link>
+          <HomeLink />
         </div>
 
         <div className="flex-1" />

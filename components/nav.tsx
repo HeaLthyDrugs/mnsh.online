@@ -11,6 +11,8 @@ import { Kbd } from "@/components/ui/kbd";
 
 
 
+import { useSound } from "@/hooks/use-sound";
+
 export function Nav({
   items,
   activeId,
@@ -21,6 +23,9 @@ export function Nav({
   className?: string;
 }) {
   const router = useRouter();
+
+  const playHover = useSound("/sounds/hover.wav");
+  const playTap = useSound("/sounds/tap.wav");
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -46,7 +51,14 @@ export function Nav({
           activeId === href || (href !== "/" && activeId?.startsWith(href));
 
         const navItem = (
-          <NavItem key={href} href={href} active={active} className="flex h-full items-center gap-1.5 px-4 border-r border-border">
+          <NavItem 
+            key={href} 
+            href={href} 
+            active={active} 
+            className="flex h-full items-center gap-1.5 px-4 border-r border-border"
+            onMouseEnter={playHover}
+            onClick={playTap}
+          >
             {title}
             {shortcut && <Kbd className="hidden sm:inline-flex">{shortcut}</Kbd>}
           </NavItem>

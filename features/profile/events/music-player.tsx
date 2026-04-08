@@ -1,6 +1,11 @@
 "use client";
 
 import { useState, useRef, useEffect, useCallback } from "react";
+import { useAtom } from "jotai";
+import { 
+    genreIdxAtom, currentTrackIdxAtom, isPlayingAtom, 
+    currentTimeAtom, durationAtom, volumeAtom, isMusicMutedAtom, globalAudioRef 
+} from "@/store/music-store";
 import {
     Play,
     SkipBack,
@@ -25,17 +30,16 @@ const GLASS =
 
 // ─── Component ───────────────────────────────────────────────────
 export function MusicPlayer({ className }: { className?: string }) {
-    const [genreIdx, setGenreIdx] = useState(0);
-    const [currentTrack, setCurrentTrack] = useState(0);
-    const [isPlaying, setIsPlaying] = useState(false);
-    const [currentTime, setCurrentTime] = useState(0);
-    const [duration, setDuration] = useState(0);
-    const [volume, setVolume] = useState(1);
-    const [isMuted, setIsMuted] = useState(false);
+    const [genreIdx, setGenreIdx] = useAtom(genreIdxAtom);
+    const [currentTrack, setCurrentTrack] = useAtom(currentTrackIdxAtom);
+    const [isPlaying, setIsPlaying] = useAtom(isPlayingAtom);
+    const [currentTime, setCurrentTime] = useAtom(currentTimeAtom);
+    const [duration, setDuration] = useAtom(durationAtom);
+    const [volume, setVolume] = useAtom(volumeAtom);
+    const [isMuted, setIsMuted] = useAtom(isMusicMutedAtom);
     const [volumeOpen, setVolumeOpen] = useState(false);
     const [genreOpen, setGenreOpen] = useState(false);
 
-    const audioRef = useRef<HTMLAudioElement>(null);
     const audioLinesRef = useRef<AudioLinesIconHandle>(null);
 
     const genre = GENRES[genreIdx];
@@ -49,35 +53,6 @@ export function MusicPlayer({ className }: { className?: string }) {
             audioLinesRef.current?.stopAnimation();
         }
     }, [isPlaying]);
-
-    // Handle actual play/pause logic
-    useEffect(() => {
-        if (!audioRef.current) return;
-
-        if (isPlaying) {
-            audioRef.current.play().catch(console.error);
-        } else {
-            audioRef.current.pause();
-        }
-    }, [isPlaying, currentTrack, genreIdx]); // Effect runs on track change too
-
-    // Ensure audio resets smoothly when track changes
-    useEffect(() => {
-        setCurrentTime(0);
-        setCurrentTime(0);
-        // Play automatically if we were already playing
-        if (isPlaying && audioRef.current) {
-            audioRef.current.play().catch(console.error);
-        }
-    }, [currentTrack, genreIdx]);
-
-    // Apply volume/mute state manually
-    useEffect(() => {
-        if (audioRef.current) {
-            audioRef.current.muted = isMuted;
-            audioRef.current.volume = volume;
-        }
-    }, [isMuted, volume]);
 
     const handlePlayPause = useCallback(() => setIsPlaying((p) => !p), []);
 
@@ -97,10 +72,10 @@ export function MusicPlayer({ className }: { className?: string }) {
 
     const handleProgressClick = useCallback(
         (e: React.MouseEvent<HTMLDivElement>) => {
-            if (!audioRef.current || duration === 0) return;
+            if (!globalAudioRef.current || duration === 0) return;
             const rect = e.currentTarget.getBoundingClientRect();
             const pct = (e.clientX - rect.left) / rect.width;
-            audioRef.current.currentTime = pct * duration;
+            globalAudioRef.current.currentTime = pct * duration;
         },
         [duration]
     );
@@ -117,21 +92,7 @@ export function MusicPlayer({ className }: { className?: string }) {
         [isMuted]
     );
 
-    const handleTimeUpdate = () => {
-        if (audioRef.current) {
-            setCurrentTime(audioRef.current.currentTime);
-        }
-    };
 
-    const handleLoadedMetadata = () => {
-        if (audioRef.current) {
-            setDuration(audioRef.current.duration);
-        }
-    };
-
-    const handleAudioEnded = () => {
-        handleNext(); // Auto play next track
-    };
 
     const formatTime = (timeInSeconds: number) => {
         if (isNaN(timeInSeconds) || !isFinite(timeInSeconds)) return "0:00";
@@ -150,15 +111,6 @@ export function MusicPlayer({ className }: { className?: string }) {
                 className
             )}
         >
-            {/* ── Hidden Audio Element ────────────────────────── */}
-            <audio
-                ref={audioRef}
-                src={track.audioSrc}
-                onTimeUpdate={handleTimeUpdate}
-                onLoadedMetadata={handleLoadedMetadata}
-                onEnded={handleAudioEnded}
-            />
-
             {/* ── Background Blurred Art ───────────── */}
             <div className="absolute inset-0 z-0 bg-neutral-900 border border-t-[1.5px] border-l-[1.5px] border-white/5 shadow-2xl overflow-hidden">
                 <AnimatePresence>
