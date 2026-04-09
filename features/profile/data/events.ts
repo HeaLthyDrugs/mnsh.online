@@ -117,7 +117,7 @@ export const EVENTS: Event[] = [
         date: "",
         category: "Video",
         size: "video",
-        youtubeVideoIds: ["X6kaQpEXJMA", "VOzqMIwNnlc"],
+        youtubeVideoIds: ["X6kaQpEXJMA", "KLuTLF3x9sA", "wnhvanMdx4s", "hMxlDbv-rec"],
         aspectRatio: "16/9",
         showTitle: false,
         showActionButton: false,
