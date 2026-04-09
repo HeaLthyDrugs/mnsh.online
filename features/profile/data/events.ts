@@ -39,16 +39,6 @@ export const EVENTS: Event[] = [
         textColor: "text-white",
     },
     {
-        id: "works",
-        title: "Works",
-        date: "",
-        category: "Portfolio",
-        // description: "Explore the projects I've built.",
-        backgroundColor: "bg-gradient-to-br from-violet-100 to-purple-200 dark:from-violet-950 dark:to-purple-900",
-        link: "/works",
-        size: "tall",
-    },
-    {
         id: "tools",
         title: "Tools",
         date: "",
