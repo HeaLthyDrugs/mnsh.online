@@ -5,17 +5,23 @@ import Image from "next/image";
 import { ArrowUpRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { GearItem } from "../data/gear";
+import { useSound } from "@/hooks/use-sound";
 
 interface GearCardProps {
     item: GearItem;
 }
 
 export function GearCard({ item }: GearCardProps) {
+    const playHover = useSound("/sounds/hover.wav");
+    const playTap = useSound("/sounds/tap.wav");
+
     return (
         <Link
             href={item.url}
             target="_blank"
             rel="noopener noreferrer"
+            onMouseEnter={playHover}
+            onClick={playTap}
             className={cn(
                 "group relative flex items-stretch h-full bg-background transition-colors hover:bg-muted/30"
             )}
@@ -40,12 +46,12 @@ export function GearCard({ item }: GearCardProps) {
             <div className="flex flex-1 flex-col">
                 <div className="flex items-stretch border-b border-dashed border-edge">
                     <div className="flex-1 p-3 flex flex-col justify-center">
-                        <h3 className="text-sm font-medium leading-tight text-foreground/90 group-hover:text-primary transition-colors">
+                        <h3 className="text-sm font-medium leading-tight text-foreground/90 group-hover:text-foreground transition-colors">
                             {item.name}
                         </h3>
                     </div>
                     <div className="flex items-center justify-center border-l border-dashed border-edge px-4 shrink-0 bg-muted/5">
-                        <ArrowUpRight className="size-3.5 text-muted-foreground/40 transition-colors group-hover:text-primary" />
+                        <ArrowUpRight className="size-3.5 text-muted-foreground/40 transition-colors group-hover:text-foreground" />
                     </div>
                 </div>
 

@@ -2,73 +2,78 @@ import { useCallback, useEffect, useRef } from "react";
 import { useAtomValue } from "jotai";
 import { isSoundEnabledAtom } from "@/store/sound-store";
 
+// Global cache for audio buffers to avoid redundant fetches and decoding
+const bufferCache = new Map<string, AudioBuffer>();
+// Global audio context shared across all hook instances to avoid hitting browser limits
+let sharedAudioCtx: AudioContext | null = null;
+
+function getSharedAudioContext() {
+    if (typeof window === "undefined") return null;
+    if (!sharedAudioCtx) {
+        const AudioContextClass =
+            window.AudioContext ||
+            (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
+
+        if (AudioContextClass) {
+            sharedAudioCtx = new AudioContextClass();
+        }
+    }
+    return sharedAudioCtx;
+}
+
 /**
- * Custom React hook to load and play a sound from a given URL using the Web Audio API.
- *
- * This hook fetches the audio file at the specified URL, decodes it, and prepares it for playback.
- * It returns a `play` function that can be called to play the loaded sound.
- *
- * @param url - The URL of the audio file to load and play.
- * @returns A function that, when called, plays the loaded sound.
- *
- * @remarks
- * - If the Web Audio API is not supported in the browser, a warning is logged and playback is disabled.
- * - The audio context and buffer are managed internally using React refs.
- * - Errors during fetching or decoding the audio are logged to the console.
- *
- * @example
- * ```tsx
- * const playClick = useSound('/sounds/click.mp3');
- * // Later in an event handler:
- * playClick();
- * ```
+ * Custom React hook to load and play a sound from a given URL using a shared Web Audio API context.
  */
 export function useSound(url: string) {
-  const audioCtxRef = useRef<AudioContext | null>(null);
-  const bufferRef = useRef<AudioBuffer | null>(null);
-  const isSoundEnabled = useAtomValue(isSoundEnabledAtom);
+    const isSoundEnabled = useAtomValue(isSoundEnabledAtom);
+    const bufferRef = useRef<AudioBuffer | null>(bufferCache.get(url) || null);
 
-  useEffect(() => {
-    const AudioContextClass =
-      window.AudioContext ||
-      (window as unknown as { webkitAudioContext: typeof AudioContext })
-        .webkitAudioContext;
+    useEffect(() => {
+        // If already in cache, no need to fetch
+        if (bufferCache.has(url)) {
+            bufferRef.current = bufferCache.get(url)!;
+            return;
+        }
 
-    if (!AudioContextClass) {
-      console.warn("Web Audio API is not supported in this browser.");
-      return;
-    }
+        const audioCtx = getSharedAudioContext();
+        if (!audioCtx) return;
 
-    const audioCtx = new AudioContextClass();
-    audioCtxRef.current = audioCtx;
+        let isMounted = true;
 
-    fetch(url)
-      .then((res) => res.arrayBuffer())
-      .then((data) => audioCtx.decodeAudioData(data))
-      .then((decoded) => {
-        bufferRef.current = decoded;
-      })
-      .catch((err) => {
-        console.log(`Failed to load click sound from ${url}:`, err);
-      });
-  }, [url]);
+        fetch(url)
+            .then((res) => res.arrayBuffer())
+            .then((data) => audioCtx.decodeAudioData(data))
+            .then((decoded) => {
+                if (isMounted) {
+                    bufferCache.set(url, decoded);
+                    bufferRef.current = decoded;
+                }
+            })
+            .catch((err) => {
+                console.warn(`Failed to load sound from ${url}:`, err);
+            });
 
-  const play = useCallback(() => {
-    // Check if sound is enabled globally
-    if (!isSoundEnabled) return;
+        return () => {
+            isMounted = false;
+        };
+    }, [url]);
 
-    if (audioCtxRef.current && bufferRef.current) {
-      // Resume context if suspended (browser autoplay policy)
-      if (audioCtxRef.current.state === 'suspended') {
-        audioCtxRef.current.resume();
-      }
+    const play = useCallback(() => {
+        if (!isSoundEnabled) return;
 
-      const source = audioCtxRef.current.createBufferSource();
-      source.buffer = bufferRef.current;
-      source.connect(audioCtxRef.current.destination);
-      source.start(0);
-    }
-  }, [isSoundEnabled]);
+        const audioCtx = getSharedAudioContext();
+        if (audioCtx && bufferRef.current) {
+            // Resume context if suspended (browser autoplay policy)
+            if (audioCtx.state === "suspended") {
+                audioCtx.resume();
+            }
 
-  return play;
+            const source = audioCtx.createBufferSource();
+            source.buffer = bufferRef.current;
+            source.connect(audioCtx.destination);
+            source.start(0);
+        }
+    }, [isSoundEnabled]);
+
+    return play;
 }
