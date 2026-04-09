@@ -176,7 +176,7 @@ export function YoutubePlaylistPlayer({
             />
 
             {/* Hover UI overlay */}
-            <div className="absolute inset-0 z-30 pointer-events-none p-4 flex flex-col justify-between">
+            <div className="absolute inset-0 z-30 pointer-events-none p-2 flex flex-col justify-between">
 
                 {/* Top bar logic (e.g. video counter) */}
                 <div className="flex justify-end opacity-0 group-hover/event:opacity-100 transition-opacity duration-300">
