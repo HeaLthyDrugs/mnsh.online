@@ -1,6 +1,7 @@
 import Image from "next/image";
 
 import { Markdown } from "@/components/markdown";
+import { useSound } from "@/hooks/use-sound";
 import {
     CollapsibleContent,
     CollapsibleTrigger,
@@ -18,10 +19,17 @@ export function FaqItem({
     className?: string;
     faq: Faq;
 }) {
+    const playHover = useSound("/sounds/hover.wav");
+    const playTap = useSound("/sounds/tap.wav");
+
     return (
         <CollapsibleWithContext defaultOpen={faq.isExpanded} asChild>
             <div className={className}>
-                <CollapsibleTrigger className="group/faq flex w-full items-center gap-4 p-3 text-left hover:bg-accent2 transition-colors duration-200">
+                <CollapsibleTrigger 
+                    className="group/faq flex w-full items-center gap-4 p-3 text-left hover:bg-accent2 transition-colors duration-200"
+                    onMouseEnter={playHover}
+                    onClick={playTap}
+                >
                     {/* Question Text */}
                     <div className="flex-1 min-w-0">
                         <h3 className="text-base font-regular leading-snug text-foreground/90">
