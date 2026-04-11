@@ -302,7 +302,7 @@ function ContactTriggerBox() {
   }, [isOpen]);
 
   return (
-    <div 
+    <div
       ref={containerRef}
       onClick={() => {
         if (!isOpen) {
@@ -324,7 +324,7 @@ function ContactTriggerBox() {
           <a href={`mailto:${USER.email}`} className="flex items-center px-6 py-3 hover:bg-muted/50 transition-colors flex-1 justify-center text-xs font-medium text-muted-foreground hover:text-foreground" onMouseEnter={playHover} onClick={playTap}>
             <Icons.mail className="mr-2 size-4 shrink-0" /> Email
           </a>
-          <a href="https://cal.com/mnsh" target="_blank" rel="noopener noreferrer" className="flex items-center px-6 py-3 hover:bg-muted/50 transition-colors flex-1 justify-center text-xs font-medium text-muted-foreground hover:text-foreground" onMouseEnter={playHover} onClick={playTap}>
+          <a href="https://cal.com/mnsshh" target="_blank" rel="noopener noreferrer" className="flex items-center px-6 py-3 hover:bg-muted/50 transition-colors flex-1 justify-center text-xs font-medium text-muted-foreground hover:text-foreground" onMouseEnter={playHover} onClick={playTap}>
             <Icons.phone className="mr-2 size-4 shrink-0" /> Schedule a call
           </a>
         </div>

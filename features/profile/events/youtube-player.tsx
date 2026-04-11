@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef, useId } from "react";
+import { useState, useEffect, useRef, useId, useMemo } from "react";
 import { Volume2, VolumeX, ChevronLeft, ChevronRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -27,17 +27,30 @@ export function YoutubePlaylistPlayer({
     const [isMuted, setIsMuted] = useState(true);
     const [currentIndex, setCurrentIndex] = useState(0);
 
+    // Shuffle video IDs once on mount
+    const shuffledVideoIds = useMemo(() => {
+        const shuffled = [...videoIds];
+        for (let i = shuffled.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+        }
+        return shuffled;
+    }, [videoIds]);
+
     // Keep track of latest values for YT event callbacks
     const currentIndexRef = useRef(currentIndex);
-    const videoIdsRef = useRef(videoIds);
+    const videoIdsRef = useRef(shuffledVideoIds);
 
     useEffect(() => {
         currentIndexRef.current = currentIndex;
-        videoIdsRef.current = videoIds;
-    }, [currentIndex, videoIds]);
+    }, [currentIndex]);
 
     useEffect(() => {
-        if (!videoIds || videoIds.length === 0) return;
+        videoIdsRef.current = shuffledVideoIds;
+    }, [shuffledVideoIds]);
+
+    useEffect(() => {
+        if (!shuffledVideoIds || shuffledVideoIds.length === 0) return;
 
         const loadYT = () => {
             if (window.YT && window.YT.Player) {
@@ -64,7 +77,7 @@ export function YoutubePlaylistPlayer({
             if (!playerElement) return;
 
             playerRef.current = new window.YT.Player(playerId, {
-                videoId: videoIds[0],
+                videoId: shuffledVideoIds[0],
                 playerVars: {
                     autoplay: 1,
                     mute: 1,
@@ -110,19 +123,19 @@ export function YoutubePlaylistPlayer({
     const handleNext = (e: React.MouseEvent) => {
         e.stopPropagation();
         if (!playerRef.current) return;
-        const next = (currentIndex + 1) % videoIds.length;
+        const next = (currentIndex + 1) % shuffledVideoIds.length;
         setCurrentIndex(next);
         setIsPlaying(false);
-        playerRef.current.loadVideoById(videoIds[next]);
+        playerRef.current.loadVideoById(shuffledVideoIds[next]);
     };
 
     const handlePrev = (e: React.MouseEvent) => {
         e.stopPropagation();
         if (!playerRef.current) return;
-        const prev = currentIndex === 0 ? videoIds.length - 1 : currentIndex - 1;
+        const prev = currentIndex === 0 ? shuffledVideoIds.length - 1 : currentIndex - 1;
         setCurrentIndex(prev);
         setIsPlaying(false);
-        playerRef.current.loadVideoById(videoIds[prev]);
+        playerRef.current.loadVideoById(shuffledVideoIds[prev]);
     };
 
     const toggleMute = (e: React.MouseEvent) => {
@@ -139,12 +152,12 @@ export function YoutubePlaylistPlayer({
 
     return (
         <div className={cn("relative w-full h-full bg-black overflow-hidden", className)}>
-            
+
             {/* The wrapper that will be converted into an iframe by YT API */}
             {/* Scale hides rendering artifacts while keeping aspect ratio intact */}
             <div className="absolute inset-0 w-full h-full flex items-center justify-center pointer-events-none z-0">
                 <div className="w-[105%] h-[105%] relative pointer-events-none">
-                   <div id={playerId} className="absolute inset-0 w-full h-full border-0 outline-none" />
+                    <div id={playerId} className="absolute inset-0 w-full h-full border-0 outline-none" />
                 </div>
             </div>
 
@@ -155,38 +168,38 @@ export function YoutubePlaylistPlayer({
             <div className="absolute inset-0 z-10 bg-transparent pointer-events-auto" />
 
             {/* Black cover block that hides loading glimpses */}
-            <div 
+            <div
                 className={cn(
                     "absolute inset-0 bg-black z-20 transition-opacity duration-500 ease-in-out pointer-events-none",
                     isPlaying ? "opacity-0" : "opacity-100"
-                )} 
+                )}
             />
 
             {/* Hover UI overlay */}
-            <div className="absolute inset-0 z-30 pointer-events-none p-4 flex flex-col justify-between">
-                
+            <div className="absolute inset-0 z-30 pointer-events-none p-2 flex flex-col justify-between">
+
                 {/* Top bar logic (e.g. video counter) */}
                 <div className="flex justify-end opacity-0 group-hover/event:opacity-100 transition-opacity duration-300">
                     <span className="backdrop-blur-sm bg-black/40 text-white/90 text-xs font-mono px-2 py-1 rounded-none border border-white/10 uppercase tracking-widest shadow-lg">
-                        {currentIndex + 1} / {videoIds.length}
+                        {currentIndex + 1} / {shuffledVideoIds.length}
                     </span>
                 </div>
 
                 {/* Center controls (Prev/Next) */}
                 <div className="flex items-center justify-between opacity-0 group-hover/event:opacity-100 transition-opacity duration-300 pointer-events-auto">
                     {/* Previous Button */}
-                    <button 
+                    <button
                         onClick={handlePrev}
                         className="bg-black/40 backdrop-blur-md rounded-none p-2 border border-white/10 text-white hover:bg-white/20 transition-all shadow-lg hidden md:block"
                     >
                         <ChevronLeft className="size-5" />
                     </button>
-                    
+
                     {/* Filler space */}
                     <div />
 
                     {/* Next Button */}
-                    <button 
+                    <button
                         onClick={handleNext}
                         className="bg-black/40 backdrop-blur-md rounded-none p-2 border border-white/10 text-white hover:bg-white/20 transition-all shadow-lg hidden md:block"
                     >
@@ -196,8 +209,8 @@ export function YoutubePlaylistPlayer({
 
                 {/* Bottom Controls (Volume + Mobile Controls) */}
                 <div className="flex items-center opacity-0 group-hover/event:opacity-100 transition-opacity duration-300 pointer-events-auto w-full">
-                    
-                    <button 
+
+                    <button
                         onClick={handlePrev}
                         className="bg-black/40 backdrop-blur-md rounded-none p-2 border border-white/10 text-white hover:bg-white/20 transition-all shadow-lg md:hidden mr-3 shrink-0"
                     >
@@ -206,11 +219,11 @@ export function YoutubePlaylistPlayer({
 
                     {/* Short Description */}
                     <span className="text-[10px] text-white/50 tracking-wider font-mono uppercase bg-black/40 backdrop-blur-md px-2 py-1 rounded-none border border-white/10 hidden sm:inline-block">
-                        curated cinematic aesthetics.
+                        curated cinematic aesthetics from YT
                     </span>
 
                     {/* Mute Button */}
-                    <button 
+                    <button
                         onClick={toggleMute}
                         className="ml-auto bg-black/40 backdrop-blur-md rounded-none p-2 md:p-3 border border-white/10 text-white hover:bg-white/20 transition-all shadow-lg shrink-0"
                     >
@@ -220,8 +233,8 @@ export function YoutubePlaylistPlayer({
                             <Volume2 className="size-4 md:size-5" />
                         )}
                     </button>
-                    
-                    <button 
+
+                    <button
                         onClick={handleNext}
                         className="ml-2 bg-black/40 backdrop-blur-md rounded-none p-2 border border-white/10 text-white hover:bg-white/20 transition-all shadow-lg md:hidden shrink-0"
                     >

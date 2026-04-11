@@ -6,17 +6,23 @@ import { ArrowUpRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Tool } from "../data/tools";
 import { Button } from "@/components/ui/button";
+import { useSound } from "@/hooks/use-sound";
 
 interface ToolCardProps {
     tool: Tool;
 }
 
 export function ToolCard({ tool }: ToolCardProps) {
+    const playHover = useSound("/sounds/hover.wav");
+    const playTap = useSound("/sounds/tap.wav");
+
     return (
         <Link
             href={tool.url}
             target="_blank"
             rel="noopener noreferrer"
+            onMouseEnter={playHover}
+            onClick={playTap}
             className={cn(
                 "group relative flex items-stretch justify-between gap-0 transition-colors hover:bg-muted/30 bg-background",
                 "min-h-[50px]"
@@ -31,7 +37,10 @@ export function ToolCard({ tool }: ToolCardProps) {
                             src={tool.image}
                             alt={tool.name}
                             fill
-                            className="object-cover p-1.5"
+                            className={cn(
+                                "object-contain p-2",
+                                tool.invertInDark && "dark:invert"
+                            )}
                         />
                     ) : (
                         <div className="flex h-full w-full items-center justify-center bg-muted/50 text-muted-foreground">
@@ -43,7 +52,7 @@ export function ToolCard({ tool }: ToolCardProps) {
                 {/* Title and Description */}
                 <div className="flex flex-col gap-1 min-w-0">
                     <div className="flex items-center gap-2">
-                        <h3 className="text-base font-medium leading-none tracking-tight group-hover:text-primary transition-colors truncate">
+                        <h3 className="text-base font-medium leading-none tracking-tight group-hover:text-foreground transition-colors truncate">
                             {tool.name}
                         </h3>
                         <span className="shrink-0 text-[10px] uppercase tracking-wider text-muted-foreground/60 border border-edge px-1.5 py-0.5 bg-muted/10">
@@ -61,7 +70,7 @@ export function ToolCard({ tool }: ToolCardProps) {
                 <Button
                     variant="ghost"
                     size="icon"
-                    className="size-9 rounded-none text-muted-foreground/60 hover:text-primary hover:bg-transparent"
+                    className="size-9 rounded-none text-muted-foreground/60 group-hover:text-foreground hover:bg-transparent"
                 >
                     <ArrowUpRight className="size-5" />
                     <span className="sr-only">Visit {tool.name}</span>
