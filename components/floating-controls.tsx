@@ -7,7 +7,7 @@ import { useAtom, useAtomValue } from "jotai";
 import { cn } from "@/lib/utils";
 import { isSoundEnabledAtom } from "@/store/sound-store";
 import { isGalleryExpandedAtom } from "@/store/ui-store";
-import { isPlayingAtom, genreIdxAtom, currentTrackIdxAtom } from "@/store/music-store";
+import { isPlayingAtom, genreIdxAtom, currentTrackIdxAtom, shuffledGenresAtom } from "@/store/music-store";
 import { GENRES } from "@/features/profile/data/music";
 import { AudioLinesIcon, type AudioLinesIconHandle } from "@/components/animated-icons/audio-lines";
 import { useSound } from "@/hooks/use-sound";
@@ -32,8 +32,9 @@ export function FloatingControls() {
     const genreIdx = useAtomValue(genreIdxAtom);
     const currentTrack = useAtomValue(currentTrackIdxAtom);
     const [isPlayerExpanded, setIsPlayerExpanded] = React.useState(false);
+    const [shuffledGenres] = useAtom(shuffledGenresAtom);
 
-    const track = GENRES[genreIdx]?.tracks[currentTrack];
+    const track = shuffledGenres[genreIdx]?.tracks[currentTrack];
 
     const audioLinesRef = React.useRef<AudioLinesIconHandle>(null);
     const [isVisible, setIsVisible] = React.useState(false);

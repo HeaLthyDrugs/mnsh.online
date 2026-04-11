@@ -1,6 +1,6 @@
 // ─── Genre & Track Definitions ─────────────────────────────────────
 
-import { Waves, Zap, Coffee } from "lucide-react";
+import { Globe, Flame, Coffee } from "lucide-react";
 
 export interface Track {
     title: string;
@@ -20,86 +20,98 @@ export interface Genre {
 
 export const GENRES: Genre[] = [
     {
-        label: "Ambient",
-        icon: Waves,
+        label: "International Pulse",
+        icon: Globe,
         tracks: [
             {
                 title: "AAAHH MEN!",
                 artist: "Doja Cat",
                 cover: "https://assets.mnsh.online/music-covers/aahh%20men%20-%20doja%20cat.jpg",
-                audioSrc: "https://assets.mnsh.online/music/Doja%20Cat%20-%20AAAHH%20MEN!%20(Audio)%20(1).mp3", // Example external URL
+                audioSrc: "https://assets.mnsh.online/music/Doja%20Cat%20-%20AAAHH%20MEN!%20(Audio)%20(1).mp3",
             },
             {
-                title: "Forest Rain",
-                artist: "Nature Sound Co.",
-                cover: "https://images.unsplash.com/photo-1448375240586-882707db888b?w=400&q=80",
-                audioSrc: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3",
+                title: "I Took A Pill In Ibiza",
+                artist: "Mike Posner",
+                cover: "https://assets.mnsh.online/music-covers/i-took-a-pill-in-ibiza.jpg",
+                audioSrc: "https://assets.mnsh.online/music/Mike%20Posner%20-%20I%20Took%20A%20Pill%20In%20Ibiza%20(Seeb%20Remix)%20(Explicit)%20-%20MikePosnerVEVO.mp3",
             },
             {
-                title: "Deep Focus",
-                artist: "Lo-Fi Studio",
-                cover: "https://images.unsplash.com/photo-1459749411175-04bf5292ceea?w=400&q=80",
-                audioSrc: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3",
+                title: "Plastic Love",
+                artist: "Mariya Takeuchi",
+                cover: "https://assets.mnsh.online/music-covers/plastic-love.jpg",
+                audioSrc: "https://assets.mnsh.online/music/%E7%AB%B9%E5%86%85%E3%81%BE%E3%82%8A%E3%82%84%20-%20%20Plastic%20Love%20(Official%20Music%20Video)%20-%20%E7%AB%B9%E5%86%85%E3%81%BE%E3%82%8A%E3%82%84%20-%20Mariya%20Takeuchi%20Official%20YouTube%20Channel.mp3",
             },
             {
-                title: "Deep Focus",
-                artist: "Lo-Fi Studio",
-                cover: "https://images.unsplash.com/photo-1459749411175-04bf5292ceea?w=400&q=80",
-                audioSrc: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3",
+                title: "TV Off",
+                artist: "Kendrick Lamar",
+                cover: "https://assets.mnsh.online/music-covers/tv-off-kendrick.jpg",
+                audioSrc: "https://assets.mnsh.online/music/Kendrick%20Lamar%20-%20tv%20off%20(Official%20Audio)%20-%20Kendrick%20Lamar.mp3",
             },
             {
-                title: "Deep Focus",
-                artist: "Lo-Fi Studio",
-                cover: "https://images.unsplash.com/photo-1459749411175-04bf5292ceea?w=400&q=80",
-                audioSrc: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3",
-            },
-        ],
-    },
-    {
-        label: "Synthwave",
-        icon: Zap,
-        tracks: [
-            {
-                title: "Neon Pulse",
-                artist: "Synthwave Collective",
-                cover: "https://images.unsplash.com/photo-1614149162883-504ce4d13909?w=400&q=80",
-                audioSrc: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3",
+                title: "Runaway",
+                artist: "Kanye West",
+                cover: "https://assets.mnsh.online/music-covers/runaway-kanye-west.jpg",
+                audioSrc: "https://assets.mnsh.online/music/Kanye%20West%20-%20Runaway%20(Video%20Version)%20ft.%20Pusha%20T%20-%20KanyeWestVEVO.mp3",
             },
             {
-                title: "Retro Drive",
-                artist: "Night Runner",
-                cover: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=400&q=80",
-                audioSrc: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-5.mp3",
+                title: "Can't Tell Me Nothing",
+                artist: "Kanye West",
+                cover: "https://assets.mnsh.online/music-covers/can't-tell-me-nothing-kanye-west.jpg",
+                audioSrc: "https://assets.mnsh.online/music/Kanye%20West%20-%20Can't%20Tell%20Me%20Nothing%20-%20KanyeWestVEVO.mp3",
             },
             {
-                title: "Chrome Dreams",
-                artist: "Signal Wave",
-                cover: "https://images.unsplash.com/photo-1633356122102-3fe601e05bd2?w=400&q=80",
-                audioSrc: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-6.mp3",
+                title: "Baby Blue",
+                artist: "Badfinger",
+                cover: "https://assets.mnsh.online/music-covers/baby-blue.jpg",
+                audioSrc: "https://assets.mnsh.online/music/Badfinger%20-%20Baby%20Blue%20lyrics%20video%20-%20Straight%20Up%20LP%20(1971)%20-%20Pete%20Ham.mp3",
+            },
+            {
+                title: "Just Keep Watching",
+                artist: "Tate McRae",
+                cover: "https://assets.mnsh.online/music-covers/f1-just-like-that.jpg",
+                audioSrc: "https://assets.mnsh.online/music/Tate%20McRae%20-%20Just%20Keep%20Watching%20(From%20F1%C2%AE%20The%20Movie)%20(Official%20Video)%20-%20Tate%20McRae.mp3",
             },
         ],
     },
     {
-        label: "Lo-Fi",
-        icon: Coffee,
+        label: "Soulful Indian",
+        icon: Flame,
         tracks: [
             {
-                title: "Late Night Study",
-                artist: "Chill Beats",
-                cover: "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=400&q=80",
-                audioSrc: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-7.mp3",
+                title: "In Dino",
+                artist: "AP Dhillon",
+                cover: "https://assets.mnsh.online/music-covers/in-dino.jpg",
+                audioSrc: "https://assets.mnsh.online/music/In%20Dino.mp3",
             },
             {
-                title: "Sunday Morning",
-                artist: "Vinyl Café",
-                cover: "https://images.unsplash.com/photo-1494232410401-ad00d5433cfa?w=400&q=80",
-                audioSrc: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-8.mp3",
+                title: "Ae Nazneen Suno Na",
+                artist: "AP Dhillon",
+                cover: "https://assets.mnsh.online/music-covers/Ae%20Nazneen%20Suno%20Na.jpg",
+                audioSrc: "https://assets.mnsh.online/music/Ae%20Nazneen%20Suno%20Na.mp3",
             },
             {
-                title: "Warm Tape",
-                artist: "Analog Mood",
-                cover: "https://images.unsplash.com/photo-1487180144351-b8472da7d491?w=400&q=80",
-                audioSrc: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-9.mp3",
+                title: "Doorie",
+                artist: "Mohit Chauhan",
+                cover: "https://assets.mnsh.online/music-covers/doorie.jpg",
+                audioSrc: "https://assets.mnsh.online/music/Doorie.mp3",
+            },
+            {
+                title: "Tere Nainon Mein",
+                artist: "The Bilz & Kashif",
+                cover: "https://assets.mnsh.online/music-covers/Tere%20Nainon%20Mein.jpg",
+                audioSrc: "https://assets.mnsh.online/music/The_Bilz___Kashif_-_Tere_Nainon_Mein__SPOTISAVER_.mp3",
+            },
+            {
+                title: "Nadaan Parinde",
+                artist: "Mohit Chauhan",
+                cover: "https://assets.mnsh.online/music-covers/Nadaan%20Parinde.jpg",
+                audioSrc: "https://assets.mnsh.online/music/Nadaan%20Parinde.mp3",
+            },
+            {
+                title: "Koi Jaane Na",
+                artist: "Mohit Chauhan",
+                cover: "https://assets.mnsh.online/music-covers/Koi%20Jaane%20Na.jpg",
+                audioSrc: "https://assets.mnsh.online/music/Koi%20Jaane%20Na.mp3",
             },
         ],
     },

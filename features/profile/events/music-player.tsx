@@ -4,7 +4,8 @@ import { useState, useRef, useEffect, useCallback } from "react";
 import { useAtom } from "jotai";
 import { 
     genreIdxAtom, currentTrackIdxAtom, isPlayingAtom, 
-    currentTimeAtom, durationAtom, volumeAtom, isMusicMutedAtom, globalAudioRef 
+    currentTimeAtom, durationAtom, volumeAtom, isMusicMutedAtom, 
+    shuffledGenresAtom, globalAudioRef 
 } from "@/store/music-store";
 import {
     Play,
@@ -42,7 +43,8 @@ export function MusicPlayer({ className }: { className?: string }) {
 
     const audioLinesRef = useRef<AudioLinesIconHandle>(null);
 
-    const genre = GENRES[genreIdx];
+    const [shuffledGenres] = useAtom(shuffledGenresAtom);
+    const genre = shuffledGenres[genreIdx];
     const track = genre.tracks[currentTrack];
 
     // Control AudioLines animation based on play state
@@ -391,7 +393,7 @@ export function MusicPlayer({ className }: { className?: string }) {
                             className={cn(
                                 "absolute bottom-0 right-0 rounded-none overflow-hidden transition-all duration-300 origin-bottom-right",
                                 GLASS,
-                                genreOpen ? "w-[124px] h-[128px] bg-white/20 border-white/30 backdrop-blur-xl shadow-lg" : "w-8 h-8"
+                                genreOpen ? "w-[160px] h-[128px] bg-white/20 border-white/30 backdrop-blur-xl shadow-lg" : "w-8 h-8"
                             )}
                         >
                             {/* Genere Selectors (only visible when open) */}
@@ -401,7 +403,7 @@ export function MusicPlayer({ className }: { className?: string }) {
                                     genreOpen ? "opacity-100 delay-100" : "opacity-0 pointer-events-none"
                                 )}
                             >
-                                {GENRES.map((g, i) => {
+                                {shuffledGenres.map((g, i) => {
                                     const Icon = g.icon;
                                     return (
                                         <button
