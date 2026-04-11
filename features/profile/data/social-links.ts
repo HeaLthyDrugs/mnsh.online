@@ -19,10 +19,10 @@ export const SOCIAL_LINKS: SocialLink[] = [
     description: "@HeLLLthyDrugs",
     href: "https://x.com/HeLLLthyDrug",
   },
-  {
-    icon: "/logo/socials/youtube.webp",
-    title: "YouTube",
-    description: "HeaLthyDrugs",
-    href: "https://youtube.com/@HeaLthyDrugs",
-  },
+  // {
+  //   icon: "/logo/socials/youtube.webp",
+  //   title: "YouTube",
+  //   description: "HeaLthyDrugs",
+  //   href: "https://youtube.com/@HeaLthyDrugs",
+  // },
 ];
