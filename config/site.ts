@@ -28,6 +28,24 @@ export const MAIN_NAV: NavItem[] = [
     shortcut: "W",
     description: "View my works",
   },
+  {
+    title: "Blog",
+    href: "/blog",
+    shortcut: "B",
+    description: "Read my thoughts",
+  },
+  {
+    title: "Tools",
+    href: "/tools",
+    shortcut: "T",
+    description: "Tools I use",
+  },
+  {
+    title: "Gear",
+    href: "/gear",
+    shortcut: "G",
+    description: "My setup & gear",
+  },
 ];
 
 export const GITHUB_USERNAME = "HeaLthyDrugs";

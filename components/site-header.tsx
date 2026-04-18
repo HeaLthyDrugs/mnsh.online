@@ -47,7 +47,7 @@ export async function SiteHeader() {
         <div className="flex-1" />
 
         <div className="hidden sm:flex h-full items-center border-l border-border">
-          <DesktopNav items={MAIN_NAV} />
+          <DesktopNav items={MAIN_NAV.filter(item => !["Tools", "Gear"].includes(item.title))} />
           {/* <MoreOptions /> */}
         </div>
 
