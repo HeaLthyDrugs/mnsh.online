@@ -79,19 +79,19 @@ export const GENRES: Genre[] = [
         tracks: [
             {
                 title: "In Dino",
-                artist: "AP Dhillon",
+                artist: "Soham Chakraborty",
                 cover: "https://assets.mnsh.online/music-covers/in-dino.jpg",
                 audioSrc: "https://assets.mnsh.online/music/In%20Dino.mp3",
             },
             {
                 title: "Ae Nazneen Suno Na",
-                artist: "AP Dhillon",
+                artist: "Abhijeet Bhattacharya",
                 cover: "https://assets.mnsh.online/music-covers/Ae%20Nazneen%20Suno%20Na.jpg",
                 audioSrc: "https://assets.mnsh.online/music/Ae%20Nazneen%20Suno%20Na.mp3",
             },
             {
                 title: "Doorie",
-                artist: "Mohit Chauhan",
+                artist: "Atif Aslam",
                 cover: "https://assets.mnsh.online/music-covers/doorie.jpg",
                 audioSrc: "https://assets.mnsh.online/music/Doorie.mp3",
             },
@@ -109,7 +109,7 @@ export const GENRES: Genre[] = [
             },
             {
                 title: "Koi Jaane Na",
-                artist: "Mohit Chauhan",
+                artist: "Raghav Kaushik",
                 cover: "https://assets.mnsh.online/music-covers/Koi%20Jaane%20Na.jpg",
                 audioSrc: "https://assets.mnsh.online/music/Koi%20Jaane%20Na.mp3",
             },
