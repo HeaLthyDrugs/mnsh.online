@@ -1,16 +1,41 @@
+"use client";
+
+import { useEffect, useState } from "react";
+import { useTheme } from "next-themes";
 import { cn } from "@/lib/utils";
+import { motion } from "framer-motion";
 
 export default function AnimatedScene() {
+  const [mounted, setMounted] = useState(false);
+  const { resolvedTheme } = useTheme();
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) {
+    return (
+      <div className="w-full h-40 border-x border-b border-edge bg-muted/10 animate-pulse select-none" />
+    );
+  }
+
+  const getGifSrc = () => {
+    return resolvedTheme === "dark"
+      ? "https://assets.mnsh.online/gifs/morning-evening.gif"
+      : "https://assets.mnsh.online/gifs/day.gif";
+  };
+
   return (
-<div
-        className={cn(
-          "aspect-2/1 border-x border-edge select-none sm:aspect-3/1",
-          "flex items-center justify-center text-black dark:text-white",
-          "screen-line-before screen-line-after before:-top-px after:-bottom-px",
-          "bg-black/0.75 bg-[radial-gradient(var(--pattern-foreground)_1px,transparent_0)] bg-size-[10px_10px] bg-center [--pattern-foreground:var(--color-zinc-950)]/5 dark:bg-white/0.75 dark:[--pattern-foreground:var(--color-white)]/5"
-        )}
-      >
-        <h1>Animated Scene will go here</h1>
-      </div>
+    <div className={cn("w-full border-x border-b border-edge select-none overflow-hidden bg-muted/10")}>
+      <motion.img
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.5, ease: "easeInOut" }}
+        src={getGifSrc()}
+        alt={`Scene for ${resolvedTheme} theme`}
+        className="block h-40 w-full object-cover"
+        fetchPriority="high"
+      />
+    </div>
   );
 }
