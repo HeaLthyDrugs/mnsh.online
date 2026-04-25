@@ -9,25 +9,31 @@ export default function manifest(): MetadataRoute.Manifest {
     description: SITE_INFO.description,
     icons: [
       {
-        src: "https://assets.chanhdai.com/images/icon-vector.svg",
+        src: "https://assets.mnsh.online/icons/platform/icon.svg",
         type: "image/svg+xml",
         sizes: "any",
         purpose: "any",
       },
       {
-        src: "https://assets.chanhdai.com/images/icon-192x192.png",
+        src: "https://assets.mnsh.online/icons/platform/2x.png",
+        type: "image/png",
+        sizes: "96x96",
+        purpose: "any",
+      },
+      {
+        src: "https://assets.mnsh.online/icons/platform/4x.png",
         type: "image/png",
         sizes: "192x192",
         purpose: "any",
       },
       {
-        src: "https://assets.chanhdai.com/images/icon-512x512.png",
+        src: "https://assets.mnsh.online/icons/platform/512w.png",
         type: "image/png",
         sizes: "512x512",
         purpose: "any",
       },
       {
-        src: "https://assets.chanhdai.com/images/maskable-icon.png",
+        src: "https://assets.mnsh.online/icons/platform/512w.png",
         type: "image/png",
         sizes: "512x512",
         purpose: "maskable",
