@@ -19,7 +19,9 @@ import {
   type HTMLAttributes,
   type ReactNode,
   useContext,
+  useEffect,
   useMemo,
+  useRef,
 } from "react"
 
 import { cn } from "@/lib/utils"
@@ -73,11 +75,16 @@ const DEFAULT_LABELS: Labels = {
 }
 
 const THEME = cn(
-  'data-[level="0"]:fill-muted-foreground/5',
-  'data-[level="1"]:fill-muted-foreground/20',
-  'data-[level="2"]:fill-muted-foreground/40',
-  'data-[level="3"]:fill-muted-foreground/60',
-  'data-[level="4"]:fill-muted-foreground/80'
+  'data-[level="0"]:fill-[#ebedf0]',
+  'data-[level="1"]:fill-[#9be9a8]',
+  'data-[level="2"]:fill-[#40c463]',
+  'data-[level="3"]:fill-[#30a14e]',
+  'data-[level="4"]:fill-[#216e39]',
+  'dark:data-[level="0"]:fill-[#161b22]',
+  'dark:data-[level="1"]:fill-[#0e4429]',
+  'dark:data-[level="2"]:fill-[#006d32]',
+  'dark:data-[level="3"]:fill-[#26a641]',
+  'dark:data-[level="4"]:fill-[#39d353]'
 )
 
 type ContributionGraphContextType = {
@@ -301,7 +308,7 @@ export const ContributionGraph = ({
       }}
     >
       <div
-        className={cn("flex w-max max-w-full flex-col gap-2", className)}
+        className={cn("flex w-full max-w-full flex-col gap-2", className)}
         style={{ fontSize, ...style }}
         {...props}
       >
@@ -355,6 +362,7 @@ export type ContributionGraphCalendarProps = Omit<
   "children"
 > & {
   hideMonthLabels?: boolean
+  alignToEnd?: boolean
   className?: string
   children: (props: {
     activity: Activity
@@ -366,20 +374,36 @@ export type ContributionGraphCalendarProps = Omit<
 export const ContributionGraphCalendar = ({
   title = "Contribution Graph",
   hideMonthLabels = false,
+  alignToEnd = false,
   className,
   children,
   ...props
 }: ContributionGraphCalendarProps) => {
   const { weeks, width, height, blockSize, blockMargin, labels } =
     useContributionGraph()
+  const containerRef = useRef<HTMLDivElement>(null)
 
   const monthLabels = useMemo(
     () => getMonthLabels(weeks, labels.months),
     [weeks, labels.months]
   )
 
+  useEffect(() => {
+    if (!alignToEnd) {
+      return
+    }
+
+    const container = containerRef.current
+    if (!container) {
+      return
+    }
+
+    container.scrollLeft = container.scrollWidth
+  }, [alignToEnd, width])
+
   return (
     <div
+      ref={containerRef}
       className={cn("max-w-full overflow-x-auto overflow-y-hidden", className)}
       {...props}
     >
