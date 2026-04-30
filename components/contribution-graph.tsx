@@ -247,7 +247,7 @@ export type ContributionGraphProps = HTMLAttributes<HTMLDivElement> & {
 export const ContributionGraph = ({
   data,
   blockMargin = 4,
-  blockRadius = 2,
+  blockRadius = 0,
   blockSize = 12,
   fontSize = 14,
   labels: labelsProp = undefined,
@@ -256,6 +256,7 @@ export const ContributionGraph = ({
   totalCount: totalCountProp = undefined,
   weekStart = 0,
   className,
+  children,
   ...props
 }: ContributionGraphProps) => {
   const maxLevel = Math.max(1, maxLevelProp)
@@ -303,7 +304,9 @@ export const ContributionGraph = ({
         className={cn("flex w-max max-w-full flex-col gap-2", className)}
         style={{ fontSize, ...style }}
         {...props}
-      />
+      >
+        {children}
+      </div>
     </ContributionGraphContext.Provider>
   )
 }

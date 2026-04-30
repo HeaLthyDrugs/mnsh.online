@@ -4,6 +4,8 @@ import { Panel } from "../components/panel";
 import { EVENTS } from "../data/events";
 import { EventItem } from "./event-item";
 import { MusicPlayer } from "./music-player";
+import { GitHubContributionsCard } from "./github-contributions-card";
+import { USER } from "../data/user";
 import { cn } from "@/lib/utils";
 
 // Map sizes to CSS grid classes for responsive bento layout
@@ -40,7 +42,12 @@ const MUSIC_PLAYER_CLASSES = "col-span-4 md:col-span-6 row-span-4";
 // Index in the events array where we insert the music player
 const MUSIC_PLAYER_POSITION = 3;
 
+// Index in the events array where we insert the GitHub contributions
+const GITHUB_CONTRIBUTIONS_POSITION = 5;
+
 export default function Events() {
+    const githubProfileUrl = `https://github.com/${USER.username}`;
+
     return (
         <Panel id="events">
 
@@ -79,6 +86,17 @@ export default function Events() {
                                 >
                                     <MusicPlayer className="h-full" />
                                 </div>
+                            );
+                        }
+
+                        // Insert GitHub contributions at the designated position
+                        if (index === GITHUB_CONTRIBUTIONS_POSITION) {
+                            items.push(
+                                <GitHubContributionsCard
+                                    key="github-contributions"
+                                    username={USER.username}
+                                    githubProfileUrl={githubProfileUrl}
+                                />
                             );
                         }
 

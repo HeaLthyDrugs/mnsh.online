@@ -6,7 +6,7 @@ export const USER: User = {
     lastName: "Vishwakarma",
     fullName: "Manish Vishwakarma",
     displayName: "Manish",
-    username: "mnsh",
+    username: "HeaLthyDrugs",
     gender: "male",
     pronouns: "he/him",
     bio: "Learning and building",

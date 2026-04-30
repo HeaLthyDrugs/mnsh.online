@@ -1,15 +1,10 @@
-"use client"
-
-import { format } from "date-fns"
-import { LoaderIcon } from "lucide-react"
-import { use } from "react"
-
+import { getCachedContributions } from "@/lib/get-cached-contributions";
+import { format } from "date-fns";
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
-} from "@/components/ui/tooltip"
-import type { Activity } from "@/components/contribution-graph"
+} from "@/components/ui/tooltip";
 import {
   ContributionGraph,
   ContributionGraphBlock,
@@ -17,16 +12,39 @@ import {
   ContributionGraphFooter,
   ContributionGraphLegend,
   ContributionGraphTotalCount,
-} from "@/components/contribution-graph"
+} from "@/components/contribution-graph";
+import { cn } from "@/lib/utils";
+import { Suspense } from "react";
+import { LoaderIcon } from "lucide-react";
 
-export function GitHubContributions({
-  contributions,
+const GITHUB_CONTRIBUTIONS_CLASSES = "col-span-4 md:col-span-8 lg:col-span-12 row-span-2";
+
+interface GitHubContributionsCardProps {
+  username: string;
+  githubProfileUrl: string;
+}
+
+function GitHubContributionsFallback() {
+  return (
+    <div className="flex h-40.5 w-full items-center justify-center">
+      <LoaderIcon className="animate-spin text-muted-foreground" />
+    </div>
+  );
+}
+
+async function GitHubContributionsContent({
+  username,
   githubProfileUrl,
-}: {
-  contributions: Promise<Activity[]>
-  githubProfileUrl: string
-}) {
-  const data = use(contributions)
+}: GitHubContributionsCardProps) {
+  const data = await getCachedContributions(username);
+
+  if (!data || data.length === 0) {
+    return (
+      <div className="flex h-40.5 w-full items-center justify-center">
+        <p className="text-muted-foreground">No contribution data available</p>
+      </div>
+    );
+  }
 
   return (
     <ContributionGraph
@@ -82,13 +100,31 @@ export function GitHubContributions({
         <ContributionGraphLegend />
       </ContributionGraphFooter>
     </ContributionGraph>
-  )
+  );
 }
 
-export function GitHubContributionsFallback() {
+export function GitHubContributionsCard({
+  username,
+  githubProfileUrl,
+}: GitHubContributionsCardProps) {
   return (
-    <div className="flex h-40.5 w-full items-center justify-center">
-      <LoaderIcon className="animate-spin text-muted-foreground" />
+    <div
+      className={cn(
+        "bg-card overflow-hidden border",
+        "animate-[fadeSlideUp_0.5s_ease-out_forwards]",
+        "opacity-0",
+        GITHUB_CONTRIBUTIONS_CLASSES
+      )}
+      style={{
+        animationDelay: "200ms",
+      }}
+    >
+      <Suspense fallback={<GitHubContributionsFallback />}>
+        <GitHubContributionsContent
+          username={username}
+          githubProfileUrl={githubProfileUrl}
+        />
+      </Suspense>
     </div>
-  )
+  );
 }
