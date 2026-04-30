@@ -5,6 +5,13 @@ import { cn } from "@/lib/utils";
 import { Tag } from "@/components/ui/tag";
 import { YoutubePlaylistPlayer } from "./youtube-player";
 
+const SOCIAL_CAPTIONS: Record<string, string> = {
+    twitter: "Thoughts, updates, and quick takes",
+    linkedin: "Career journey and professional updates",
+    github: "Open-source work and shipped code",
+    youtube: "Build logs, demos, and experiments",
+};
+
 export function EventItem({
     event,
     className,
@@ -14,11 +21,12 @@ export function EventItem({
 }) {
     const hasBackgroundImage = !!event.backgroundImage;
     const showInlineImage = event.showImage !== false && event.image;
+    const isSocial = event.category === "Social";
 
     return (
         <div
             className={cn(
-                "group/event relative flex h-full w-full flex-col overflow-hidden border border-edge",
+                "group/event relative flex h-full w-full flex-col overflow-hidden",
                 event.link && "cursor-pointer",
                 !hasBackgroundImage && !event.backgroundColor && "bg-card",
                 event.backgroundColor,
@@ -36,7 +44,7 @@ export function EventItem({
             }}
         >
             {/* Background Image (The Main Visual) */}
-            {hasBackgroundImage && (
+            {hasBackgroundImage && !isSocial && (
                 <div className="absolute inset-0 z-0">
                     <Image
                         src={event.backgroundImage!}
@@ -45,6 +53,32 @@ export function EventItem({
                         className="object-cover"
                     />
                 </div>
+            )}
+
+            {/* Social Card Visual System: background logo + blur + centered logo */}
+            {isSocial && hasBackgroundImage && (
+                <>
+                    <div className="absolute inset-0 z-0" style={{ filter: 'blur(25px)' }}>
+                        <Image
+                            src={event.backgroundImage!}
+                            alt=""
+                            fill
+                            className="object-cover scale-[1.1] opacity-95 transition-transform duration-500 group-hover/event:scale-[1.14]"
+                        />
+                    </div>
+                    <div className="pointer-events-none absolute inset-0 z-[1] bg-black/20" />
+                    <div className="pointer-events-none absolute inset-0 z-10 flex items-center justify-center p-3 md:p-4">
+                        <div className="relative aspect-square w-full max-w-[72%] md:max-w-[68%]">
+                            <Image
+                                src={event.backgroundImage!}
+                                alt={event.title}
+                                fill
+                                className="object-contain drop-shadow-[0_12px_30px_rgba(0,0,0,0.6)] transition-transform duration-300 group-hover/event:scale-[1.03]"
+                            />
+                        </div>
+                    </div>
+                    <div className="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-2/5 bg-gradient-to-t from-black/65 to-transparent" />
+                </>
             )}
 
             {/* Background YouTube Video */}
@@ -86,7 +120,8 @@ export function EventItem({
                 "relative z-10 flex flex-1 flex-col gap-2 p-3 md:gap-3 md:p-4",
                 event.size === 'xxs' && "p-1 md:p-1.5",
                 !showInlineImage && "pt-3 md:pt-4",
-                event.size === 'xxs' && !showInlineImage && "pt-1 md:pt-1.5"
+                event.size === 'xxs' && !showInlineImage && "pt-1 md:pt-1.5",
+                isSocial && "justify-end p-2.5 md:p-3"
             )}>
 
                 {/* Title */}
@@ -99,26 +134,35 @@ export function EventItem({
                     // Desktop: show on hover
                     "md:opacity-0 md:-translate-y-1",
                     "md:group-hover/event:opacity-100 md:group-hover/event:translate-y-0"
-                )}>
+                )}
+                >
                     {event.title}
                 </h3>
 
                 {/* Tagline Overlay (Primarily for Socials) */}
-                <div className="relative z-10 flex flex-1 flex-col items-center justify-center">
-                    <div className="mt-auto mb-2 md:mb-3">
-                        {event.tagline && (
-                            <span className={cn(
-                                "px-2 py-0.5 rounded-full bg-black/60 backdrop-blur-md border border-white/10 shadow-lg",
-                                "text-[10px] md:text-xs font-bold text-white tracking-tight animate-in fade-in slide-in-from-bottom-2"
-                            )}>
-                                {event.tagline}
-                            </span>
-                        )}
+                {isSocial ? (
+                    <div className="relative z-20 mt-auto hidden md:block">
+                        <div className="text-xs font-medium leading-snug text-white/90 drop-shadow-[0_1px_2px_rgba(0,0,0,0.7)]">
+                            {SOCIAL_CAPTIONS[event.id] || event.tagline || event.title}
+                        </div>
                     </div>
-                </div>
+                ) : (
+                    <div className="relative z-10 flex flex-1 flex-col items-center justify-center">
+                        <div className="mt-auto mb-2 md:mb-3">
+                            {event.tagline && (
+                                <span className={cn(
+                                    "px-2 py-0.5 rounded-full bg-black/60 backdrop-blur-md border border-white/10 shadow-lg",
+                                    "text-[10px] md:text-xs font-bold text-white tracking-tight animate-in fade-in slide-in-from-bottom-2"
+                                )}>
+                                    {event.tagline}
+                                </span>
+                            )}
+                        </div>
+                    </div>
+                )}
 
                 {/* Legacy Description logic for non-socials */}
-                {event.category !== "Social" && (
+                {!isSocial && (
                     <div className="flex flex-1 flex-col justify-end">
                         {event.description && (
                             <p className={cn(
@@ -132,6 +176,25 @@ export function EventItem({
                 )}
 
             </div>
+
+            {isSocial && (
+                <div className="pointer-events-none absolute inset-0 z-20 hidden md:block">
+                    <svg
+                        className="absolute right-2 top-2 h-5 w-5 text-white/55 transition-transform duration-300 group-hover/event:translate-x-0.5 group-hover/event:-translate-y-0.5"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        aria-hidden="true"
+                    >
+                        <path
+                            d="M7 17L17 7M10 7h7v7"
+                            stroke="currentColor"
+                            strokeWidth="1.8"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                        />
+                    </svg>
+                </div>
+            )}
 
             {/* Glassmorphic Action Button - Bottom Left */}
             <div

@@ -109,7 +109,6 @@ export function MusicPlayer({ className }: { className?: string }) {
         <div
             className={cn(
                 "group/player relative h-full w-full overflow-hidden select-none",
-                "border border-edge",
                 className
             )}
         >

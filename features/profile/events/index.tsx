@@ -57,7 +57,7 @@ export default function Events() {
                     - Doubled resolution for more granular sizing
                     - auto-rows-[100px] instead of 200px
                 */}
-                <div className="grid grid-cols-4 md:grid-cols-8 lg:grid-cols-12 gap-0 auto-rows-[minmax(100px,auto)] grid-flow-dense"
+                <div className="grid grid-cols-4 md:grid-cols-8 lg:grid-cols-12 auto-rows-[minmax(100px,auto)] grid-flow-dense gap-0"
                     style={{ gridAutoFlow: "dense" }}
                 >
                     {EVENTS.map((event, index) => {
@@ -104,7 +104,7 @@ export default function Events() {
                             <div
                                 key={event.id}
                                 className={cn(
-                                    "bg-card overflow-hidden",
+                                    "overflow-hidden",
                                     "animate-[fadeSlideUp_0.5s_ease-out_forwards]",
                                     "opacity-0",
                                     gridClasses
