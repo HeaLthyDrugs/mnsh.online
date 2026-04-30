@@ -85,7 +85,7 @@ export function WorkCarousel({ gallery }: WorkCarouselProps) {
         {/* Main Viewport */}
         <div
           className={cn(
-            "relative w-full aspect-video bg-zinc-100 dark:bg-zinc-950 group overflow-hidden",
+            "relative w-full aspect-video group overflow-hidden border border-dashed border-zinc-300 dark:border-zinc-700",
             currentItem.type === "image" ? "cursor-pointer" : ""
           )}
           onClick={() => {
@@ -101,7 +101,7 @@ export function WorkCarousel({ gallery }: WorkCarouselProps) {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.3 }}
-              className="absolute inset-0 flex items-center justify-center bg-zinc-100 dark:bg-zinc-950 z-0"
+              className="absolute inset-0 flex items-center justify-center bg-white dark:bg-black z-0"
             >
               {currentItem.type === "video" ? (
                 <video
