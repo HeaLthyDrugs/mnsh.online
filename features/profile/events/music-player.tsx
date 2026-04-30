@@ -113,7 +113,7 @@ export function MusicPlayer({ className }: { className?: string }) {
             )}
         >
             {/* ── Background Blurred Art ───────────── */}
-            <div className="absolute inset-0 z-0 bg-neutral-900 border border-t-[1.5px] border-l-[1.5px] border-white/5 shadow-2xl overflow-hidden">
+            <div className="absolute inset-0 z-0 bg-neutral-900 shadow-2xl overflow-hidden">
                 <AnimatePresence>
                     <motion.div
                         key={`bg-${genreIdx}-${currentTrack}`}
