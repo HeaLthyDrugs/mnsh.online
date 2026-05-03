@@ -270,7 +270,7 @@ export function YoutubePlaylistPlayer({
                     </div>
                     <div className="text-right space-y-2">
                         <p className="text-white/60 font-mono text-[9px] uppercase tracking-[.2em] leading-relaxed drop-shadow-md">
-                            Youtube videos which I like
+                            Youtube videos I like
                         </p>
                     </div>
                 </div>
