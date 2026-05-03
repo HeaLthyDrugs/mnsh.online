@@ -34,46 +34,6 @@ The official repository for [mnsh.online](https://mnsh.online), a personal portf
 -   **Animation**: [Framer Motion](https://www.framer.com/motion/)
 -   **Deployment**: [Vercel](https://vercel.com/)
 
-## Getting Started
-
-### Prerequisites
-
--   [Node.js](https://nodejs.org/) (Latest LTS recommended)
--   [npm](https://www.npmjs.com/) or [pnpm](https://pnpm.io/)
-
-### Installation
-
-1.  **Clone the repository:**
-
-    ```bash
-    git clone https://github.com/HeaLthyDrugs/mnsh.online.git
-    cd mnsh.online
-    ```
-
-2.  **Install dependencies:**
-
-    ```bash
-    npm install
-    # or
-    pnpm install
-    ```
-
-3.  **Set up environment variables:**
-
-    Create a `.env.local` file in the root directory and add required variables. See `config/site.ts` for reference.
-
-4.  **Run the development server:**
-
-    ```bash
-    npm run dev
-    # or
-    pnpm dev
-    ```
-
-5.  **Open the application:**
-
-    Navigate to [http://localhost:3000](http://localhost:3000) in your browser.
-
 ## Support & Links
 
 For inquiries or connections:
