@@ -6,6 +6,7 @@
 [![React](https://img.shields.io/badge/React-19-blue?logo=react)](https://react.dev/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5-blue?logo=typescript)](https://www.typescriptlang.org/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4-38B2AC?logo=tailwind-css)](https://tailwindcss.com/)
+[![Repo Views](https://komarev.com/ghpvc/?username=HeaLthyDrugs&repo=mnsh.online&color=orange)](https://github.com/HeaLthyDrugs/mnsh.online)
 [![License](https://img.shields.io/badge/License-Private-red.svg)](#)
 
 The official repository for [mnsh.online](https://mnsh.online), a personal portfolio and digital space built with Next.js and React to showcase professional projects, technical insights, and development tools.
