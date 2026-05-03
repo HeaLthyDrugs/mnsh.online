@@ -19,6 +19,17 @@ import { useLoop } from "@/lib/animation/useLoop";
 import { MessageCircleMoreIcon } from "@/components/animated-icons/message-circle-more";
 import { MailCheckIcon } from "@/components/ui/mail-check";
 import { Status, StatusIndicator, StatusLabel } from "@/components/ui/status";
+import { useState, useRef, useEffect } from "react";
+
+const FACES = [
+    "https://assets.mnsh.online/icons/faces/my-notion-face-transparent%20(1).png",
+    "https://assets.mnsh.online/icons/faces/my-notion-face-transparent%20(2).png",
+    "https://assets.mnsh.online/icons/faces/my-notion-face-transparent%20(3).png",
+    "https://assets.mnsh.online/icons/faces/my-notion-face-transparent%20(4).png",
+    "https://assets.mnsh.online/icons/faces/my-notion-face-transparent%20(5).png",
+    "https://assets.mnsh.online/icons/faces/my-notion-face-transparent%20(6).png",
+    "https://assets.mnsh.online/icons/faces/my-notion-face-transparent%20(7).png",
+];
 
 const ROTATING_TEXTS = USER.flipSentences;
 
@@ -26,19 +37,68 @@ export default function ProfileHeader() {
     const { key } = useLoop(3000);
     const currentText = ROTATING_TEXTS[key % ROTATING_TEXTS.length];
 
+    const [faceIndex, setFaceIndex] = useState(0);
+    const audioRef = useRef<HTMLAudioElement | null>(null);
+
+    const handleFaceClick = () => {
+        if (audioRef.current) {
+            audioRef.current.currentTime = 0;
+            audioRef.current.play().catch(() => {});
+        }
+
+        let newIndex;
+        do {
+            newIndex = Math.floor(Math.random() * FACES.length);
+        } while (newIndex === faceIndex);
+        setFaceIndex(newIndex);
+    };
+
+    // Preload images
+    useEffect(() => {
+        FACES.forEach((src) => {
+            const img = new Image();
+            img.src = src;
+        });
+    }, []);
+
     return (
         <div className="border-b border-x border-edge">
             {/* Main header - responsive layout */}
             <div className="flex flex-col sm:flex-row">
                 {/* Avatar section */}
                 <div className="flex justify-start border-b border-dashed border-edge p-2 sm:justify-start sm:border-b-0 sm:border-r">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
-                        className="size-24 border border-edge ring-2 ring-edge/50 ring-offset-2 ring-offset-background select-none sm:size-29"
-                        alt={`${USER.displayName}'s avatar`}
-                        src={USER.avatar}
-                        fetchPriority="high"
-                    />
+                    <audio ref={audioRef} src="/sounds/tap.wav" preload="auto" />
+                    <motion.div
+                        className="relative size-24 cursor-pointer overflow-hidden sm:size-29"
+                        whileTap={{ scale: 0.9, rotate: Math.random() > 0.5 ? 2 : -2 }}
+                        onClick={handleFaceClick}
+                        initial={false}
+                    >
+                        <AnimatePresence mode="popLayout">
+                            <motion.img
+                                key={faceIndex}
+                                initial={{ opacity: 0, scale: 0.8, y: 20 }}
+                                animate={{ opacity: 1, scale: 1, y: 0 }}
+                                exit={{ opacity: 0, scale: 0.8, y: -20 }}
+                                transition={{
+                                    type: "spring",
+                                    stiffness: 400,
+                                    damping: 25,
+                                }}
+                                className="size-full select-none"
+                                alt={`${USER.displayName}'s avatar`}
+                                src={FACES[faceIndex]}
+                                fetchPriority="high"
+                            />
+                        </AnimatePresence>
+                        {/* Decorative subtle ring that reacts to tap */}
+                        <motion.div
+                            className="pointer-events-none absolute inset-0 rounded-full border-2 border-primary/20"
+                            initial={{ scale: 1, opacity: 0 }}
+                            whileTap={{ scale: 1.5, opacity: 1 }}
+                            transition={{ duration: 0.3 }}
+                        />
+                    </motion.div>
                 </div>
 
                 {/* Content section - stacked vertically */}
