@@ -23,6 +23,7 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useTheme } from "next-themes";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
+import { useAtomValue } from "jotai";
 import { toast } from "sonner";
 
 import {
@@ -39,6 +40,7 @@ import { SOCIAL_LINKS } from "@/features/profile/data/social-links";
 import { cn } from "@/lib/utils";
 import { copyText } from "@/utils/copy";
 import { useSound } from "@/hooks/use-sound";
+import { showLabelsAtom } from "@/store/ui-store";
 
 
 import { Icons } from "./icons";
@@ -116,6 +118,7 @@ const SOCIAL_LINK_ITEMS: CommandLinkItem[] = SOCIAL_LINKS.map((item) => ({
 
 export function CommandMenu({ blogs = [], works = [] }: { blogs?: BlogPost[], works?: WorkPost[] }) {
   const router = useRouter();
+  const showLabels = useAtomValue(showLabelsAtom);
   const playHover = useSound("/sounds/hover.wav");
   const playTap = useSound("/sounds/tap.wav");
 
@@ -248,13 +251,17 @@ export function CommandMenu({ blogs = [], works = [] }: { blogs?: BlogPost[], wo
         <span className="mr-8 font-sans text-sm/4 font-medium text-muted-foreground/50">
           Search...
         </span>
-
-        <CommandMenuKbd className="hidden tracking-wider sm:in-[.os-macos_&]:flex">
-          ⌘K
-        </CommandMenuKbd>
-        <CommandMenuKbd className="hidden sm:not-[.os-macos_&]:flex">
-          ctrl + K
-        </CommandMenuKbd>
+        
+        {showLabels && (
+          <>
+            <CommandMenuKbd className="hidden tracking-wider sm:in-[.os-macos_&]:flex">
+              ⌘K
+            </CommandMenuKbd>
+            <CommandMenuKbd className="hidden sm:not-[.os-macos_&]:flex">
+              ctrl + K
+            </CommandMenuKbd>
+          </>
+        )}
       </Button>
 
       <CommandDialog

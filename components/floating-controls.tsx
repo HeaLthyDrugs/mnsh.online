@@ -6,7 +6,7 @@ import Image from "next/image";
 import { useAtom, useAtomValue } from "jotai";
 import { cn } from "@/lib/utils";
 import { isSoundEnabledAtom } from "@/store/sound-store";
-import { isGalleryExpandedAtom } from "@/store/ui-store";
+import { isGalleryExpandedAtom, showLabelsAtom } from "@/store/ui-store";
 import { isPlayingAtom, genreIdxAtom, currentTrackIdxAtom, shuffledGenresAtom } from "@/store/music-store";
 import { GENRES } from "@/features/profile/data/music";
 import { AudioLinesIcon, type AudioLinesIconHandle } from "@/components/animated-icons/audio-lines";
@@ -26,6 +26,7 @@ import {
 export function FloatingControls() {
     const [isSoundEnabled, setIsSoundEnabled] = useAtom(isSoundEnabledAtom);
     const [isGalleryExpanded] = useAtom(isGalleryExpandedAtom);
+    const [showLabels, setShowLabels] = useAtom(showLabelsAtom);
     const { toggleTheme, isDark } = useAnimatedThemeToggle();
 
     const [isPlaying, setIsPlaying] = useAtom(isPlayingAtom);
@@ -68,14 +69,14 @@ export function FloatingControls() {
     return (
         <div 
             className={cn(
-                "fixed bottom-2 right-2 z-50 flex flex-col items-stretch overflow-hidden border border-border bg-background/80 shadow-lg backdrop-blur-md transition-all duration-300 hover:bg-background/90",
+                "fixed bottom-4 right-4 z-50 flex flex-col items-stretch overflow-hidden rounded-none border border-border/50 bg-background/60 shadow-2xl backdrop-blur-xl transition-all duration-500 hover:bg-background/80 hover:border-border hover:shadow-primary/5",
                 isGalleryExpanded && "opacity-0 pointer-events-none translate-y-4"
             )}
         >
             {isVisible && track && (
                 <div 
                     className={cn(
-                        "relative w-[81px] transition-all duration-300 ease-out overflow-hidden border-b border-border bg-neutral-900 cursor-pointer",
+                        "relative w-[81px] transition-all duration-300 ease-out overflow-hidden border-b border-border/50 bg-neutral-900 cursor-pointer group/player",
                         isPlayerExpanded ? "h-[81px]" : "h-6"
                     )}
                     onMouseEnter={() => {
@@ -98,33 +99,33 @@ export function FloatingControls() {
                         alt={`${track.title} Cover`}
                         fill
                         className={cn(
-                            "object-cover transition-all duration-500",
-                            isPlayerExpanded ? "opacity-80 scale-105" : "opacity-30 blur-sm brightness-50 scale-100"
+                            "object-cover transition-all duration-700 ease-in-out",
+                            isPlayerExpanded ? "opacity-80 scale-110" : "opacity-40 blur-[2px] brightness-75 scale-100"
                         )}
                     />
                     
                     {/* Unexpanded Content (AudioLines or Play) */}
                     <div 
                         className={cn(
-                            "absolute inset-0 flex items-center justify-center transition-opacity duration-300 pointer-events-none",
-                            isPlayerExpanded ? "opacity-0" : "opacity-100"
+                            "absolute inset-0 flex items-center justify-center transition-all duration-300 pointer-events-none",
+                            isPlayerExpanded ? "opacity-0 scale-75" : "opacity-100 scale-100"
                         )}
                     >
                         {isPlaying ? (
-                            <AudioLinesIcon ref={audioLinesRef} size={20} className="text-white drop-shadow-[0_0_2px_rgba(0,0,0,0.8)]" />
+                            <AudioLinesIcon ref={audioLinesRef} size={16} className="text-white drop-shadow-[0_0_8px_rgba(0,0,0,0.8)]" />
                         ) : (
-                            <Play className="size-4 text-white drop-shadow-[0_0_2px_rgba(0,0,0,0.8)]" fill="currentColor" />
+                            <Play className="size-3 text-white drop-shadow-[0_0_8px_rgba(0,0,0,0.8)]" fill="currentColor" />
                         )}
                     </div>
                     
                     {/* Expanded Content (Play/Pause Button) */}
                     <div 
                         className={cn(
-                            "absolute inset-0 flex items-center justify-center transition-opacity duration-300",
-                            isPlayerExpanded ? "opacity-100" : "opacity-0 pointer-events-none"
+                            "absolute inset-0 flex items-center justify-center transition-all duration-500",
+                            isPlayerExpanded ? "opacity-100 scale-100" : "opacity-0 scale-90 pointer-events-none"
                         )}
                     >
-                        <div className="absolute inset-0 bg-black/20 hover:bg-black/30 transition-colors duration-300 pointer-events-none" />
+                        <div className="absolute inset-0 bg-black/10 group-hover/player:bg-black/20 transition-colors duration-500 pointer-events-none" />
                         <button 
                             className="relative z-10 flex size-full items-center justify-center outline-none focus-visible:ring-0"
                             onClick={(e) => {
@@ -136,18 +137,20 @@ export function FloatingControls() {
                             }}
                             aria-label={isPlaying ? "Pause Music" : "Play Music"}
                         >
-                            {isPlaying ? (
-                                <Pause className="size-6 text-white drop-shadow-md transition-transform hover:scale-110 active:scale-95" />
-                            ) : (
-                                <Play className="size-6 text-white drop-shadow-md transition-transform hover:scale-110 active:scale-95 ml-1" fill="currentColor" />
-                            )}
+                            <div className="flex size-10 items-center justify-center rounded-none bg-white/10 backdrop-blur-md border border-white/20 transition-all duration-300 hover:scale-110 hover:bg-white/20 active:scale-90">
+                                {isPlaying ? (
+                                    <Pause className="size-5 text-white" />
+                                ) : (
+                                    <Play className="size-5 text-white ml-1" fill="currentColor" />
+                                )}
+                            </div>
                         </button>
                     </div>
 
                     {/* Close Button */}
                     <button
                         className={cn(
-                            "absolute top-1 right-1 z-20 flex size-4 items-center justify-center bg-black/50 hover:bg-black/80 text-white shadow-sm transition-all duration-300 ease-out",
+                            "absolute top-1.5 right-1.5 z-20 flex size-5 items-center justify-center rounded-none bg-black/40 hover:bg-black/60 text-white/70 hover:text-white backdrop-blur-md transition-all duration-300 ease-out",
                             isPlayerExpanded ? "opacity-100 scale-100" : "opacity-0 scale-75 pointer-events-none"
                         )}
                         onClick={(e) => {
@@ -159,80 +162,85 @@ export function FloatingControls() {
                         }}
                         aria-label="Remove Mini Player"
                     >
-                        <X className="size-2.5" />
+                        <X className="size-3" />
                     </button>
                 </div>
             )}
             
-            <div className="flex h-9 items-center justify-between w-[81px]">
-            <button
-                onClick={() => {
-                    playTap();
-                    toggleSound();
-                }}
-                onMouseEnter={playHover}
-                className={cn(
-                    "flex h-full w-10 cursor-pointer items-center justify-center text-muted-foreground transition-colors hover:bg-muted hover:text-foreground focus-visible:outline-none focus-visible:ring-0",
-                    !isSoundEnabled && "text-destructive hover:text-destructive"
-                )}
-                aria-label={!isSoundEnabled ? "Unmute" : "Mute"}
-            >
-                {!isSoundEnabled ? <VolumeX className="size-4" /> : <Volume2 className="size-4" />}
-            </button>
+            <div className="flex h-10 items-stretch w-[81px]">
+                <button
+                    onClick={() => {
+                        playTap();
+                        toggleSound();
+                    }}
+                    onMouseEnter={playHover}
+                    className={cn(
+                        "flex flex-1 cursor-pointer items-center justify-center text-muted-foreground/70 transition-all duration-300 hover:bg-muted hover:text-foreground focus-visible:outline-none focus-visible:ring-0",
+                        !isSoundEnabled && "text-destructive/80 hover:text-destructive hover:bg-destructive/5"
+                    )}
+                    aria-label={!isSoundEnabled ? "Unmute" : "Mute"}
+                >
+                    {!isSoundEnabled ? <VolumeX className="size-4" /> : <Volume2 className="size-4" />}
+                </button>
 
-            <div className="h-full w-[0.5px] bg-border" aria-hidden="true" />
+                <div className="w-px bg-border/40" aria-hidden="true" />
 
-            <FamilyDrawerRoot>
-                <FamilyDrawerTrigger asChild>
-                    <button
-                        onMouseEnter={playHover}
-                        onClick={playTap}
-                        className="flex h-full w-10 cursor-pointer items-center justify-center text-muted-foreground transition-colors hover:bg-muted hover:text-foreground focus-visible:outline-none focus-visible:ring-0"
-                        aria-label="Open Settings"
-                    >
-                        <Settings className="size-4" />
-                    </button>
-                </FamilyDrawerTrigger>
-                <FamilyDrawerPortal>
-                    <FamilyDrawerOverlay />
-                    <FamilyDrawerContent>
-                        <FamilyDrawerAnimatedWrapper className="p-0">
-                            <FamilyDrawerHeader
-                                icon={null}
-                                title=""
-                                description=""
-                                className="mt-0 hidden"
-                            />
-                            <div className="flex flex-col gap-0">
-                                <SettingItem
-                                    label="Show Labels"
-                                    value="false"
-                                    onMouseEnter={playHover}
+                <FamilyDrawerRoot>
+                    <FamilyDrawerTrigger asChild>
+                        <button
+                            onMouseEnter={playHover}
+                            onClick={playTap}
+                            className="flex flex-1 cursor-pointer items-center justify-center text-muted-foreground/70 transition-all duration-300 hover:bg-muted hover:text-foreground focus-visible:outline-none focus-visible:ring-0"
+                            aria-label="Open Settings"
+                        >
+                            <Settings className="size-4" />
+                        </button>
+                    </FamilyDrawerTrigger>
+                    <FamilyDrawerPortal>
+                        <FamilyDrawerOverlay />
+                        <FamilyDrawerContent>
+                            <FamilyDrawerAnimatedWrapper className="p-0">
+                                <FamilyDrawerHeader
+                                    icon={null}
+                                    title=""
+                                    description=""
+                                    className="mt-0 hidden"
                                 />
-                                <SettingItem
-                                    label="Theme"
-                                    value={isDark ? "dark" : "light"}
-                                    isActive
-                                    onClick={() => {
-                                        playTap();
-                                        toggleTheme();
-                                    }}
-                                    onMouseEnter={playHover}
-                                />
-                                <SettingItem
-                                    label="Sound"
-                                    value={isSoundEnabled ? "enabled" : "disabled"}
-                                    onClick={() => {
-                                        playTap();
-                                        toggleSound();
-                                    }}
-                                    onMouseEnter={playHover}
-                                />
-                            </div>
-                        </FamilyDrawerAnimatedWrapper>
-                    </FamilyDrawerContent>
-                </FamilyDrawerPortal>
-            </FamilyDrawerRoot>
+                                <div className="flex flex-col gap-0">
+                                    <SettingItem
+                                        label="Show Labels"
+                                        value={showLabels ? "enabled" : "disabled"}
+                                        isActive={showLabels}
+                                        onClick={() => {
+                                            playTap();
+                                            setShowLabels(!showLabels);
+                                        }}
+                                        onMouseEnter={playHover}
+                                    />
+                                    <SettingItem
+                                        label="Theme"
+                                        value={isDark ? "dark" : "light"}
+                                        isActive
+                                        onClick={() => {
+                                            playTap();
+                                            toggleTheme();
+                                        }}
+                                        onMouseEnter={playHover}
+                                    />
+                                    <SettingItem
+                                        label="Sound"
+                                        value={isSoundEnabled ? "enabled" : "disabled"}
+                                        onClick={() => {
+                                            playTap();
+                                            toggleSound();
+                                        }}
+                                        onMouseEnter={playHover}
+                                    />
+                                </div>
+                            </FamilyDrawerAnimatedWrapper>
+                        </FamilyDrawerContent>
+                    </FamilyDrawerPortal>
+                </FamilyDrawerRoot>
             </div>
         </div>
     );

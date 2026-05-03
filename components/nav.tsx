@@ -11,6 +11,8 @@ import { Kbd } from "@/components/ui/kbd";
 
 
 
+import { useAtomValue } from "jotai";
+import { showLabelsAtom } from "@/store/ui-store";
 import { useSound } from "@/hooks/use-sound";
 
 export function Nav({
@@ -23,6 +25,7 @@ export function Nav({
   className?: string;
 }) {
   const router = useRouter();
+  const showLabels = useAtomValue(showLabelsAtom);
 
   const playHover = useSound("/sounds/hover.wav");
   const playTap = useSound("/sounds/tap.wav");
@@ -60,7 +63,7 @@ export function Nav({
             onClick={playTap}
           >
             {title}
-            {shortcut && <Kbd className="hidden sm:inline-flex">{shortcut}</Kbd>}
+            {shortcut && showLabels && <Kbd className="hidden sm:inline-flex">{shortcut}</Kbd>}
           </NavItem>
         );
 
